@@ -114,10 +114,16 @@ def build(
             continue
         x, y, y_close, prev_close, dates = built
 
+        # Compare through pandas: ``dates`` is a datetime64 array while the partition dates
+        # are Timestamps, and np.isin does not match them against each other.
+        date_series = pd.Series(dates)
+        in_train = date_series.isin(train_dates).to_numpy()
+        in_val = date_series.isin(val_dates).to_numpy()
+
         for name, mask in (
-            ("train", np.isin(dates, list(train_dates))),
-            ("val", np.isin(dates, list(val_dates))),
-            ("test", ~np.isin(dates, list(train_dates | val_dates))),
+            ("train", in_train),
+            ("val", in_val),
+            ("test", ~(in_train | in_val)),
         ):
             if not mask.any():
                 continue
