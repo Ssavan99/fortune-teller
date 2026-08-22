@@ -18,10 +18,17 @@ import pandas as pd
 TRAIN_END = pd.Timestamp("2023-06-30")
 VAL_END = pd.Timestamp("2024-02-29")
 
-#: Sentiment coverage ends here, so Experiment B uses its own, earlier boundaries.
-SENTIMENT_END = pd.Timestamp("2024-03-25")
+#: Experiment B stops here. The sentiment snapshot itself runs to 2024-03-25, which reaches
+#: 25 days into the main held-out period — so it is clamped to ``VAL_END`` instead. Selecting
+#: an architecture on a window that overlapped the held-out period would compromise the
+#: headline result, for the sake of 17 extra days of ablation data.
+SENTIMENT_END = VAL_END
 SENTIMENT_TRAIN_END = pd.Timestamp("2023-03-31")
 SENTIMENT_VAL_END = pd.Timestamp("2023-09-30")
+
+assert SENTIMENT_END <= VAL_END, "Experiment B must not reach into the main held-out period"
+assert SENTIMENT_TRAIN_END < SENTIMENT_VAL_END < SENTIMENT_END
+assert TRAIN_END < VAL_END
 
 
 @dataclass(frozen=True)
@@ -69,7 +76,9 @@ def chronological_split(
 
     Boundaries are inclusive of ``train_end`` and ``val_end`` respectively.
     """
-    date = pd.to_datetime(df["date"])
+    df = df.copy()
+    df["date"] = pd.to_datetime(df["date"])
+    date = df["date"]
     return Split(
         train=df[date <= train_end].copy(),
         val=df[(date > train_end) & (date <= val_end)].copy(),
@@ -79,8 +88,9 @@ def chronological_split(
 
 def sentiment_window_split(df: pd.DataFrame) -> Split:
     """Split for Experiment B, confined to the window where sentiment exists."""
-    date = pd.to_datetime(df["date"])
-    within = df[date <= SENTIMENT_END].copy()
+    df = df.copy()
+    df["date"] = pd.to_datetime(df["date"])
+    within = df[df["date"] <= SENTIMENT_END].copy()
     return chronological_split(
         within, train_end=SENTIMENT_TRAIN_END, val_end=SENTIMENT_VAL_END
     )

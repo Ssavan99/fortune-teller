@@ -40,11 +40,20 @@ Daily aggregate news-sentiment scores, one column per ticker, wide format.
 
 ### Consequences for the study
 
-- Sentiment ends **2024-03-25**, so it cannot be used on the main held-out period. Experiment B
-  is therefore run on its own window, with the no-sentiment arm restricted to exactly the same
-  dates so the comparison is attributable.
-- Coverage inside the window is by calendar date, not trading date. Dates with no score are
-  handled with an **explicit missing-indicator feature**, never filled with `0` — an absence of
-  news is not the same as neutral news, and conflating them hands the model a fake signal.
-- The per-ticker means are all positive. Whatever this series measures, it is not centred, and
-  a level shift is not evidence of sentiment.
+- Sentiment runs to **2024-03-25**, which reaches **17 dates past the start of the main
+  held-out period**. Experiment B is therefore clamped to end at 2024-02-29 — the same cutoff
+  as the main validation split — so that no architecture is ever selected on a window
+  overlapping the held-out period. Seventeen days of ablation data is a cheap price for
+  keeping the headline result clean. The clamp is asserted at import time in
+  `src/data/splits.py`.
+- Experiment B's no-sentiment arm is restricted to exactly the same dates as its sentiment
+  arm, so the difference between them is attributable to the feature and not to the window.
+- **Missingness is whole-row, not cell-level.** There are zero empty cells in the file. What
+  is missing is entire dates: of the 819 trading days inside the coverage window, **14 have no
+  sentiment row at all**. In the other direction, **33 of the 838 rows fall on non-trading
+  days** (2 of them weekends) and drop out on a merge against prices. So the missing-indicator
+  feature has to be constructed by reindexing onto the trading calendar — there is nothing at
+  cell level for it to detect. It is never filled with `0`: an absence of news is not neutral
+  news, and conflating the two hands the model a fake signal.
+- The per-ticker means are all positive, from +0.068 (TSLA) to +0.345 (SAP). Whatever this
+  series measures, it is not centred, and a level shift is not evidence of sentiment.

@@ -49,10 +49,18 @@ def fetch(tickers: tuple[str, ...] = TICKERS, start: str = START, end: str | Non
         group_by="ticker",
     )
 
+    if not isinstance(raw.columns, pd.MultiIndex):
+        # yfinance flattens the column index for a single ticker; restore the shape the rest
+        # of this function expects rather than silently producing an empty frame.
+        raw.columns = pd.MultiIndex.from_product([[tickers[0]], raw.columns])
+
+    available = set(raw.columns.get_level_values(0))
+    missing = [s for s in tickers if s not in available]
+    if missing:
+        raise ValueError(f"no data returned for: {', '.join(missing)}")
+
     frames = []
     for symbol in tickers:
-        if symbol not in raw.columns.get_level_values(0):
-            continue
         part = raw[symbol].reset_index()
         part.columns = [str(c).lower() for c in part.columns]
         part["symbol"] = symbol
