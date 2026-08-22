@@ -64,6 +64,53 @@ class TestModel:
         with pytest.raises(RuntimeError):
             model(torch.randn(3, 10, 9))
 
+    def test_both_directions_see_the_whole_window(self):
+        """Every timestep must be able to influence the output, through both directions.
+
+        Reading ``out[:, -1, :]`` for both halves looks right and is not: the backward
+        direction's state at the last timestep has consumed only that one timestep, so half
+        the vector reaching the head becomes a one-day summary. With a single layer the
+        backward half is then *provably* independent of the rest of the window.
+
+        This perturbs everything except the final timestep and requires the output to move.
+        """
+        torch.manual_seed(0)
+        model = BiLSTMRegressor(n_features=5, hidden=16, layers=1)
+        model.eval()
+
+        x = torch.randn(1, 20, 5)
+        x_perturbed = x.clone()
+        x_perturbed[:, :-1, :] = torch.randn(1, 19, 5)
+
+        with torch.no_grad():
+            out, _ = model.lstm(x)
+            out2, _ = model.lstm(x_perturbed)
+
+        hidden = model.lstm.hidden_size
+        forward_delta = (out2[0, -1, :hidden] - out[0, -1, :hidden]).abs().sum().item()
+        backward_delta = (out2[0, 0, hidden:] - out[0, 0, hidden:]).abs().sum().item()
+
+        assert forward_delta > 1e-3, "forward direction ignored the window"
+        assert backward_delta > 1e-3, "backward direction ignored the window"
+
+        # And the slot the naive implementation would have used is genuinely inert.
+        naive_backward = (out2[0, -1, hidden:] - out[0, -1, hidden:]).abs().sum().item()
+        assert naive_backward < 1e-9, (
+            "out[:, -1, hidden:] is expected to be independent of all but the last timestep; "
+            "if this fails the pooling comment in lstm.py needs revisiting"
+        )
+
+    def test_prediction_depends_on_the_whole_window(self):
+        """End-to-end version of the above, through the head."""
+        torch.manual_seed(1)
+        model = BiLSTMRegressor(n_features=5, hidden=16, layers=1, dropout=0.0)
+        model.eval()
+        x = torch.randn(4, 20, 5)
+        x_perturbed = x.clone()
+        x_perturbed[:, :-1, :] = torch.randn(4, 19, 5)
+        with torch.no_grad():
+            assert not torch.allclose(model(x), model(x_perturbed))
+
 
 class TestTargetNormalizer:
     def test_standardises_to_zero_mean_unit_variance(self):

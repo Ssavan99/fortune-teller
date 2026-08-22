@@ -28,7 +28,7 @@ class Forecast:
 
 
 def _series(df: pd.DataFrame, symbol: str) -> pd.DataFrame:
-    part = df[df["symbol"] == symbol].sort_values("date", ignore_index=True)
+    part = df[df["symbol"] == symbol].sort_values("date", ignore_index=True).copy()
     if len(part) < 2:
         raise ValueError(f"{symbol}: need at least two bars")
     return part

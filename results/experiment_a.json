@@ -9,10 +9,10 @@
       "per_ticker": {
         "AAPL": {
           "lstm": {
-            "rmse": 22.49706672877843,
-            "mae": 15.784219801371684,
-            "mape": 5.898729573855074,
-            "directional_accuracy": 0.4782608695652174,
+            "rmse": 33.57303187219372,
+            "mae": 24.406230117474017,
+            "mape": 9.138269667470778,
+            "directional_accuracy": 0.4661290322580645,
             "n": 621
           },
           "persistence": {
@@ -22,14 +22,14 @@
             "directional_accuracy": null,
             "n": 621
           },
-          "skill_vs_persistence": -4.464925393972183
+          "skill_vs_persistence": -7.1554682947305
         },
         "ADBE": {
           "lstm": {
-            "rmse": 12.913318928630073,
-            "mae": 8.943463416419448,
-            "mape": 2.768678144544403,
-            "directional_accuracy": 0.5152979066022544,
+            "rmse": 11.999622382696405,
+            "mae": 8.279546070385209,
+            "mape": 2.5198611468559124,
+            "directional_accuracy": 0.5096774193548387,
             "n": 621
           },
           "persistence": {
@@ -39,14 +39,14 @@
             "directional_accuracy": null,
             "n": 621
           },
-          "skill_vs_persistence": -0.38008970537667586
+          "skill_vs_persistence": -0.28243989096021616
         },
         "AMD": {
           "lstm": {
-            "rmse": 79.35207077102743,
-            "mae": 34.319222758010575,
-            "mape": 9.102920403520661,
-            "directional_accuracy": 0.5040257648953301,
+            "rmse": 94.72296972344141,
+            "mae": 41.92599018700505,
+            "mape": 11.134328842083272,
+            "directional_accuracy": 0.4838709677419355,
             "n": 621
           },
           "persistence": {
@@ -56,14 +56,14 @@
             "directional_accuracy": null,
             "n": 621
           },
-          "skill_vs_persistence": -6.535766522161996
+          "skill_vs_persistence": -7.995482754084552
         },
         "AMZN": {
           "lstm": {
-            "rmse": 10.716294393980743,
-            "mae": 8.032431887707903,
-            "mape": 3.4923144322693855,
-            "directional_accuracy": 0.4895330112721417,
+            "rmse": 15.966651586759772,
+            "mae": 11.828389950366551,
+            "mape": 5.071387838855157,
+            "directional_accuracy": 0.5048387096774194,
             "n": 621
           },
           "persistence": {
@@ -73,14 +73,14 @@
             "directional_accuracy": null,
             "n": 621
           },
-          "skill_vs_persistence": -1.4234005446994318
+          "skill_vs_persistence": -2.6107250071548576
         },
         "BABA": {
           "lstm": {
-            "rmse": 3.8209920992352715,
-            "mae": 2.8959851392032436,
-            "mape": 2.5970936351303315,
-            "directional_accuracy": 0.4975845410628019,
+            "rmse": 3.7002155855909074,
+            "mae": 2.6781585477520204,
+            "mape": 2.2862273826207726,
+            "directional_accuracy": 0.47665056360708535,
             "n": 621
           },
           "persistence": {
@@ -90,13 +90,13 @@
             "directional_accuracy": null,
             "n": 621
           },
-          "skill_vs_persistence": -0.13150436354993578
+          "skill_vs_persistence": -0.09573900506351096
         },
         "DELL": {
           "lstm": {
-            "rmse": 118.74114340792805,
-            "mae": 75.90106838690834,
-            "mape": 39.19227616020321,
+            "rmse": 124.95508228224313,
+            "mae": 84.98214486555173,
+            "mape": 45.99384803233061,
             "directional_accuracy": 0.47987117552334946,
             "n": 621
           },
@@ -107,14 +107,14 @@
             "directional_accuracy": null,
             "n": 621
           },
-          "skill_vs_persistence": -12.264813089044774
+          "skill_vs_persistence": -12.95898475818027
         },
         "GOOG": {
           "lstm": {
-            "rmse": 67.69673347077126,
-            "mae": 43.80425256555322,
-            "mape": 14.365751515861222,
-            "directional_accuracy": 0.463768115942029,
+            "rmse": 82.97241327735156,
+            "mae": 55.2932548206552,
+            "mape": 18.42278504515365,
+            "directional_accuracy": 0.47096774193548385,
             "n": 621
           },
           "persistence": {
@@ -124,14 +124,14 @@
             "directional_accuracy": null,
             "n": 621
           },
-          "skill_vs_persistence": -13.128133015788254
+          "skill_vs_persistence": -16.316127844329547
         },
         "IBM": {
           "lstm": {
-            "rmse": 70.2970578329104,
-            "mae": 61.08159995601036,
-            "mape": 24.33140153065189,
-            "directional_accuracy": 0.4396135265700483,
+            "rmse": 84.15077170255127,
+            "mae": 74.98563270511009,
+            "mape": 30.199481040656618,
+            "directional_accuracy": 0.4403225806451613,
             "n": 621
           },
           "persistence": {
@@ -141,14 +141,14 @@
             "directional_accuracy": null,
             "n": 621
           },
-          "skill_vs_persistence": -10.773312904021584
+          "skill_vs_persistence": -13.093525346735031
         },
         "INTC": {
           "lstm": {
-            "rmse": 8.085381686197126,
-            "mae": 3.851026889470232,
-            "mape": 7.065004645425447,
-            "directional_accuracy": 0.49597423510466987,
+            "rmse": 11.320757546215336,
+            "mae": 4.8811843112092586,
+            "mape": 7.365284866906845,
+            "directional_accuracy": 0.4935275080906149,
             "n": 621
           },
           "persistence": {
@@ -158,14 +158,14 @@
             "directional_accuracy": null,
             "n": 621
           },
-          "skill_vs_persistence": -2.171035807622568
+          "skill_vs_persistence": -3.4399298563413554
         },
         "META": {
           "lstm": {
-            "rmse": 83.96167877448173,
-            "mae": 73.3760920034065,
-            "mape": 11.433225736243111,
-            "directional_accuracy": 0.4830917874396135,
+            "rmse": 127.91343213237911,
+            "mae": 113.89404153353622,
+            "mape": 17.82113742795938,
+            "directional_accuracy": 0.4838709677419355,
             "n": 621
           },
           "persistence": {
@@ -175,14 +175,14 @@
             "directional_accuracy": null,
             "n": 621
           },
-          "skill_vs_persistence": -4.9756819387206175
+          "skill_vs_persistence": -8.103795889625976
         },
         "MSFT": {
           "lstm": {
-            "rmse": 36.43063077144883,
-            "mae": 29.79354114607539,
-            "mape": 6.4825730081880515,
-            "directional_accuracy": 0.4782608695652174,
+            "rmse": 54.98748503318709,
+            "mae": 45.96506648904549,
+            "mape": 10.029246636625523,
+            "directional_accuracy": 0.47665056360708535,
             "n": 621
           },
           "persistence": {
@@ -192,13 +192,13 @@
             "directional_accuracy": null,
             "n": 621
           },
-          "skill_vs_persistence": -4.049967991930199
+          "skill_vs_persistence": -6.622295675208597
         },
         "NVDA": {
           "lstm": {
-            "rmse": 82.74256751858702,
-            "mae": 74.46309269097586,
-            "mape": 45.69569198523666,
+            "rmse": 94.47838632965214,
+            "mae": 86.86196225992272,
+            "mape": 54.196602431219645,
             "directional_accuracy": 0.46859903381642515,
             "n": 621
           },
@@ -209,14 +209,14 @@
             "directional_accuracy": null,
             "n": 621
           },
-          "skill_vs_persistence": -18.617609286276934
+          "skill_vs_persistence": -21.40007924091421
         },
         "ORCL": {
           "lstm": {
-            "rmse": 33.981402901538395,
-            "mae": 21.294884133660176,
-            "mape": 9.914633679976944,
-            "directional_accuracy": 0.5104669887278583,
+            "rmse": 45.08730585154527,
+            "mae": 29.902182916009878,
+            "mape": 14.140399947786673,
+            "directional_accuracy": 0.500805152979066,
             "n": 621
           },
           "persistence": {
@@ -226,14 +226,14 @@
             "directional_accuracy": null,
             "n": 621
           },
-          "skill_vs_persistence": -4.213125176548679
+          "skill_vs_persistence": -5.916894218831685
         },
         "SAP": {
           "lstm": {
-            "rmse": 50.08332612574121,
-            "mae": 41.471710114647784,
-            "mape": 16.72374536004088,
-            "directional_accuracy": 0.4895330112721417,
+            "rmse": 66.394531977388,
+            "mae": 56.74070525468256,
+            "mape": 23.162557297691492,
+            "directional_accuracy": 0.49114331723027377,
             "n": 621
           },
           "persistence": {
@@ -243,14 +243,14 @@
             "directional_accuracy": null,
             "n": 621
           },
-          "skill_vs_persistence": -10.421648594819676
+          "skill_vs_persistence": -14.141466662164916
         },
         "TSLA": {
           "lstm": {
-            "rmse": 13.258188405694138,
-            "mae": 9.988853909702518,
-            "mape": 3.1771824157600994,
-            "directional_accuracy": 0.4975845410628019,
+            "rmse": 12.82227285146742,
+            "mae": 9.590967353531934,
+            "mape": 3.006863192582713,
+            "directional_accuracy": 0.5249597423510467,
             "n": 621
           },
           "persistence": {
@@ -260,139 +260,139 @@
             "directional_accuracy": null,
             "n": 621
           },
-          "skill_vs_persistence": -0.12539818335960384
+          "skill_vs_persistence": -0.08839625234056281
         }
       },
       "pooled": {
-        "mean_skill_vs_persistence": -6.2450941678595395,
-        "median_skill_vs_persistence": -4.464925393972183,
-        "worst_skill": -18.617609286276934,
-        "best_skill": -0.12539818335960384,
+        "mean_skill_vs_persistence": -8.014756713111051,
+        "median_skill_vs_persistence": -7.1554682947305,
+        "worst_skill": -21.40007924091421,
+        "best_skill": -0.08839625234056281,
         "tickers_beating_persistence": 0,
         "n_tickers": 15,
-        "mean_lstm_mape": 13.482748148460491,
+        "mean_lstm_mape": 16.965885386453266,
         "mean_persistence_mape": 1.9092748438290492
       },
       "diagnostics": {
         "AAPL": {
           "train_close_max": 191.12347412109372,
           "test_close_max": 339.78692626953125,
-          "pred_max": 264.19744019027314,
-          "pred_move_std": 16.43432117098273,
+          "pred_max": 237.80518307905942,
+          "pred_move_std": 23.4239298840823,
           "actual_move_std": 4.1112570634155,
-          "move_corr": 0.03974365855161518
+          "move_corr": 0.04171979259987452
         },
         "ADBE": {
           "train_close_max": 688.3699951171875,
           "test_close_max": 586.5499877929688,
-          "pred_max": 581.4918075019707,
-          "pred_move_std": 8.327593863475254,
+          "pred_max": 585.6105447602758,
+          "pred_move_std": 7.212145880976311,
           "actual_move_std": 9.345609040494159,
-          "move_corr": 0.04872476852864905
+          "move_corr": 0.050168538888356505
         },
         "AMD": {
           "train_close_max": 161.91000366210938,
           "test_close_max": 580.9099731445312,
-          "pred_max": 279.19310405285324,
-          "pred_move_std": 72.17762061973323,
+          "pred_max": 236.34580957445075,
+          "pred_move_std": 85.54151175318387,
           "actual_move_std": 10.520352221554077,
-          "move_corr": 0.020719369075662252
+          "move_corr": 0.01120369122896294
         },
         "AMZN": {
           "train_close_max": 186.57049560546875,
           "test_close_max": 284.0199890136719,
-          "pred_max": 248.20273137658566,
-          "pred_move_std": 6.975928961309596,
+          "pred_max": 232.78682550142412,
+          "pred_move_std": 10.99377751127201,
           "actual_move_std": 4.4200414078817865,
-          "move_corr": 0.0862637428246476
+          "move_corr": 0.0858281247395142
         },
         "BABA": {
           "train_close_max": 254.8652191162109,
           "test_close_max": 187.61692810058597,
-          "pred_max": 188.41368113579566,
-          "pred_move_std": 1.6828018399826727,
+          "pred_max": 188.92676271376786,
+          "pred_move_std": 1.3936085059599077,
           "actual_move_std": 3.3760011530476786,
-          "move_corr": 0.06724256390253038
+          "move_corr": -0.026828816134302765
         },
         "DELL": {
           "train_close_max": 55.20415878295898,
           "test_close_max": 494.510009765625,
-          "pred_max": 84.02257685357732,
-          "pred_move_std": 90.63784773846415,
+          "pred_max": 74.5519399526917,
+          "pred_move_std": 90.92837297009429,
           "actual_move_std": 8.93373087245158,
-          "move_corr": -0.027377965283448318
+          "move_corr": -0.027099273022701566
         },
         "GOOG": {
           "train_close_max": 149.391845703125,
           "test_close_max": 398.7999877929688,
-          "pred_max": 223.07770294829626,
-          "pred_move_std": 51.77409188824969,
+          "pred_max": 196.0151040529409,
+          "pred_move_std": 61.94167726774661,
           "actual_move_std": 4.78044162453621,
-          "move_corr": 0.02995502811677425
+          "move_corr": 0.0244810134460004
         },
         "IBM": {
           "train_close_max": 132.2599639892578,
           "test_close_max": 326.8851013183594,
-          "pred_max": 179.34877396697914,
-          "pred_move_std": 34.81656918918221,
+          "pred_max": 162.31277214844732,
+          "pred_move_std": 38.231700652354306,
           "actual_move_std": 5.970005355384821,
-          "move_corr": 0.08910552450429075
+          "move_corr": 0.0849895834177943
         },
         "INTC": {
           "train_close_max": 62.08333969116211,
           "test_close_max": 140.94000244140625,
-          "pred_max": 97.44126494284127,
-          "pred_move_std": 7.691294474226782,
+          "pred_max": 84.5566156911097,
+          "pred_move_std": 10.732117116641653,
           "actual_move_std": 2.5486146161626437,
-          "move_corr": 0.08457143236696855
+          "move_corr": 0.07392212989307949
         },
         "META": {
           "train_close_max": 378.8530883789063,
           "test_close_max": 787.419189453125,
-          "pred_max": 610.9841918420843,
-          "pred_move_std": 39.90825945842725,
+          "pred_max": 533.8611627987249,
+          "pred_move_std": 57.902210424313495,
           "actual_move_std": 14.050187856192885,
-          "move_corr": 0.09266394927017277
+          "move_corr": 0.09200679336833273
         },
         "MSFT": {
           "train_close_max": 339.4149169921875,
           "test_close_max": 537.6463623046875,
-          "pred_max": 451.2247057460655,
-          "pred_move_std": 20.545275843835256,
+          "pred_max": 413.82676890151527,
+          "pred_move_std": 29.90746970405398,
           "actual_move_std": 7.212952540836341,
-          "move_corr": 0.06383745802196637
+          "move_corr": 0.06931491670076141
         },
         "NVDA": {
           "train_close_max": 43.72282028198242,
           "test_close_max": 235.465576171875,
-          "pred_max": 81.3244962827955,
-          "pred_move_std": 36.08791109946749,
+          "pred_max": 68.25805173372518,
+          "pred_move_std": 37.18236022712797,
           "actual_move_std": 4.212101722616552,
-          "move_corr": 0.06084900517541027
+          "move_corr": 0.06099227209944374
         },
         "ORCL": {
           "train_close_max": 121.73302459716795,
           "test_close_max": 324.6299743652344,
-          "pred_max": 191.70576384769677,
-          "pred_move_std": 26.581371932123307,
+          "pred_max": 165.6311092645645,
+          "pred_move_std": 33.91712644763464,
           "actual_move_std": 6.518147214676345,
-          "move_corr": 0.0834630996550412
+          "move_corr": 0.08246913510115925
         },
         "SAP": {
           "train_close_max": 138.0797882080078,
           "test_close_max": 306.6001281738281,
-          "pred_max": 203.06144059366787,
-          "pred_move_std": 28.072713757072904,
+          "pred_max": 178.8749659924639,
+          "pred_move_std": 34.458243307123084,
           "actual_move_std": 4.384521510269258,
-          "move_corr": 0.05911397525601251
+          "move_corr": 0.05913414399144813
         },
         "TSLA": {
           "train_close_max": 409.9700012207031,
           "test_close_max": 489.8800048828125,
-          "pred_max": 473.0964417045881,
-          "pred_move_std": 7.138662770277719,
+          "pred_max": 464.6616275030893,
+          "pred_move_std": 6.363085598594867,
           "actual_move_std": 11.778034259289026,
-          "move_corr": 0.08512217043653063
+          "move_corr": 0.1070280037322643
         }
       },
       "config": {
@@ -407,18 +407,18 @@
         "patience": 8,
         "seed": 20260822
       },
-      "train_seconds": 117.5,
-      "epochs_run": 13,
-      "best_val_loss": 0.11475516901446317
+      "train_seconds": 245.1,
+      "epochs_run": 25,
+      "best_val_loss": 0.2274313161302053
     },
     "return": {
       "per_ticker": {
         "AAPL": {
           "lstm": {
-            "rmse": 4.162615542749668,
-            "mae": 2.8794680250051568,
-            "mape": 1.2241840793389545,
-            "directional_accuracy": 0.45410628019323673,
+            "rmse": 4.1298770354430125,
+            "mae": 2.8286592636700747,
+            "mape": 1.2045254907801415,
+            "directional_accuracy": 0.4935483870967742,
             "n": 621
           },
           "persistence": {
@@ -428,14 +428,14 @@
             "directional_accuracy": null,
             "n": 621
           },
-          "skill_vs_persistence": -0.01117108550938517
+          "skill_vs_persistence": -0.003218337620167322
         },
         "ADBE": {
           "lstm": {
-            "rmse": 9.416037205489697,
-            "mae": 5.883576827716311,
-            "mape": 1.584907724965206,
-            "directional_accuracy": 0.49597423510466987,
+            "rmse": 9.49252937406918,
+            "mae": 5.9422900380644315,
+            "mape": 1.601184193525406,
+            "directional_accuracy": 0.4967741935483871,
             "n": 621
           },
           "persistence": {
@@ -445,14 +445,14 @@
             "directional_accuracy": null,
             "n": 621
           },
-          "skill_vs_persistence": -0.006323477686978052
+          "skill_vs_persistence": -0.014498452298999043
         },
         "AMD": {
           "lstm": {
-            "rmse": 10.59546500644577,
-            "mae": 6.107099206185057,
-            "mape": 2.638865994596653,
-            "directional_accuracy": 0.5072463768115942,
+            "rmse": 10.55788777342936,
+            "mae": 6.095767506350306,
+            "mape": 2.638926218055338,
+            "directional_accuracy": 0.4935483870967742,
             "n": 621
           },
           "persistence": {
@@ -462,14 +462,14 @@
             "directional_accuracy": null,
             "n": 621
           },
-          "skill_vs_persistence": -0.006211302446129663
+          "skill_vs_persistence": -0.002642734520818202
         },
         "AMZN": {
           "lstm": {
-            "rmse": 4.421626719122789,
-            "mae": 3.1319393020450232,
-            "mape": 1.466145740822241,
-            "directional_accuracy": 0.5136876006441223,
+            "rmse": 4.412533843125789,
+            "mae": 3.126097213313779,
+            "mape": 1.4644163742099585,
+            "directional_accuracy": 0.535483870967742,
             "n": 621
           },
           "persistence": {
@@ -479,13 +479,13 @@
             "directional_accuracy": null,
             "n": 621
           },
-          "skill_vs_persistence": 8.601801771446205e-05
+          "skill_vs_persistence": 0.0021422960401241697
         },
         "BABA": {
           "lstm": {
-            "rmse": 3.3782293188174886,
-            "mae": 2.355015192594839,
-            "mape": 2.0042805630287273,
+            "rmse": 3.389268300976131,
+            "mae": 2.3784591142401275,
+            "mape": 2.025577796121434,
             "directional_accuracy": 0.48148148148148145,
             "n": 621
           },
@@ -496,13 +496,13 @@
             "directional_accuracy": null,
             "n": 621
           },
-          "skill_vs_persistence": -0.000389719748266959
+          "skill_vs_persistence": -0.0036586761232759724
         },
         "DELL": {
           "lstm": {
-            "rmse": 9.149429255921909,
-            "mae": 4.795884188240486,
-            "mape": 2.7425801333927433,
+            "rmse": 9.11032779834079,
+            "mae": 4.768588643482769,
+            "mape": 2.7269797600234,
             "directional_accuracy": 0.47987117552334946,
             "n": 621
           },
@@ -513,14 +513,14 @@
             "directional_accuracy": null,
             "n": 621
           },
-          "skill_vs_persistence": -0.022101231872918348
+          "skill_vs_persistence": -0.017733129028052907
         },
         "GOOG": {
           "lstm": {
-            "rmse": 4.946894172367361,
-            "mae": 3.3233337612395593,
-            "mape": 1.4275003686312449,
-            "directional_accuracy": 0.4605475040257649,
+            "rmse": 4.889925189699273,
+            "mae": 3.273156627887877,
+            "mape": 1.4073011103242505,
+            "directional_accuracy": 0.5258064516129032,
             "n": 621
           },
           "persistence": {
@@ -530,14 +530,14 @@
             "directional_accuracy": null,
             "n": 621
           },
-          "skill_vs_persistence": -0.032404006796128204
+          "skill_vs_persistence": -0.020514727599867166
         },
         "IBM": {
           "lstm": {
-            "rmse": 6.08026848540814,
-            "mae": 3.634527583911874,
-            "mape": 1.5151180984257262,
-            "directional_accuracy": 0.4396135265700483,
+            "rmse": 6.045953453229457,
+            "mae": 3.5808326639743107,
+            "mape": 1.4919128224843168,
+            "directional_accuracy": 0.4403225806451613,
             "n": 621
           },
           "persistence": {
@@ -547,14 +547,14 @@
             "directional_accuracy": null,
             "n": 621
           },
-          "skill_vs_persistence": -0.01832004960039879
+          "skill_vs_persistence": -0.012572986727419577
         },
         "INTC": {
           "lstm": {
-            "rmse": 2.5452047252584324,
-            "mae": 1.347396379004066,
-            "mape": 2.916936045398305,
-            "directional_accuracy": 0.4975845410628019,
+            "rmse": 2.542128433254137,
+            "mae": 1.351169633048886,
+            "mape": 2.9307321317396364,
+            "directional_accuracy": 0.5064724919093851,
             "n": 621
           },
           "persistence": {
@@ -564,14 +564,14 @@
             "directional_accuracy": null,
             "n": 621
           },
-          "skill_vs_persistence": 0.0017867263702761038
+          "skill_vs_persistence": 0.0029932287320604267
         },
         "META": {
           "lstm": {
-            "rmse": 14.086548600222313,
-            "mae": 9.743029829253436,
-            "mape": 1.6232074813449318,
-            "directional_accuracy": 0.4830917874396135,
+            "rmse": 14.047177546947356,
+            "mae": 9.688531092114664,
+            "mape": 1.6153945034033093,
+            "directional_accuracy": 0.4838709677419355,
             "n": 621
           },
           "persistence": {
@@ -581,14 +581,14 @@
             "directional_accuracy": null,
             "n": 621
           },
-          "skill_vs_persistence": -0.002561350343584401
+          "skill_vs_persistence": 0.00024074813035734888
         },
         "MSFT": {
           "lstm": {
-            "rmse": 7.254720430783641,
-            "mae": 4.98485885482098,
-            "mape": 1.1648839341748607,
-            "directional_accuracy": 0.4750402576489533,
+            "rmse": 7.208723607759799,
+            "mae": 4.918481604526549,
+            "mape": 1.1513480729216885,
+            "directional_accuracy": 0.48470209339774556,
             "n": 621
           },
           "persistence": {
@@ -598,13 +598,13 @@
             "directional_accuracy": null,
             "n": 621
           },
-          "skill_vs_persistence": -0.005640176688119558
+          "skill_vs_persistence": 0.0007358447828818004
         },
         "NVDA": {
           "lstm": {
-            "rmse": 4.36655767531846,
-            "mae": 3.348684913736949,
-            "mape": 2.3068454958215767,
+            "rmse": 4.3329442219560494,
+            "mae": 3.314037181388466,
+            "mape": 2.2854085150305505,
             "directional_accuracy": 0.46859903381642515,
             "n": 621
           },
@@ -615,14 +615,14 @@
             "directional_accuracy": null,
             "n": 621
           },
-          "skill_vs_persistence": -0.03527633924519602
+          "skill_vs_persistence": -0.027306854920478463
         },
         "ORCL": {
           "lstm": {
-            "rmse": 6.512968453434516,
-            "mae": 3.909196297592451,
-            "mape": 2.1751777142983673,
-            "directional_accuracy": 0.5056360708534622,
+            "rmse": 6.502498345906324,
+            "mae": 3.8968749438692125,
+            "mape": 2.169687166112207,
+            "directional_accuracy": 0.5169082125603864,
             "n": 621
           },
           "persistence": {
@@ -632,14 +632,14 @@
             "directional_accuracy": null,
             "n": 621
           },
-          "skill_vs_persistence": 0.0008381962026153822
+          "skill_vs_persistence": 0.0024444271553084596
         },
         "SAP": {
           "lstm": {
-            "rmse": 4.455005032801389,
-            "mae": 3.239267335917574,
-            "mape": 1.4768924179551728,
-            "directional_accuracy": 0.49114331723027377,
+            "rmse": 4.419610263188726,
+            "mae": 3.1954276171526934,
+            "mape": 1.4601217907840278,
+            "directional_accuracy": 0.4943639291465378,
             "n": 621
           },
           "persistence": {
@@ -649,14 +649,14 @@
             "directional_accuracy": null,
             "n": 621
           },
-          "skill_vs_persistence": -0.015976891092664314
+          "skill_vs_persistence": -0.00790501065094884
         },
         "TSLA": {
           "lstm": {
-            "rmse": 11.761692683005764,
-            "mae": 8.722542747814439,
-            "mape": 2.762420279818338,
-            "directional_accuracy": 0.5152979066022544,
+            "rmse": 11.772195454903366,
+            "mae": 8.728534467974717,
+            "mape": 2.7672692117353335,
+            "directional_accuracy": 0.5072463768115942,
             "n": 621
           },
           "persistence": {
@@ -666,139 +666,139 @@
             "directional_accuracy": null,
             "n": 621
           },
-          "skill_vs_persistence": 0.0016292442334150392
+          "skill_vs_persistence": 0.0007377347713284355
         }
       },
       "pooled": {
-        "mean_skill_vs_persistence": -0.010135696413716566,
-        "median_skill_vs_persistence": -0.006211302446129663,
-        "worst_skill": -0.03527633924519602,
-        "best_skill": 0.0017867263702761038,
-        "tickers_beating_persistence": 4,
+        "mean_skill_vs_persistence": -0.006717108658531123,
+        "median_skill_vs_persistence": -0.003218337620167322,
+        "worst_skill": -0.027306854920478463,
+        "best_skill": 0.0029932287320604267,
+        "tickers_beating_persistence": 6,
         "n_tickers": 15,
-        "mean_lstm_mape": 1.9353297381342032,
+        "mean_lstm_mape": 1.9293856771500664,
         "mean_persistence_mape": 1.9092748438290492
       },
       "diagnostics": {
         "AAPL": {
           "train_close_max": 191.12347412109372,
           "test_close_max": 339.78692626953125,
-          "pred_max": 338.2965988962118,
-          "pred_move_std": 0.36342829742175076,
+          "pred_max": 338.7837100902236,
+          "pred_move_std": 0.32709793530573017,
           "actual_move_std": 4.1112570634155,
-          "move_corr": 0.04675722919458569
+          "move_corr": 0.039809650969211005
         },
         "ADBE": {
           "train_close_max": 688.3699951171875,
           "test_close_max": 586.5499877929688,
-          "pred_max": 586.9442701139639,
-          "pred_move_std": 0.1347294420203823,
+          "pred_max": 587.6924646921609,
+          "pred_move_std": 0.09566067132043221,
           "actual_move_std": 9.345609040494159,
-          "move_corr": 0.05425449033622749
+          "move_corr": 0.007856295047388676
         },
         "AMD": {
           "train_close_max": 161.91000366210938,
           "test_close_max": 580.9099731445312,
-          "pred_max": 577.1721531935269,
-          "pred_move_std": 0.9734804240744723,
+          "pred_max": 577.7686960004802,
+          "pred_move_std": 0.8508161197615411,
           "actual_move_std": 10.520352221554077,
-          "move_corr": 0.0070040760691586915
+          "move_corr": 0.018852286822777873
         },
         "AMZN": {
           "train_close_max": 186.57049560546875,
           "test_close_max": 284.0199890136719,
-          "pred_max": 283.4462935922337,
-          "pred_move_std": 0.16951210086296822,
+          "pred_max": 283.8291451351084,
+          "pred_move_std": 0.13703394397678814,
           "actual_move_std": 4.4200414078817865,
-          "move_corr": 0.08249197445258358
+          "move_corr": 0.0757691504477602
         },
         "BABA": {
           "train_close_max": 254.8652191162109,
           "test_close_max": 187.61692810058597,
-          "pred_max": 187.79740759496684,
-          "pred_move_std": 0.016926604648889985,
+          "pred_max": 188.08994536898217,
+          "pred_move_std": 0.04809161585968447,
           "actual_move_std": 3.3760011530476786,
-          "move_corr": 0.047685539961814724
+          "move_corr": -0.0198217917305361
         },
         "DELL": {
           "train_close_max": 55.20415878295898,
           "test_close_max": 494.510009765625,
-          "pred_max": 490.22956351127226,
-          "pred_move_std": 0.9298363687013401,
+          "pred_max": 490.7236432609641,
+          "pred_move_std": 0.8218228427089146,
           "actual_move_std": 8.93373087245158,
-          "move_corr": -0.034171419178435615
+          "move_corr": -0.03480707676857345
         },
         "GOOG": {
           "train_close_max": 149.391845703125,
           "test_close_max": 398.7999877929688,
-          "pred_max": 396.24255283900044,
-          "pred_move_std": 0.7817306503422801,
+          "pred_max": 396.7548090953236,
+          "pred_move_std": 0.7278480010178807,
           "actual_move_std": 4.78044162453621,
-          "move_corr": 0.025038193898236773
+          "move_corr": 0.027261330512324752
         },
         "IBM": {
           "train_close_max": 132.2599639892578,
           "test_close_max": 326.8851013183594,
-          "pred_max": 324.69940868541715,
-          "pred_move_std": 0.5135995389170634,
+          "pred_max": 325.3723233293878,
+          "pred_move_std": 0.48289533748075614,
           "actual_move_std": 5.970005355384821,
-          "move_corr": 0.08778875638287925
+          "move_corr": 0.07402123786894732
         },
         "INTC": {
           "train_close_max": 62.08333969116211,
           "test_close_max": 140.94000244140625,
-          "pred_max": 140.36997669070664,
-          "pred_move_std": 0.14068250733179635,
+          "pred_max": 140.5513311747654,
+          "pred_move_std": 0.10830763895920414,
           "actual_move_std": 2.5486146161626437,
-          "move_corr": 0.05643022140630515
+          "move_corr": 0.0811444787719172
         },
         "META": {
           "train_close_max": 378.8530883789063,
           "test_close_max": 787.419189453125,
-          "pred_max": 784.7402825472645,
-          "pred_move_std": 0.5793467921697208,
+          "pred_max": 785.7268573042545,
+          "pred_move_std": 0.49855891804367813,
           "actual_move_std": 14.050187856192885,
-          "move_corr": 0.09046339761167742
+          "move_corr": 0.07224457261465052
         },
         "MSFT": {
           "train_close_max": 339.4149169921875,
           "test_close_max": 537.6463623046875,
-          "pred_max": 535.8141634190399,
-          "pred_move_std": 0.41525528689652436,
+          "pred_max": 536.4260804336449,
+          "pred_move_std": 0.3646148596858661,
           "actual_move_std": 7.212952540836341,
-          "move_corr": 0.08204100604729628
+          "move_corr": 0.08220137216511215
         },
         "NVDA": {
           "train_close_max": 43.72282028198242,
           "test_close_max": 235.465576171875,
-          "pred_max": 233.65656829558569,
-          "pred_move_std": 0.4107189740413675,
+          "pred_max": 233.90602734570476,
+          "pred_move_std": 0.3834919934853884,
           "actual_move_std": 4.212101722616552,
-          "move_corr": 0.05781764963051895
+          "move_corr": 0.05233692888002977
         },
         "ORCL": {
           "train_close_max": 121.73302459716795,
           "test_close_max": 324.6299743652344,
-          "pred_max": 323.1153319858203,
-          "pred_move_std": 0.39415332890896454,
+          "pred_max": 323.5733842714275,
+          "pred_move_std": 0.34926213205105683,
           "actual_move_std": 6.518147214676345,
-          "move_corr": 0.08343419495568835
+          "move_corr": 0.08739290246494605
         },
         "SAP": {
           "train_close_max": 138.0797882080078,
           "test_close_max": 306.6001281738281,
-          "pred_max": 304.98792027022864,
-          "pred_move_std": 0.42721944285155156,
+          "pred_max": 305.2828305242912,
+          "pred_move_std": 0.39631687680596783,
           "actual_move_std": 4.384521510269258,
-          "move_corr": 0.06145986101551801
+          "move_corr": 0.05982796284744991
         },
         "TSLA": {
           "train_close_max": 409.9700012207031,
           "test_close_max": 489.8800048828125,
-          "pred_max": 489.5446141601023,
-          "pred_move_std": 0.22557059513444053,
+          "pred_max": 490.2603658506498,
+          "pred_move_std": 0.14415369634058298,
           "actual_move_std": 11.778034259289026,
-          "move_corr": 0.08447286487468557
+          "move_corr": 0.06915426751674907
         }
       },
       "config": {
@@ -813,9 +813,9 @@
         "patience": 8,
         "seed": 20260822
       },
-      "train_seconds": 79.6,
+      "train_seconds": 89.3,
       "epochs_run": 9,
-      "best_val_loss": 0.6653445101545719
+      "best_val_loss": 0.6639930077417644
     }
   }
 }

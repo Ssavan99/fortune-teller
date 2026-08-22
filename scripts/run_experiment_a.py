@@ -52,9 +52,10 @@ def diagnose(seqs, y_pred_dollars, split, df) -> dict:
 
         pred_move = y_pred_dollars[mask] - seqs.prev_close[mask]
         actual_move = seqs.y_close[mask] - seqs.prev_close[mask]
+        # corrcoef returns nan if either series is constant, so guard both.
         corr = (
             float(np.corrcoef(pred_move, actual_move)[0, 1])
-            if np.std(pred_move) > 1e-12
+            if np.std(pred_move) > 1e-12 and np.std(actual_move) > 1e-12
             else None
         )
 

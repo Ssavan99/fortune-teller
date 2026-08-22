@@ -43,8 +43,18 @@ class BiLSTMRegressor(nn.Module):
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         out, _ = self.lstm(x)
-        last = out[:, -1, :]  # final timestep, both directions
-        return self.head(last).squeeze(-1)
+        hidden = self.lstm.hidden_size
+
+        # The two directions finish at opposite ends of the sequence. PyTorch packs the
+        # forward state in the first `hidden` channels and the backward state in the rest,
+        # both indexed by timestep — so the forward direction's final state is at t = -1 and
+        # the backward direction's final state is at t = 0.
+        #
+        # Taking out[:, -1, :] for both, which reads naturally, silently feeds the head a
+        # backward state that has consumed only the last timestep and nothing else.
+        forward_last = out[:, -1, :hidden]
+        backward_last = out[:, 0, hidden:]
+        return self.head(torch.cat([forward_last, backward_last], dim=1)).squeeze(-1)
 
 
 def count_parameters(model: nn.Module) -> int:

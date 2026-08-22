@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LSTM vs persistence — next-day close prediction</title>
+<meta name="description" content="Does an LSTM beat 'tomorrow's close = today's close'? Measured in dollars on 2.5 years of held-out data across 15 tickers.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Forecasting methodology study</p>
+    <h1>Does an LSTM beat <span class="mono">tomorrow&nbsp;=&nbsp;today</span>?</h1>
+    <p class="lede">
+      A bidirectional LSTM trained on 15 large-cap tech tickers, scored in dollars against a
+      persistence baseline on a held-out period it never saw during fitting, scaling or model
+      selection.
+    </p>
+    <div class="answer" id="answer">
+      <p class="answer-label">The answer</p>
+      <p class="answer-body" id="answer-body">Loading results…</p>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section>
+    <h2>How it was measured</h2>
+    <div class="grid" id="method"></div>
+    <p class="note">
+      The baseline is each row&rsquo;s own previous close, so the model and the baseline are
+      always scored on identical rows. Skill score is
+      <span class="mono">1 &minus; RMSE<sub>model</sub> / RMSE<sub>persistence</sub></span>:
+      positive means the model beat persistence, zero means it matched it, negative means the
+      trivial forecast was better.
+    </p>
+  </section>
+
+  <section>
+    <h2>Experiment A — LSTM against persistence</h2>
+    <p>
+      Two target parameterisations. <strong>Level</strong> predicts the next close directly.
+      <strong>Return</strong> predicts the day-over-day change and converts back to a price.
+    </p>
+    <div id="chart-a" class="chart"></div>
+    <div class="tablewrap"><table id="table-a"></table></div>
+  </section>
+
+  <section>
+    <h2>Why the level model fails</h2>
+    <p>
+      It is not undertraining. A min-max scaled level target cannot express a price above the
+      training maximum, and this universe roughly doubled over the held-out period. The model
+      tops out well short of where the prices actually went.
+    </p>
+    <div class="tablewrap"><table id="table-range"></table></div>
+  </section>
+
+  <section>
+    <h2>Is the return model predicting anything?</h2>
+    <p>
+      Mostly it predicts &ldquo;no change&rdquo;. The moves it does predict are far smaller
+      than real ones — though their direction is faintly, consistently correlated with reality.
+      That correlation is real and it is not enough to beat doing nothing.
+    </p>
+    <div class="tablewrap"><table id="table-moves"></table></div>
+  </section>
+
+  <section>
+    <h2>Experiment B — does news sentiment help?</h2>
+    <p>
+      Both arms share dates, splits and seed. The only difference is two extra input columns:
+      a daily sentiment score and a missing-indicator. The window stops before Experiment
+      A&rsquo;s held-out period so no architecture is chosen on protected data.
+    </p>
+    <div class="callout" id="callout-b">Loading…</div>
+    <div class="tablewrap"><table id="table-b"></table></div>
+    <p class="note">
+      DELL is a control: the sentiment source never covered it, so its two columns are
+      entirely missing.
+    </p>
+  </section>
+
+  <section>
+    <h2>Experiment C — what a pre-split scaler buys you</h2>
+    <p>
+      One line changes: whether the feature scaler is fitted on the training rows or on the
+      whole series. The leaky arm never sees a test row during training — it only inherits the
+      test period&rsquo;s minimum and maximum through the normalisation constants.
+    </p>
+    <div class="tablewrap"><table id="table-c"></table></div>
+    <div class="callout" id="callout-c">Loading…</div>
+  </section>
+
+  <section class="disclaimer">
+    <h2>What this is not</h2>
+    <ul>
+      <li><strong>Not a trading system.</strong> No costs, no slippage, no position sizing, no
+        execution. Nothing here was backtested as a strategy.</li>
+      <li><strong>Not investment advice</strong>, and not a price forecast.</li>
+      <li><strong>Not a claim that LSTMs are useless.</strong> It is a claim about this task,
+        this universe, this period, and this architecture, measured against the right baseline.</li>
+      <li><strong>A negative result.</strong> That is the finding, not a failure to tune —
+        the diagnostics above identify the mechanism in each arm.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Reproducing this</h2>
+<pre class="code">git clone https://github.com/Ssavan99/stock-lstm-vs-persistence
+cd stock-lstm-vs-persistence
+python -m venv .venv &amp;&amp; .venv/Scripts/activate    # source .venv/bin/activate on Unix
+pip install -r requirements.txt
+python -m scripts.run_baselines
+python -m scripts.run_experiment_a</pre>
+    <p class="note">
+      Data snapshots are committed, so nothing above needs a network connection or an API key.
+      Every figure on this page is read from the JSON those scripts write.
+    </p>
+  </section>
+
+</main>
+
+<footer class="wrap">
+  <p>
+    <a href="https://github.com/Ssavan99/stock-lstm-vs-persistence">Source on GitHub</a>
+    · generated from committed results
+    · <span id="footer-period"></span>
+  </p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

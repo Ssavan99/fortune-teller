@@ -67,6 +67,10 @@ def directional_accuracy(y_true, y_pred, last_close) -> float | None:
     Returns ``None`` when the model never predicts a move, which is exactly the case for the
     persistence baseline. Scoring persistence's direction as though a flat prediction were a
     call would be meaningless, so it is reported as undefined rather than as 0 or 50%.
+
+    Days where the price did not actually move are also excluded. ``np.sign(0)`` matches no
+    nonzero prediction, so counting them would mark every such day wrong regardless of what
+    the model said — a small but systematic penalty on a day with no direction to call.
     """
     y_true, y_pred = _as_arrays(y_true, y_pred)
     last_close = np.asarray(last_close, dtype=float).ravel()
@@ -74,11 +78,11 @@ def directional_accuracy(y_true, y_pred, last_close) -> float | None:
     predicted_move = y_pred - last_close
     actual_move = y_true - last_close
 
-    called = predicted_move != 0
-    if not called.any():
+    scorable = (predicted_move != 0) & (actual_move != 0)
+    if not scorable.any():
         return None
 
-    correct = np.sign(predicted_move[called]) == np.sign(actual_move[called])
+    correct = np.sign(predicted_move[scorable]) == np.sign(actual_move[scorable])
     return float(np.mean(correct))
 
 

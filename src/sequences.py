@@ -88,12 +88,19 @@ def build(
     lookback: int = 20,
     target: Target = "level",
     extra_features: dict[str, np.ndarray] | None = None,
+    leaky_scaling: bool = False,
 ) -> dict[str, SequenceSet]:
     """Build train/val/test sequence sets from a long-format frame.
 
     ``extra_features`` optionally supplies per-symbol columns already aligned to ``df``'s rows
     for that symbol — used by the sentiment ablation. They are passed through unscaled, since
     sentiment is already bounded and its missing-indicator is binary.
+
+    ``leaky_scaling`` fits the scaler on the **entire** series instead of the training rows,
+    reproducing the pre-split-scaler defect on purpose. It exists for one reason: Experiment C
+    measures how much apparent skill that defect manufactures, and the measurement is only
+    valid if both arms run through this identical code path. It defaults to ``False`` and
+    nothing but Experiment C should ever set it.
     """
     train_dates = set(split.train["date"])
     val_dates = set(split.val["date"])
@@ -106,7 +113,8 @@ def build(
         train_rows = part[part["date"].isin(train_dates)]
         if train_rows.empty:
             continue
-        scaler = fit_on_train(train_rows[list(FEATURES)].to_numpy(dtype=float))
+        fit_rows = part if leaky_scaling else train_rows
+        scaler = fit_on_train(fit_rows[list(FEATURES)].to_numpy(dtype=float))
 
         extra = extra_features.get(symbol) if extra_features else None
         built = _build_for_symbol(part, scaler, lookback, target, extra)
@@ -162,7 +170,7 @@ class ScaledInverter:
     need no inverter — see :func:`to_dollars`.
     """
 
-    def __init__(self, df: pd.DataFrame, split) -> None:
+    def __init__(self, df: pd.DataFrame, split, leaky_scaling: bool = False) -> None:
         train_dates = set(split.train["date"])
         self.bounds: dict[str, tuple[float, float]] = {}
         for symbol in sorted(df["symbol"].unique()):
@@ -170,8 +178,11 @@ class ScaledInverter:
             train_rows = part[part["date"].isin(train_dates)]
             if train_rows.empty:
                 continue
-            lo = float(train_rows["close"].min())
-            hi = float(train_rows["close"].max())
+            # Must mirror build()'s fit scope exactly, or predictions invert against
+            # different constants than the targets were created with.
+            fit_rows = part if leaky_scaling else train_rows
+            lo = float(fit_rows["close"].min())
+            hi = float(fit_rows["close"].max())
             self.bounds[symbol] = (lo, hi if hi != lo else lo + 1.0)
 
     def __call__(self, pred: np.ndarray, seqs: SequenceSet) -> np.ndarray:

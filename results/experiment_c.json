@@ -1,0 +1,368 @@
+{
+  "period": {
+    "start": "2024-03-01",
+    "end": "2026-08-21"
+  },
+  "arms": {
+    "level": {
+      "clean": {
+        "label": "clean (scaler fitted on train)",
+        "leaky": false,
+        "scaled_rmse": 1.7120863426672643,
+        "dollar_rmse_mean": 57.669662008977504,
+        "mean_skill_vs_persistence": -8.014756713111051,
+        "tickers_beating_persistence": 0,
+        "n_tickers": 15,
+        "best_val_loss": 0.2274313161302053,
+        "epochs_run": 25,
+        "train_seconds": 270.8,
+        "per_ticker": {
+          "AAPL": {
+            "rmse": 33.57303187219372,
+            "persistence_rmse": 4.116628335602297,
+            "skill_vs_persistence": -7.1554682947305
+          },
+          "ADBE": {
+            "rmse": 11.999622382696405,
+            "persistence_rmse": 9.356869251557503,
+            "skill_vs_persistence": -0.28243989096021616
+          },
+          "AMD": {
+            "rmse": 94.72296972344141,
+            "persistence_rmse": 10.530059621361714,
+            "skill_vs_persistence": -7.995482754084552
+          },
+          "AMZN": {
+            "rmse": 15.966651586759772,
+            "persistence_rmse": 4.422007091407111,
+            "skill_vs_persistence": -2.6107250071548576
+          },
+          "BABA": {
+            "rmse": 3.7002155855909074,
+            "persistence_rmse": 3.376913269028363,
+            "skill_vs_persistence": -0.09573900506351096
+          },
+          "DELL": {
+            "rmse": 124.95508228224313,
+            "persistence_rmse": 8.951588131007645,
+            "skill_vs_persistence": -12.95898475818027
+          },
+          "GOOG": {
+            "rmse": 82.97241327735156,
+            "persistence_rmse": 4.79162628176843,
+            "skill_vs_persistence": -16.316127844329547
+          },
+          "IBM": {
+            "rmse": 84.15077170255127,
+            "persistence_rmse": 5.970881637648312,
+            "skill_vs_persistence": -13.093525346735031
+          },
+          "INTC": {
+            "rmse": 11.320757546215336,
+            "persistence_rmse": 2.549760449491426,
+            "skill_vs_persistence": -3.4399298563413554
+          },
+          "META": {
+            "rmse": 127.91343213237911,
+            "persistence_rmse": 14.050560193044305,
+            "skill_vs_persistence": -8.103795889625976
+          },
+          "MSFT": {
+            "rmse": 54.98748503318709,
+            "persistence_rmse": 7.214032015582007,
+            "skill_vs_persistence": -6.622295675208597
+          },
+          "NVDA": {
+            "rmse": 94.47838632965214,
+            "persistence_rmse": 4.217770183468164,
+            "skill_vs_persistence": -21.40007924091421
+          },
+          "ORCL": {
+            "rmse": 45.08730585154527,
+            "persistence_rmse": 6.518432178533568,
+            "skill_vs_persistence": -5.916894218831685
+          },
+          "SAP": {
+            "rmse": 66.394531977388,
+            "persistence_rmse": 4.3849472087993195,
+            "skill_vs_persistence": -14.141466662164916
+          },
+          "TSLA": {
+            "rmse": 12.82227285146742,
+            "persistence_rmse": 11.780886624603415,
+            "skill_vs_persistence": -0.08839625234056281
+          }
+        }
+      },
+      "leaky": {
+        "label": "leaky (scaler fitted on all data)",
+        "leaky": true,
+        "scaled_rmse": 0.024441050691865206,
+        "dollar_rmse_mean": 7.84911723553367,
+        "mean_skill_vs_persistence": -0.15445039809103964,
+        "tickers_beating_persistence": 0,
+        "n_tickers": 15,
+        "best_val_loss": 0.004797928297367996,
+        "epochs_run": 39,
+        "train_seconds": 431.7,
+        "per_ticker": {
+          "AAPL": {
+            "rmse": 4.713296509829211,
+            "persistence_rmse": 4.116628335602297,
+            "skill_vs_persistence": -0.14494098703705705
+          },
+          "ADBE": {
+            "rmse": 10.316640328533559,
+            "persistence_rmse": 9.356869251557503,
+            "skill_vs_persistence": -0.10257395408365855
+          },
+          "AMD": {
+            "rmse": 11.648340482082265,
+            "persistence_rmse": 10.530059621361714,
+            "skill_vs_persistence": -0.10619891063598152
+          },
+          "AMZN": {
+            "rmse": 5.224132138034224,
+            "persistence_rmse": 4.422007091407111,
+            "skill_vs_persistence": -0.18139388518526145
+          },
+          "BABA": {
+            "rmse": 3.5640295695370225,
+            "persistence_rmse": 3.376913269028363,
+            "skill_vs_persistence": -0.05541045493374441
+          },
+          "DELL": {
+            "rmse": 9.778060079528023,
+            "persistence_rmse": 8.951588131007645,
+            "skill_vs_persistence": -0.0923268515513509
+          },
+          "GOOG": {
+            "rmse": 5.560618068141823,
+            "persistence_rmse": 4.79162628176843,
+            "skill_vs_persistence": -0.16048659497910256
+          },
+          "IBM": {
+            "rmse": 8.067051177482554,
+            "persistence_rmse": 5.970881637648312,
+            "skill_vs_persistence": -0.3510653312263343
+          },
+          "INTC": {
+            "rmse": 2.851916521085278,
+            "persistence_rmse": 2.549760449491426,
+            "skill_vs_persistence": -0.11850370949714906
+          },
+          "META": {
+            "rmse": 16.936430232314656,
+            "persistence_rmse": 14.050560193044305,
+            "skill_vs_persistence": -0.20539181353772595
+          },
+          "MSFT": {
+            "rmse": 8.24085347891571,
+            "persistence_rmse": 7.214032015582007,
+            "skill_vs_persistence": -0.14233669342135036
+          },
+          "NVDA": {
+            "rmse": 5.329318382807621,
+            "persistence_rmse": 4.217770183468164,
+            "skill_vs_persistence": -0.2635392994374719
+          },
+          "ORCL": {
+            "rmse": 7.244314160729822,
+            "persistence_rmse": 6.518432178533568,
+            "skill_vs_persistence": -0.11135836997533244
+          },
+          "SAP": {
+            "rmse": 5.106610585178078,
+            "persistence_rmse": 4.3849472087993195,
+            "skill_vs_persistence": -0.1645774377695104
+          },
+          "TSLA": {
+            "rmse": 13.155146818805209,
+            "persistence_rmse": 11.780886624603415,
+            "skill_vs_persistence": -0.11665167809456412
+          }
+        }
+      }
+    },
+    "return": {
+      "clean": {
+        "label": "clean (scaler fitted on train)",
+        "leaky": false,
+        "scaled_rmse": 0.029228126832998767,
+        "dollar_rmse_mean": 6.856905376148584,
+        "mean_skill_vs_persistence": -0.006717108658531123,
+        "tickers_beating_persistence": 6,
+        "n_tickers": 15,
+        "best_val_loss": 0.6639930077417644,
+        "epochs_run": 9,
+        "train_seconds": 97.6,
+        "per_ticker": {
+          "AAPL": {
+            "rmse": 4.1298770354430125,
+            "persistence_rmse": 4.116628335602297,
+            "skill_vs_persistence": -0.003218337620167322
+          },
+          "ADBE": {
+            "rmse": 9.49252937406918,
+            "persistence_rmse": 9.356869251557503,
+            "skill_vs_persistence": -0.014498452298999043
+          },
+          "AMD": {
+            "rmse": 10.55788777342936,
+            "persistence_rmse": 10.530059621361714,
+            "skill_vs_persistence": -0.002642734520818202
+          },
+          "AMZN": {
+            "rmse": 4.412533843125789,
+            "persistence_rmse": 4.422007091407111,
+            "skill_vs_persistence": 0.0021422960401241697
+          },
+          "BABA": {
+            "rmse": 3.389268300976131,
+            "persistence_rmse": 3.376913269028363,
+            "skill_vs_persistence": -0.0036586761232759724
+          },
+          "DELL": {
+            "rmse": 9.11032779834079,
+            "persistence_rmse": 8.951588131007645,
+            "skill_vs_persistence": -0.017733129028052907
+          },
+          "GOOG": {
+            "rmse": 4.889925189699273,
+            "persistence_rmse": 4.79162628176843,
+            "skill_vs_persistence": -0.020514727599867166
+          },
+          "IBM": {
+            "rmse": 6.045953453229457,
+            "persistence_rmse": 5.970881637648312,
+            "skill_vs_persistence": -0.012572986727419577
+          },
+          "INTC": {
+            "rmse": 2.542128433254137,
+            "persistence_rmse": 2.549760449491426,
+            "skill_vs_persistence": 0.0029932287320604267
+          },
+          "META": {
+            "rmse": 14.047177546947356,
+            "persistence_rmse": 14.050560193044305,
+            "skill_vs_persistence": 0.00024074813035734888
+          },
+          "MSFT": {
+            "rmse": 7.208723607759799,
+            "persistence_rmse": 7.214032015582007,
+            "skill_vs_persistence": 0.0007358447828818004
+          },
+          "NVDA": {
+            "rmse": 4.3329442219560494,
+            "persistence_rmse": 4.217770183468164,
+            "skill_vs_persistence": -0.027306854920478463
+          },
+          "ORCL": {
+            "rmse": 6.502498345906324,
+            "persistence_rmse": 6.518432178533568,
+            "skill_vs_persistence": 0.0024444271553084596
+          },
+          "SAP": {
+            "rmse": 4.419610263188726,
+            "persistence_rmse": 4.3849472087993195,
+            "skill_vs_persistence": -0.00790501065094884
+          },
+          "TSLA": {
+            "rmse": 11.772195454903366,
+            "persistence_rmse": 11.780886624603415,
+            "skill_vs_persistence": 0.0007377347713284355
+          }
+        }
+      },
+      "leaky": {
+        "label": "leaky (scaler fitted on all data)",
+        "leaky": true,
+        "scaled_rmse": 0.029020948923644468,
+        "dollar_rmse_mean": 6.812657864404115,
+        "mean_skill_vs_persistence": 0.0006021147809555908,
+        "tickers_beating_persistence": 12,
+        "n_tickers": 15,
+        "best_val_loss": 0.6605150837622241,
+        "epochs_run": 9,
+        "train_seconds": 104.7,
+        "per_ticker": {
+          "AAPL": {
+            "rmse": 4.1111070238724805,
+            "persistence_rmse": 4.116628335602297,
+            "skill_vs_persistence": 0.0013412218154515987
+          },
+          "ADBE": {
+            "rmse": 9.412695356975831,
+            "persistence_rmse": 9.356869251557503,
+            "skill_vs_persistence": -0.005966323127688744
+          },
+          "AMD": {
+            "rmse": 10.51138296312265,
+            "persistence_rmse": 10.530059621361714,
+            "skill_vs_persistence": 0.0017736517085977788
+          },
+          "AMZN": {
+            "rmse": 4.416889510732166,
+            "persistence_rmse": 4.422007091407111,
+            "skill_vs_persistence": 0.0011572981610294963
+          },
+          "BABA": {
+            "rmse": 3.3798930289447022,
+            "persistence_rmse": 3.376913269028363,
+            "skill_vs_persistence": -0.0008823916040925361
+          },
+          "DELL": {
+            "rmse": 8.930678369076533,
+            "persistence_rmse": 8.951588131007645,
+            "skill_vs_persistence": 0.0023358717609762714
+          },
+          "GOOG": {
+            "rmse": 4.775437210163413,
+            "persistence_rmse": 4.79162628176843,
+            "skill_vs_persistence": 0.0033786173322019053
+          },
+          "IBM": {
+            "rmse": 5.9661701930091215,
+            "persistence_rmse": 5.970881637648312,
+            "skill_vs_persistence": 0.0007890701784278864
+          },
+          "INTC": {
+            "rmse": 2.545724326121223,
+            "persistence_rmse": 2.549760449491426,
+            "skill_vs_persistence": 0.0015829421822776135
+          },
+          "META": {
+            "rmse": 14.046152860549748,
+            "persistence_rmse": 14.050560193044305,
+            "skill_vs_persistence": 0.00031367663879611207
+          },
+          "MSFT": {
+            "rmse": 7.210009415874083,
+            "persistence_rmse": 7.214032015582007,
+            "skill_vs_persistence": 0.0005576076872455538
+          },
+          "NVDA": {
+            "rmse": 4.211453797606344,
+            "persistence_rmse": 4.217770183468164,
+            "skill_vs_persistence": 0.0014975652031913311
+          },
+          "ORCL": {
+            "rmse": 6.518932056612268,
+            "persistence_rmse": 6.518432178533568,
+            "skill_vs_persistence": -7.668685736206271e-05
+          },
+          "SAP": {
+            "rmse": 4.383765109792917,
+            "persistence_rmse": 4.3849472087993195,
+            "skill_vs_persistence": 0.0002695811260919889
+          },
+          "TSLA": {
+            "rmse": 11.769576743608244,
+            "persistence_rmse": 11.780886624603415,
+            "skill_vs_persistence": 0.000960019509189669
+          }
+        }
+      }
+    }
+  }
+}
