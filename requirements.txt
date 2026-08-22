@@ -1,0 +1,12 @@
+# Runtime dependencies.
+# Hand-written and deliberately loose: this project needs no pinned build strings.
+# CPU-only torch is sufficient — see README for the install note.
+numpy>=1.24
+pandas>=2.0
+torch>=2.0
+yfinance>=0.2.40
+matplotlib>=3.7
+
+# Development
+pytest>=7.4
+ruff>=0.5
