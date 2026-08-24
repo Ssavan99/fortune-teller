@@ -1,0 +1,821 @@
+{
+  "period": {
+    "start": "2024-03-01",
+    "end": "2026-08-21",
+    "rows": 9315
+  },
+  "arms": {
+    "level": {
+      "per_ticker": {
+        "AAPL": {
+          "lstm": {
+            "rmse": 33.57303187219372,
+            "mae": 24.406230117474017,
+            "mape": 9.138269667470778,
+            "directional_accuracy": 0.4661290322580645,
+            "n": 621
+          },
+          "persistence": {
+            "rmse": 4.116628335602297,
+            "mae": 2.8142792092045332,
+            "mape": 1.2004756184376137,
+            "directional_accuracy": null,
+            "n": 621
+          },
+          "skill_vs_persistence": -7.1554682947305
+        },
+        "ADBE": {
+          "lstm": {
+            "rmse": 11.999622382696405,
+            "mae": 8.279546070385209,
+            "mape": 2.5198611468559124,
+            "directional_accuracy": 0.5096774193548387,
+            "n": 621
+          },
+          "persistence": {
+            "rmse": 9.356869251557503,
+            "mae": 5.848759846218926,
+            "mape": 1.5737155737459236,
+            "directional_accuracy": null,
+            "n": 621
+          },
+          "skill_vs_persistence": -0.28243989096021616
+        },
+        "AMD": {
+          "lstm": {
+            "rmse": 94.72296972344141,
+            "mae": 41.92599018700505,
+            "mape": 11.134328842083272,
+            "directional_accuracy": 0.4838709677419355,
+            "n": 621
+          },
+          "persistence": {
+            "rmse": 10.530059621361714,
+            "mae": 6.082125923291881,
+            "mape": 2.6359048030845544,
+            "directional_accuracy": null,
+            "n": 621
+          },
+          "skill_vs_persistence": -7.995482754084552
+        },
+        "AMZN": {
+          "lstm": {
+            "rmse": 15.966651586759772,
+            "mae": 11.828389950366551,
+            "mape": 5.071387838855157,
+            "directional_accuracy": 0.5048387096774194,
+            "n": 621
+          },
+          "persistence": {
+            "rmse": 4.422007091407111,
+            "mae": 3.1341864544412346,
+            "mape": 1.467710103939672,
+            "directional_accuracy": null,
+            "n": 621
+          },
+          "skill_vs_persistence": -2.6107250071548576
+        },
+        "BABA": {
+          "lstm": {
+            "rmse": 3.7002155855909074,
+            "mae": 2.6781585477520204,
+            "mape": 2.2862273826207726,
+            "directional_accuracy": 0.47665056360708535,
+            "n": 621
+          },
+          "persistence": {
+            "rmse": 3.376913269028363,
+            "mae": 2.338184633116791,
+            "mape": 1.9887597339502259,
+            "directional_accuracy": null,
+            "n": 621
+          },
+          "skill_vs_persistence": -0.09573900506351096
+        },
+        "DELL": {
+          "lstm": {
+            "rmse": 124.95508228224313,
+            "mae": 84.98214486555173,
+            "mape": 45.99384803233061,
+            "directional_accuracy": 0.47987117552334946,
+            "n": 621
+          },
+          "persistence": {
+            "rmse": 8.951588131007645,
+            "mae": 4.693157644471492,
+            "mape": 2.6865985635007283,
+            "directional_accuracy": null,
+            "n": 621
+          },
+          "skill_vs_persistence": -12.95898475818027
+        },
+        "GOOG": {
+          "lstm": {
+            "rmse": 82.97241327735156,
+            "mae": 55.2932548206552,
+            "mape": 18.42278504515365,
+            "directional_accuracy": 0.47096774193548385,
+            "n": 621
+          },
+          "persistence": {
+            "rmse": 4.79162628176843,
+            "mae": 3.2260210709871306,
+            "mape": 1.3950143788723481,
+            "directional_accuracy": null,
+            "n": 621
+          },
+          "skill_vs_persistence": -16.316127844329547
+        },
+        "IBM": {
+          "lstm": {
+            "rmse": 84.15077170255127,
+            "mae": 74.98563270511009,
+            "mape": 30.199481040656618,
+            "directional_accuracy": 0.4403225806451613,
+            "n": 621
+          },
+          "persistence": {
+            "rmse": 5.970881637648312,
+            "mae": 3.436514444397266,
+            "mape": 1.4355988194680696,
+            "directional_accuracy": null,
+            "n": 621
+          },
+          "skill_vs_persistence": -13.093525346735031
+        },
+        "INTC": {
+          "lstm": {
+            "rmse": 11.320757546215336,
+            "mae": 4.8811843112092586,
+            "mape": 7.365284866906845,
+            "directional_accuracy": 0.4935275080906149,
+            "n": 621
+          },
+          "persistence": {
+            "rmse": 2.549760449491426,
+            "mae": 1.3503362437569197,
+            "mape": 2.904338456260451,
+            "directional_accuracy": null,
+            "n": 621
+          },
+          "skill_vs_persistence": -3.4399298563413554
+        },
+        "META": {
+          "lstm": {
+            "rmse": 127.91343213237911,
+            "mae": 113.89404153353622,
+            "mape": 17.82113742795938,
+            "directional_accuracy": 0.4838709677419355,
+            "n": 621
+          },
+          "persistence": {
+            "rmse": 14.050560193044305,
+            "mae": 9.66470626855626,
+            "mape": 1.6130016869066934,
+            "directional_accuracy": null,
+            "n": 621
+          },
+          "skill_vs_persistence": -8.103795889625976
+        },
+        "MSFT": {
+          "lstm": {
+            "rmse": 54.98748503318709,
+            "mae": 45.96506648904549,
+            "mape": 10.029246636625523,
+            "directional_accuracy": 0.47665056360708535,
+            "n": 621
+          },
+          "persistence": {
+            "rmse": 7.214032015582007,
+            "mae": 4.885350717246628,
+            "mape": 1.1451426988911102,
+            "directional_accuracy": null,
+            "n": 621
+          },
+          "skill_vs_persistence": -6.622295675208597
+        },
+        "NVDA": {
+          "lstm": {
+            "rmse": 94.47838632965214,
+            "mae": 86.86196225992272,
+            "mape": 54.196602431219645,
+            "directional_accuracy": 0.46859903381642515,
+            "n": 621
+          },
+          "persistence": {
+            "rmse": 4.217770183468164,
+            "mae": 3.1945403463022712,
+            "mape": 2.217590353524436,
+            "directional_accuracy": null,
+            "n": 621
+          },
+          "skill_vs_persistence": -21.40007924091421
+        },
+        "ORCL": {
+          "lstm": {
+            "rmse": 45.08730585154527,
+            "mae": 29.902182916009878,
+            "mape": 14.140399947786673,
+            "directional_accuracy": 0.500805152979066,
+            "n": 621
+          },
+          "persistence": {
+            "rmse": 6.518432178533568,
+            "mae": 3.9040881539312537,
+            "mape": 2.1750805579581054,
+            "directional_accuracy": null,
+            "n": 621
+          },
+          "skill_vs_persistence": -5.916894218831685
+        },
+        "SAP": {
+          "lstm": {
+            "rmse": 66.394531977388,
+            "mae": 56.74070525468256,
+            "mape": 23.162557297691492,
+            "directional_accuracy": 0.49114331723027377,
+            "n": 621
+          },
+          "persistence": {
+            "rmse": 4.3849472087993195,
+            "mae": 3.1322589818982105,
+            "mape": 1.4376564609700362,
+            "directional_accuracy": null,
+            "n": 621
+          },
+          "skill_vs_persistence": -14.141466662164916
+        },
+        "TSLA": {
+          "lstm": {
+            "rmse": 12.82227285146742,
+            "mae": 9.590967353531934,
+            "mape": 3.006863192582713,
+            "directional_accuracy": 0.5249597423510467,
+            "n": 621
+          },
+          "persistence": {
+            "rmse": 11.780886624603415,
+            "mae": 8.73217404867716,
+            "mape": 2.762534847925775,
+            "directional_accuracy": null,
+            "n": 621
+          },
+          "skill_vs_persistence": -0.08839625234056281
+        }
+      },
+      "pooled": {
+        "mean_skill_vs_persistence": -8.014756713111051,
+        "median_skill_vs_persistence": -7.1554682947305,
+        "worst_skill": -21.40007924091421,
+        "best_skill": -0.08839625234056281,
+        "tickers_beating_persistence": 0,
+        "n_tickers": 15,
+        "mean_lstm_mape": 16.965885386453266,
+        "mean_persistence_mape": 1.9092748438290492
+      },
+      "diagnostics": {
+        "AAPL": {
+          "train_close_max": 191.12347412109372,
+          "test_close_max": 339.78692626953125,
+          "pred_max": 237.80518307905942,
+          "pred_move_std": 23.4239298840823,
+          "actual_move_std": 4.1112570634155,
+          "move_corr": 0.04171979259987452
+        },
+        "ADBE": {
+          "train_close_max": 688.3699951171875,
+          "test_close_max": 586.5499877929688,
+          "pred_max": 585.6105447602758,
+          "pred_move_std": 7.212145880976311,
+          "actual_move_std": 9.345609040494159,
+          "move_corr": 0.050168538888356505
+        },
+        "AMD": {
+          "train_close_max": 161.91000366210938,
+          "test_close_max": 580.9099731445312,
+          "pred_max": 236.34580957445075,
+          "pred_move_std": 85.54151175318387,
+          "actual_move_std": 10.520352221554077,
+          "move_corr": 0.01120369122896294
+        },
+        "AMZN": {
+          "train_close_max": 186.57049560546875,
+          "test_close_max": 284.0199890136719,
+          "pred_max": 232.78682550142412,
+          "pred_move_std": 10.99377751127201,
+          "actual_move_std": 4.4200414078817865,
+          "move_corr": 0.0858281247395142
+        },
+        "BABA": {
+          "train_close_max": 254.8652191162109,
+          "test_close_max": 187.61692810058597,
+          "pred_max": 188.92676271376786,
+          "pred_move_std": 1.3936085059599077,
+          "actual_move_std": 3.3760011530476786,
+          "move_corr": -0.026828816134302765
+        },
+        "DELL": {
+          "train_close_max": 55.20415878295898,
+          "test_close_max": 494.510009765625,
+          "pred_max": 74.5519399526917,
+          "pred_move_std": 90.92837297009429,
+          "actual_move_std": 8.93373087245158,
+          "move_corr": -0.027099273022701566
+        },
+        "GOOG": {
+          "train_close_max": 149.391845703125,
+          "test_close_max": 398.7999877929688,
+          "pred_max": 196.0151040529409,
+          "pred_move_std": 61.94167726774661,
+          "actual_move_std": 4.78044162453621,
+          "move_corr": 0.0244810134460004
+        },
+        "IBM": {
+          "train_close_max": 132.2599639892578,
+          "test_close_max": 326.8851013183594,
+          "pred_max": 162.31277214844732,
+          "pred_move_std": 38.231700652354306,
+          "actual_move_std": 5.970005355384821,
+          "move_corr": 0.0849895834177943
+        },
+        "INTC": {
+          "train_close_max": 62.08333969116211,
+          "test_close_max": 140.94000244140625,
+          "pred_max": 84.5566156911097,
+          "pred_move_std": 10.732117116641653,
+          "actual_move_std": 2.5486146161626437,
+          "move_corr": 0.07392212989307949
+        },
+        "META": {
+          "train_close_max": 378.8530883789063,
+          "test_close_max": 787.419189453125,
+          "pred_max": 533.8611627987249,
+          "pred_move_std": 57.902210424313495,
+          "actual_move_std": 14.050187856192885,
+          "move_corr": 0.09200679336833273
+        },
+        "MSFT": {
+          "train_close_max": 339.4149169921875,
+          "test_close_max": 537.6463623046875,
+          "pred_max": 413.82676890151527,
+          "pred_move_std": 29.90746970405398,
+          "actual_move_std": 7.212952540836341,
+          "move_corr": 0.06931491670076141
+        },
+        "NVDA": {
+          "train_close_max": 43.72282028198242,
+          "test_close_max": 235.465576171875,
+          "pred_max": 68.25805173372518,
+          "pred_move_std": 37.18236022712797,
+          "actual_move_std": 4.212101722616552,
+          "move_corr": 0.06099227209944374
+        },
+        "ORCL": {
+          "train_close_max": 121.73302459716795,
+          "test_close_max": 324.6299743652344,
+          "pred_max": 165.6311092645645,
+          "pred_move_std": 33.91712644763464,
+          "actual_move_std": 6.518147214676345,
+          "move_corr": 0.08246913510115925
+        },
+        "SAP": {
+          "train_close_max": 138.0797882080078,
+          "test_close_max": 306.6001281738281,
+          "pred_max": 178.8749659924639,
+          "pred_move_std": 34.458243307123084,
+          "actual_move_std": 4.384521510269258,
+          "move_corr": 0.05913414399144813
+        },
+        "TSLA": {
+          "train_close_max": 409.9700012207031,
+          "test_close_max": 489.8800048828125,
+          "pred_max": 464.6616275030893,
+          "pred_move_std": 6.363085598594867,
+          "actual_move_std": 11.778034259289026,
+          "move_corr": 0.1070280037322643
+        }
+      },
+      "config": {
+        "target": "level",
+        "lookback": 20,
+        "hidden": 100,
+        "layers": 2,
+        "dropout": 0.2,
+        "lr": 0.001,
+        "batch_size": 128,
+        "max_epochs": 60,
+        "patience": 8,
+        "seed": 20260822
+      },
+      "train_seconds": 245.1,
+      "epochs_run": 25,
+      "best_val_loss": 0.2274313161302053
+    },
+    "return": {
+      "per_ticker": {
+        "AAPL": {
+          "lstm": {
+            "rmse": 4.1298770354430125,
+            "mae": 2.8286592636700747,
+            "mape": 1.2045254907801415,
+            "directional_accuracy": 0.4935483870967742,
+            "n": 621
+          },
+          "persistence": {
+            "rmse": 4.116628335602297,
+            "mae": 2.8142792092045332,
+            "mape": 1.2004756184376137,
+            "directional_accuracy": null,
+            "n": 621
+          },
+          "skill_vs_persistence": -0.003218337620167322
+        },
+        "ADBE": {
+          "lstm": {
+            "rmse": 9.49252937406918,
+            "mae": 5.9422900380644315,
+            "mape": 1.601184193525406,
+            "directional_accuracy": 0.4967741935483871,
+            "n": 621
+          },
+          "persistence": {
+            "rmse": 9.356869251557503,
+            "mae": 5.848759846218926,
+            "mape": 1.5737155737459236,
+            "directional_accuracy": null,
+            "n": 621
+          },
+          "skill_vs_persistence": -0.014498452298999043
+        },
+        "AMD": {
+          "lstm": {
+            "rmse": 10.55788777342936,
+            "mae": 6.095767506350306,
+            "mape": 2.638926218055338,
+            "directional_accuracy": 0.4935483870967742,
+            "n": 621
+          },
+          "persistence": {
+            "rmse": 10.530059621361714,
+            "mae": 6.082125923291881,
+            "mape": 2.6359048030845544,
+            "directional_accuracy": null,
+            "n": 621
+          },
+          "skill_vs_persistence": -0.002642734520818202
+        },
+        "AMZN": {
+          "lstm": {
+            "rmse": 4.412533843125789,
+            "mae": 3.126097213313779,
+            "mape": 1.4644163742099585,
+            "directional_accuracy": 0.535483870967742,
+            "n": 621
+          },
+          "persistence": {
+            "rmse": 4.422007091407111,
+            "mae": 3.1341864544412346,
+            "mape": 1.467710103939672,
+            "directional_accuracy": null,
+            "n": 621
+          },
+          "skill_vs_persistence": 0.0021422960401241697
+        },
+        "BABA": {
+          "lstm": {
+            "rmse": 3.389268300976131,
+            "mae": 2.3784591142401275,
+            "mape": 2.025577796121434,
+            "directional_accuracy": 0.48148148148148145,
+            "n": 621
+          },
+          "persistence": {
+            "rmse": 3.376913269028363,
+            "mae": 2.338184633116791,
+            "mape": 1.9887597339502259,
+            "directional_accuracy": null,
+            "n": 621
+          },
+          "skill_vs_persistence": -0.0036586761232759724
+        },
+        "DELL": {
+          "lstm": {
+            "rmse": 9.11032779834079,
+            "mae": 4.768588643482769,
+            "mape": 2.7269797600234,
+            "directional_accuracy": 0.47987117552334946,
+            "n": 621
+          },
+          "persistence": {
+            "rmse": 8.951588131007645,
+            "mae": 4.693157644471492,
+            "mape": 2.6865985635007283,
+            "directional_accuracy": null,
+            "n": 621
+          },
+          "skill_vs_persistence": -0.017733129028052907
+        },
+        "GOOG": {
+          "lstm": {
+            "rmse": 4.889925189699273,
+            "mae": 3.273156627887877,
+            "mape": 1.4073011103242505,
+            "directional_accuracy": 0.5258064516129032,
+            "n": 621
+          },
+          "persistence": {
+            "rmse": 4.79162628176843,
+            "mae": 3.2260210709871306,
+            "mape": 1.3950143788723481,
+            "directional_accuracy": null,
+            "n": 621
+          },
+          "skill_vs_persistence": -0.020514727599867166
+        },
+        "IBM": {
+          "lstm": {
+            "rmse": 6.045953453229457,
+            "mae": 3.5808326639743107,
+            "mape": 1.4919128224843168,
+            "directional_accuracy": 0.4403225806451613,
+            "n": 621
+          },
+          "persistence": {
+            "rmse": 5.970881637648312,
+            "mae": 3.436514444397266,
+            "mape": 1.4355988194680696,
+            "directional_accuracy": null,
+            "n": 621
+          },
+          "skill_vs_persistence": -0.012572986727419577
+        },
+        "INTC": {
+          "lstm": {
+            "rmse": 2.542128433254137,
+            "mae": 1.351169633048886,
+            "mape": 2.9307321317396364,
+            "directional_accuracy": 0.5064724919093851,
+            "n": 621
+          },
+          "persistence": {
+            "rmse": 2.549760449491426,
+            "mae": 1.3503362437569197,
+            "mape": 2.904338456260451,
+            "directional_accuracy": null,
+            "n": 621
+          },
+          "skill_vs_persistence": 0.0029932287320604267
+        },
+        "META": {
+          "lstm": {
+            "rmse": 14.047177546947356,
+            "mae": 9.688531092114664,
+            "mape": 1.6153945034033093,
+            "directional_accuracy": 0.4838709677419355,
+            "n": 621
+          },
+          "persistence": {
+            "rmse": 14.050560193044305,
+            "mae": 9.66470626855626,
+            "mape": 1.6130016869066934,
+            "directional_accuracy": null,
+            "n": 621
+          },
+          "skill_vs_persistence": 0.00024074813035734888
+        },
+        "MSFT": {
+          "lstm": {
+            "rmse": 7.208723607759799,
+            "mae": 4.918481604526549,
+            "mape": 1.1513480729216885,
+            "directional_accuracy": 0.48470209339774556,
+            "n": 621
+          },
+          "persistence": {
+            "rmse": 7.214032015582007,
+            "mae": 4.885350717246628,
+            "mape": 1.1451426988911102,
+            "directional_accuracy": null,
+            "n": 621
+          },
+          "skill_vs_persistence": 0.0007358447828818004
+        },
+        "NVDA": {
+          "lstm": {
+            "rmse": 4.3329442219560494,
+            "mae": 3.314037181388466,
+            "mape": 2.2854085150305505,
+            "directional_accuracy": 0.46859903381642515,
+            "n": 621
+          },
+          "persistence": {
+            "rmse": 4.217770183468164,
+            "mae": 3.1945403463022712,
+            "mape": 2.217590353524436,
+            "directional_accuracy": null,
+            "n": 621
+          },
+          "skill_vs_persistence": -0.027306854920478463
+        },
+        "ORCL": {
+          "lstm": {
+            "rmse": 6.502498345906324,
+            "mae": 3.8968749438692125,
+            "mape": 2.169687166112207,
+            "directional_accuracy": 0.5169082125603864,
+            "n": 621
+          },
+          "persistence": {
+            "rmse": 6.518432178533568,
+            "mae": 3.9040881539312537,
+            "mape": 2.1750805579581054,
+            "directional_accuracy": null,
+            "n": 621
+          },
+          "skill_vs_persistence": 0.0024444271553084596
+        },
+        "SAP": {
+          "lstm": {
+            "rmse": 4.419610263188726,
+            "mae": 3.1954276171526934,
+            "mape": 1.4601217907840278,
+            "directional_accuracy": 0.4943639291465378,
+            "n": 621
+          },
+          "persistence": {
+            "rmse": 4.3849472087993195,
+            "mae": 3.1322589818982105,
+            "mape": 1.4376564609700362,
+            "directional_accuracy": null,
+            "n": 621
+          },
+          "skill_vs_persistence": -0.00790501065094884
+        },
+        "TSLA": {
+          "lstm": {
+            "rmse": 11.772195454903366,
+            "mae": 8.728534467974717,
+            "mape": 2.7672692117353335,
+            "directional_accuracy": 0.5072463768115942,
+            "n": 621
+          },
+          "persistence": {
+            "rmse": 11.780886624603415,
+            "mae": 8.73217404867716,
+            "mape": 2.762534847925775,
+            "directional_accuracy": null,
+            "n": 621
+          },
+          "skill_vs_persistence": 0.0007377347713284355
+        }
+      },
+      "pooled": {
+        "mean_skill_vs_persistence": -0.006717108658531123,
+        "median_skill_vs_persistence": -0.003218337620167322,
+        "worst_skill": -0.027306854920478463,
+        "best_skill": 0.0029932287320604267,
+        "tickers_beating_persistence": 6,
+        "n_tickers": 15,
+        "mean_lstm_mape": 1.9293856771500664,
+        "mean_persistence_mape": 1.9092748438290492
+      },
+      "diagnostics": {
+        "AAPL": {
+          "train_close_max": 191.12347412109372,
+          "test_close_max": 339.78692626953125,
+          "pred_max": 338.7837100902236,
+          "pred_move_std": 0.32709793530573017,
+          "actual_move_std": 4.1112570634155,
+          "move_corr": 0.039809650969211005
+        },
+        "ADBE": {
+          "train_close_max": 688.3699951171875,
+          "test_close_max": 586.5499877929688,
+          "pred_max": 587.6924646921609,
+          "pred_move_std": 0.09566067132043221,
+          "actual_move_std": 9.345609040494159,
+          "move_corr": 0.007856295047388676
+        },
+        "AMD": {
+          "train_close_max": 161.91000366210938,
+          "test_close_max": 580.9099731445312,
+          "pred_max": 577.7686960004802,
+          "pred_move_std": 0.8508161197615411,
+          "actual_move_std": 10.520352221554077,
+          "move_corr": 0.018852286822777873
+        },
+        "AMZN": {
+          "train_close_max": 186.57049560546875,
+          "test_close_max": 284.0199890136719,
+          "pred_max": 283.8291451351084,
+          "pred_move_std": 0.13703394397678814,
+          "actual_move_std": 4.4200414078817865,
+          "move_corr": 0.0757691504477602
+        },
+        "BABA": {
+          "train_close_max": 254.8652191162109,
+          "test_close_max": 187.61692810058597,
+          "pred_max": 188.08994536898217,
+          "pred_move_std": 0.04809161585968447,
+          "actual_move_std": 3.3760011530476786,
+          "move_corr": -0.0198217917305361
+        },
+        "DELL": {
+          "train_close_max": 55.20415878295898,
+          "test_close_max": 494.510009765625,
+          "pred_max": 490.7236432609641,
+          "pred_move_std": 0.8218228427089146,
+          "actual_move_std": 8.93373087245158,
+          "move_corr": -0.03480707676857345
+        },
+        "GOOG": {
+          "train_close_max": 149.391845703125,
+          "test_close_max": 398.7999877929688,
+          "pred_max": 396.7548090953236,
+          "pred_move_std": 0.7278480010178807,
+          "actual_move_std": 4.78044162453621,
+          "move_corr": 0.027261330512324752
+        },
+        "IBM": {
+          "train_close_max": 132.2599639892578,
+          "test_close_max": 326.8851013183594,
+          "pred_max": 325.3723233293878,
+          "pred_move_std": 0.48289533748075614,
+          "actual_move_std": 5.970005355384821,
+          "move_corr": 0.07402123786894732
+        },
+        "INTC": {
+          "train_close_max": 62.08333969116211,
+          "test_close_max": 140.94000244140625,
+          "pred_max": 140.5513311747654,
+          "pred_move_std": 0.10830763895920414,
+          "actual_move_std": 2.5486146161626437,
+          "move_corr": 0.0811444787719172
+        },
+        "META": {
+          "train_close_max": 378.8530883789063,
+          "test_close_max": 787.419189453125,
+          "pred_max": 785.7268573042545,
+          "pred_move_std": 0.49855891804367813,
+          "actual_move_std": 14.050187856192885,
+          "move_corr": 0.07224457261465052
+        },
+        "MSFT": {
+          "train_close_max": 339.4149169921875,
+          "test_close_max": 537.6463623046875,
+          "pred_max": 536.4260804336449,
+          "pred_move_std": 0.3646148596858661,
+          "actual_move_std": 7.212952540836341,
+          "move_corr": 0.08220137216511215
+        },
+        "NVDA": {
+          "train_close_max": 43.72282028198242,
+          "test_close_max": 235.465576171875,
+          "pred_max": 233.90602734570476,
+          "pred_move_std": 0.3834919934853884,
+          "actual_move_std": 4.212101722616552,
+          "move_corr": 0.05233692888002977
+        },
+        "ORCL": {
+          "train_close_max": 121.73302459716795,
+          "test_close_max": 324.6299743652344,
+          "pred_max": 323.5733842714275,
+          "pred_move_std": 0.34926213205105683,
+          "actual_move_std": 6.518147214676345,
+          "move_corr": 0.08739290246494605
+        },
+        "SAP": {
+          "train_close_max": 138.0797882080078,
+          "test_close_max": 306.6001281738281,
+          "pred_max": 305.2828305242912,
+          "pred_move_std": 0.39631687680596783,
+          "actual_move_std": 4.384521510269258,
+          "move_corr": 0.05982796284744991
+        },
+        "TSLA": {
+          "train_close_max": 409.9700012207031,
+          "test_close_max": 489.8800048828125,
+          "pred_max": 490.2603658506498,
+          "pred_move_std": 0.14415369634058298,
+          "actual_move_std": 11.778034259289026,
+          "move_corr": 0.06915426751674907
+        }
+      },
+      "config": {
+        "target": "return",
+        "lookback": 20,
+        "hidden": 100,
+        "layers": 2,
+        "dropout": 0.2,
+        "lr": 0.001,
+        "batch_size": 128,
+        "max_epochs": 60,
+        "patience": 8,
+        "seed": 20260822
+      },
+      "train_seconds": 89.3,
+      "epochs_run": 9,
+      "best_val_loss": 0.6639930077417644
+    }
+  }
+}

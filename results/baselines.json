@@ -1,0 +1,437 @@
+{
+  "period": {
+    "start": "2024-03-01",
+    "end": "2026-08-21",
+    "rows": 9315
+  },
+  "per_ticker": {
+    "AAPL": {
+      "persistence": {
+        "rmse": 4.116628335602297,
+        "mae": 2.8142792092045332,
+        "mape": 1.2004756184376137,
+        "directional_accuracy": null,
+        "n": 621,
+        "skill_vs_persistence": 0.0
+      },
+      "drift": {
+        "rmse": 4.1124418802864735,
+        "mae": 2.8042135674419413,
+        "mape": 1.1963832467750033,
+        "directional_accuracy": 0.5516129032258065,
+        "n": 621,
+        "skill_vs_persistence": 0.0010169621774248627
+      },
+      "ar5": {
+        "rmse": 4.155592747105862,
+        "mae": 2.8341407264777745,
+        "mape": 1.2114632412437285,
+        "directional_accuracy": 0.5209677419354839,
+        "n": 621,
+        "skill_vs_persistence": -0.009465127363232018
+      },
+      "mean_close": 237.09290125750113
+    },
+    "ADBE": {
+      "persistence": {
+        "rmse": 9.356869251557503,
+        "mae": 5.848759846218926,
+        "mape": 1.5737155737459236,
+        "directional_accuracy": null,
+        "n": 621,
+        "skill_vs_persistence": 0.0
+      },
+      "drift": {
+        "rmse": 9.357815642973861,
+        "mae": 5.84891208413117,
+        "mape": 1.573801298869076,
+        "directional_accuracy": 0.4967741935483871,
+        "n": 621,
+        "skill_vs_persistence": -0.00010114402487770846
+      },
+      "ar5": {
+        "rmse": 9.382163235367347,
+        "mae": 5.855235366052517,
+        "mape": 1.5755920427495924,
+        "directional_accuracy": 0.5177419354838709,
+        "n": 621,
+        "skill_vs_persistence": -0.0027032528861758998
+      },
+      "mean_close": 391.20615073678573
+    },
+    "AMD": {
+      "persistence": {
+        "rmse": 10.530059621361714,
+        "mae": 6.082125923291881,
+        "mape": 2.6359048030845544,
+        "directional_accuracy": null,
+        "n": 621,
+        "skill_vs_persistence": 0.0
+      },
+      "drift": {
+        "rmse": 10.52862660960332,
+        "mae": 6.081206096158979,
+        "mape": 2.6357557805480365,
+        "directional_accuracy": 0.5177419354838709,
+        "n": 621,
+        "skill_vs_persistence": 0.00013608771554218801
+      },
+      "ar5": {
+        "rmse": 10.538255488743303,
+        "mae": 6.087898100199799,
+        "mape": 2.640701816902253,
+        "directional_accuracy": 0.5032258064516129,
+        "n": 621,
+        "skill_vs_persistence": -0.00077833057706167
+      },
+      "mean_close": 206.3133496147807
+    },
+    "AMZN": {
+      "persistence": {
+        "rmse": 4.422007091407111,
+        "mae": 3.1341864544412346,
+        "mape": 1.467710103939672,
+        "directional_accuracy": null,
+        "n": 621,
+        "skill_vs_persistence": 0.0
+      },
+      "drift": {
+        "rmse": 4.423324479687427,
+        "mae": 3.1360421523216573,
+        "mape": 1.46850150026805,
+        "directional_accuracy": 0.4790322580645161,
+        "n": 621,
+        "skill_vs_persistence": -0.00029791636537068733
+      },
+      "ar5": {
+        "rmse": 4.451691624056879,
+        "mae": 3.161437250714908,
+        "mape": 1.4792006867318246,
+        "directional_accuracy": 0.4693548387096774,
+        "n": 621,
+        "skill_vs_persistence": -0.006712909327407424
+      },
+      "mean_close": 213.66325299789747
+    },
+    "BABA": {
+      "persistence": {
+        "rmse": 3.376913269028363,
+        "mae": 2.338184633116791,
+        "mape": 1.9887597339502259,
+        "directional_accuracy": null,
+        "n": 621,
+        "skill_vs_persistence": 0.0
+      },
+      "drift": {
+        "rmse": 3.3935805973216686,
+        "mae": 2.3366997538519945,
+        "mape": 1.9922075316776637,
+        "directional_accuracy": 0.5185185185185185,
+        "n": 621,
+        "skill_vs_persistence": -0.004935669638356233
+      },
+      "ar5": {
+        "rmse": 3.387284004388145,
+        "mae": 2.3408113744781867,
+        "mape": 1.9954996711653465,
+        "directional_accuracy": 0.5120772946859904,
+        "n": 621,
+        "skill_vs_persistence": -0.003071069504478441
+      },
+      "mean_close": 113.89711556304096
+    },
+    "DELL": {
+      "persistence": {
+        "rmse": 8.951588131007645,
+        "mae": 4.693157644471492,
+        "mape": 2.6865985635007283,
+        "directional_accuracy": null,
+        "n": 621,
+        "skill_vs_persistence": 0.0
+      },
+      "drift": {
+        "rmse": 8.94986027825384,
+        "mae": 4.692081977830649,
+        "mape": 2.6860461539449925,
+        "directional_accuracy": 0.5201288244766505,
+        "n": 621,
+        "skill_vs_persistence": 0.00019302192287184994
+      },
+      "ar5": {
+        "rmse": 9.067091863872509,
+        "mae": 4.765458345362234,
+        "mape": 2.7200848213149285,
+        "directional_accuracy": 0.48792270531400966,
+        "n": 621,
+        "skill_vs_persistence": -0.012903155414933254
+      },
+      "mean_close": 156.08013090419308
+    },
+    "GOOG": {
+      "persistence": {
+        "rmse": 4.79162628176843,
+        "mae": 3.2260210709871306,
+        "mape": 1.3950143788723481,
+        "directional_accuracy": null,
+        "n": 621,
+        "skill_vs_persistence": 0.0
+      },
+      "drift": {
+        "rmse": 4.78848337828952,
+        "mae": 3.2224450352490455,
+        "mape": 1.3928188059992843,
+        "directional_accuracy": 0.5403225806451613,
+        "n": 621,
+        "skill_vs_persistence": 0.0006559158194093806
+      },
+      "ar5": {
+        "rmse": 4.803451701062713,
+        "mae": 3.2324217634534516,
+        "mape": 1.3926706632522734,
+        "directional_accuracy": 0.532258064516129,
+        "n": 621,
+        "skill_vs_persistence": -0.0024679343919782326
+      },
+      "mean_close": 229.47858051785332
+    },
+    "IBM": {
+      "persistence": {
+        "rmse": 5.970881637648312,
+        "mae": 3.436514444397266,
+        "mape": 1.4355988194680696,
+        "directional_accuracy": null,
+        "n": 621,
+        "skill_vs_persistence": 0.0
+      },
+      "drift": {
+        "rmse": 5.970334002071851,
+        "mae": 3.4319559138914646,
+        "mape": 1.4335873787290152,
+        "directional_accuracy": 0.5596774193548387,
+        "n": 621,
+        "skill_vs_persistence": 9.171770765104004e-05
+      },
+      "ar5": {
+        "rmse": 5.9931039235961965,
+        "mae": 3.4278535041764946,
+        "mape": 1.4318269557105867,
+        "directional_accuracy": 0.5290322580645161,
+        "n": 621,
+        "skill_vs_persistence": -0.0037217763299419726
+      },
+      "mean_close": 232.3797132703993
+    },
+    "INTC": {
+      "persistence": {
+        "rmse": 2.549760449491426,
+        "mae": 1.3503362437569197,
+        "mape": 2.904338456260451,
+        "directional_accuracy": null,
+        "n": 621,
+        "skill_vs_persistence": 0.0
+      },
+      "drift": {
+        "rmse": 2.550429150393885,
+        "mae": 1.3501115930752707,
+        "mape": 2.9017542755771344,
+        "directional_accuracy": 0.5129449838187702,
+        "n": 621,
+        "skill_vs_persistence": -0.00026226028511522337
+      },
+      "ar5": {
+        "rmse": 2.6271453106284546,
+        "mae": 1.395273460332807,
+        "mape": 2.968898732323527,
+        "directional_accuracy": 0.47572815533980584,
+        "n": 621,
+        "skill_vs_persistence": -0.030349855474644194
+      },
+      "mean_close": 40.748778593520996
+    },
+    "META": {
+      "persistence": {
+        "rmse": 14.050560193044305,
+        "mae": 9.66470626855626,
+        "mape": 1.6130016869066934,
+        "directional_accuracy": null,
+        "n": 621,
+        "skill_vs_persistence": 0.0
+      },
+      "drift": {
+        "rmse": 14.050457458528367,
+        "mae": 9.664256703578358,
+        "mape": 1.612943987497207,
+        "directional_accuracy": 0.5161290322580645,
+        "n": 621,
+        "skill_vs_persistence": 7.3117736607564154e-06
+      },
+      "ar5": {
+        "rmse": 14.078476131915544,
+        "mae": 9.676476255054084,
+        "mape": 1.615250633853561,
+        "directional_accuracy": 0.5112903225806451,
+        "n": 621,
+        "skill_vs_persistence": -0.0019868203464983303
+      },
+      "mean_close": 606.0128978293108
+    },
+    "MSFT": {
+      "persistence": {
+        "rmse": 7.214032015582007,
+        "mae": 4.885350717246628,
+        "mape": 1.1451426988911102,
+        "directional_accuracy": null,
+        "n": 621,
+        "skill_vs_persistence": 0.0
+      },
+      "drift": {
+        "rmse": 7.2133968939813125,
+        "mae": 4.879181068204193,
+        "mape": 1.1441329741080029,
+        "directional_accuracy": 0.5249597423510467,
+        "n": 621,
+        "skill_vs_persistence": 8.803975354187976e-05
+      },
+      "ar5": {
+        "rmse": 7.313809880180531,
+        "mae": 4.995725379973873,
+        "mape": 1.1714865703367063,
+        "directional_accuracy": 0.5104669887278583,
+        "n": 621,
+        "skill_vs_persistence": -0.013831081478846707
+      },
+      "mean_close": 433.97436493951915
+    },
+    "NVDA": {
+      "persistence": {
+        "rmse": 4.217770183468164,
+        "mae": 3.1945403463022712,
+        "mape": 2.217590353524436,
+        "directional_accuracy": null,
+        "n": 621,
+        "skill_vs_persistence": 0.0
+      },
+      "drift": {
+        "rmse": 4.21564833648374,
+        "mae": 3.191940217868145,
+        "mape": 2.215863675486972,
+        "directional_accuracy": 0.5314009661835749,
+        "n": 621,
+        "skill_vs_persistence": 0.000503073162388179
+      },
+      "ar5": {
+        "rmse": 4.22337071883955,
+        "mae": 3.1912247932547255,
+        "mape": 2.2160630177343608,
+        "directional_accuracy": 0.5362318840579711,
+        "n": 621,
+        "skill_vs_persistence": -0.0013278427054506103
+      },
+      "mean_close": 152.30420523872314
+    },
+    "ORCL": {
+      "persistence": {
+        "rmse": 6.518432178533568,
+        "mae": 3.9040881539312537,
+        "mape": 2.1750805579581054,
+        "directional_accuracy": null,
+        "n": 621,
+        "skill_vs_persistence": 0.0
+      },
+      "drift": {
+        "rmse": 6.5182259639956035,
+        "mae": 3.902750864919474,
+        "mape": 2.1749460822720557,
+        "directional_accuracy": 0.5152979066022544,
+        "n": 621,
+        "skill_vs_persistence": 3.1635603825685976e-05
+      },
+      "ar5": {
+        "rmse": 6.536530878833741,
+        "mae": 3.9046400992620813,
+        "mape": 2.1781727929105457,
+        "directional_accuracy": 0.5233494363929146,
+        "n": 621,
+        "skill_vs_persistence": -0.002776541935923582
+      },
+      "mean_close": 172.29684567413085
+    },
+    "SAP": {
+      "persistence": {
+        "rmse": 4.3849472087993195,
+        "mae": 3.1322589818982105,
+        "mape": 1.4376564609700362,
+        "directional_accuracy": null,
+        "n": 621,
+        "skill_vs_persistence": 0.0
+      },
+      "drift": {
+        "rmse": 4.384619572463896,
+        "mae": 3.1317351284124504,
+        "mape": 1.4376090575227172,
+        "directional_accuracy": 0.5088566827697263,
+        "n": 621,
+        "skill_vs_persistence": 7.47184218697905e-05
+      },
+      "ar5": {
+        "rmse": 4.393259903548045,
+        "mae": 3.144892520960554,
+        "mape": 1.442998630601814,
+        "directional_accuracy": 0.47342995169082125,
+        "n": 621,
+        "skill_vs_persistence": -0.0018957342820558054
+      },
+      "mean_close": 225.2611257949313
+    },
+    "TSLA": {
+      "persistence": {
+        "rmse": 11.780886624603415,
+        "mae": 8.73217404867716,
+        "mape": 2.762534847925775,
+        "directional_accuracy": null,
+        "n": 621,
+        "skill_vs_persistence": 0.0
+      },
+      "drift": {
+        "rmse": 11.779363242662951,
+        "mae": 8.731318274909462,
+        "mape": 2.7629159884369905,
+        "directional_accuracy": 0.5072463768115942,
+        "n": 621,
+        "skill_vs_persistence": 0.00012930961726453916
+      },
+      "ar5": {
+        "rmse": 11.880984328215602,
+        "mae": 8.848695453857394,
+        "mape": 2.79978989086923,
+        "directional_accuracy": 0.47342995169082125,
+        "n": 621,
+        "skill_vs_persistence": -0.008496618871039807
+      },
+      "mean_close": 325.0817873305169
+    }
+  },
+  "pooled": {
+    "persistence": {
+      "mean_skill_vs_persistence": 0.0,
+      "median_skill_vs_persistence": 0.0,
+      "mean_mape": 1.9092748438290492,
+      "tickers_beating_persistence": 0,
+      "n_tickers": 15
+    },
+    "drift": {
+      "mean_skill_vs_persistence": -0.0001779464425513133,
+      "median_skill_vs_persistence": 8.803975354187976e-05,
+      "mean_mape": 1.9086178491808135,
+      "tickers_beating_persistence": 11,
+      "n_tickers": 15
+    },
+    "ar5": {
+      "mean_skill_vs_persistence": -0.006832536725977863,
+      "median_skill_vs_persistence": -0.003071069504478441,
+      "mean_mape": 1.922646677846685,
+      "tickers_beating_persistence": 0,
+      "n_tickers": 15
+    }
+  }
+}
