@@ -4,6 +4,7 @@
 two and a half years of held-out data, measured in dollars: **no.**
 
 📊 **[Results page →](https://ssavan99.github.io/stock-lstm-vs-persistence/)**
+· 📈 **[Live scoreboard →](https://ssavan99.github.io/stock-lstm-vs-persistence/scoreboard.html)**
 
 Next-day close prediction is a standard first deep-learning-on-finance project, and it is
 usually reported without a baseline and in normalised units — a mean absolute error of
@@ -111,6 +112,46 @@ Two things worth sitting with:
 This is why nothing here is reported in scaled units, and why the scaler is a class that
 refuses to be refitted rather than a convention to be remembered.
 
+## Live scoreboard
+
+The study above is a fixed, one-time comparison at a 1-day horizon. On top of it, this repo
+also runs a **live monthly forecast scoreboard**: [ssavan99.github.io/stock-lstm-vs-persistence/scoreboard.html](https://ssavan99.github.io/stock-lstm-vs-persistence/scoreboard.html).
+
+Each month (`scripts/run_monthly.py`, scheduled via `.github/workflows/monthly.yml`), three
+arms predict a **price range 21 trading days ahead** for the same 15 tickers:
+
+- **Persistence** — the same trivial baseline, now with an empirical interval around it.
+- **LSTM (price-only)** — the same architecture as the main study, retrained monthly on
+  rolling history, scored on prediction intervals (coverage + interval score, always reported
+  together — coverage alone is trivially gamed by a wide-enough range).
+- **LLM (optional, live-only)** — reads the last 60 closes and up to 10 recent headlines
+  (free Yahoo RSS + local FinBERT sentiment), asked for a strict-JSON price range. Skipped
+  entirely if no free API key is configured; abstains rather than fabricating a number on any
+  malformed reply.
+
+**The one rule that governs all of it:** predictions are committed to git *before* the outcome
+is knowable, then scored later as reality arrives. A separate historical **backtest** exists
+for context (`scripts/backfill_scoreboard.py`, replaying the same code path against history
+since 2022), but backtest and live rows are **never combined into one figure** — separate
+tables, separate totals, on the page and in every JSON summary. A test
+(`tests/test_integrity.py`) enforces this at the data level, and the build step
+(`scripts/build_site.py`) enforces it again at build time.
+
+Caveats, stated plainly rather than buried:
+
+- **Backtest rows are weaker evidence than live rows.** They are produced by code that already
+  knows the outcome; live rows are committed before it exists — the commit history is the
+  actual proof.
+- **The LSTM is price-only in both backtest and live**, and **the LLM arm runs live-only**.
+  The free RSS news source has no deep history, so a feature present in only some rows would
+  be dishonest — cleanest fix was to keep news out of the LSTM entirely and confine the LLM
+  arm to where headlines genuinely exist.
+- **The LLM is expected to lose to persistence.** That would be a legitimate, publishable
+  result, not a failure to fix by tuning the prompt — and the prompt was written once, not
+  iterated toward a flattering outcome.
+- **Still not advice, still not a trading system.** No costs, no slippage, no execution
+  modelled here either.
+
 ## Install and run
 
 Requires Python 3.10+. Data snapshots are committed, so no network access and no API key are
@@ -130,11 +171,19 @@ python -m scripts.run_experiment_b   # sentiment ablation, ~3 minutes
 python -m scripts.run_experiment_c   # leakage demonstration, ~10 minutes
 ```
 
-Each script prints its table and writes JSON to `results/`. To rebuild the results page from
-those files:
+Each script prints its table and writes JSON to `results/`. To rebuild the site (both pages)
+from those files:
 
 ```bash
 python -m scripts.build_site
+```
+
+The live scoreboard's own scripts (network access required — RSS, and Gemini if
+`GEMINI_API_KEY`/`GOOGLE_API_KEY` is set):
+
+```bash
+python -m scripts.backfill_scoreboard   # historical backtest, ~2 hours on CPU, run once
+python -m scripts.run_monthly --score --predict   # one live monthly cycle
 ```
 
 To refresh market data to today (extends the held-out period):
@@ -154,18 +203,25 @@ ruff check src scripts tests
 
 ```
 src/
-  data/prices.py       yfinance fetch, committed snapshot, schema
-  data/sentiment.py    sentiment aligned onto the trading calendar
-  data/splits.py       fixed-cutoff chronological splits
-  preprocessing.py     TrainOnlyScaler — fits once, on training rows
-  sequences.py         windowing, target construction, dollar inversion
-  baselines.py         persistence, drift, AR(p)
-  metrics.py           RMSE / MAE / MAPE in dollars, skill score
-  models/lstm.py       bidirectional LSTM regressor
-  train.py             training loop, early stopping, seeding
-scripts/               experiment runners and site builder
-results/               committed JSON output
-docs/                  static results page (GitHub Pages)
+  data/prices.py         yfinance fetch, committed snapshot, schema
+  data/sentiment.py      sentiment aligned onto the trading calendar (Experiment B)
+  data/news.py           free Yahoo RSS headlines, cached, never raises
+  data/finbert.py        local FinBERT sentiment scoring
+  data/splits.py         fixed-cutoff chronological splits
+  preprocessing.py       TrainOnlyScaler — fits once, on training rows
+  sequences.py           windowing, target construction, dollar inversion, horizons
+  intervals.py           empirical residual-quantile prediction intervals
+  baselines.py           persistence, drift, AR(p)
+  metrics.py             RMSE / MAE / MAPE / coverage / interval score, skill score
+  models/lstm.py         bidirectional LSTM regressor
+  models/llm_forecaster.py   optional LLM arm — Gemini, strict parsing, cached, live-only
+  train.py                training loop, early stopping, seeding
+  rolling.py              the scoreboard's forecast engine — one code path for backtest and live
+scripts/                 experiment runners, backfill/monthly scoreboard runners, site builder
+results/                 committed JSON output (experiments + scoreboard ledgers)
+data/news_cache/         cached RSS headlines
+data/llm_cache/          cached LLM responses
+docs/                    static site (GitHub Pages): results page + live scoreboard page
 ```
 
 ## Limitations
@@ -178,7 +234,8 @@ docs/                  static results page (GitHub Pages)
 - **No hyperparameter search.** One configuration, chosen up front and held fixed across arms
   so the comparisons stay attributable. A tuned model might close some of the return arm's
   0.7% gap; nothing suggests it would close the level arm's.
-- **Point forecasts only.** No uncertainty intervals.
+- **Point forecasts only** in this main study. (The live scoreboard above does report
+  intervals, at a different horizon and on a different code path — see that section.)
 - **Not a trading system and not advice.** No costs, slippage, sizing or execution — nothing
   here was backtested as a strategy.
 
