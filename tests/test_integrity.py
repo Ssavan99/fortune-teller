@@ -22,7 +22,7 @@ SCOREBOARD_JSON = REPO_ROOT / "docs" / "data" / "scoreboard.json"
 
 LEDGER_FIELDS = {
     "as_of", "target_date", "symbol", "model", "point", "lo", "hi",
-    "level", "actual", "covered", "abs_error", "mode", "created_utc",
+    "level", "actual", "covered", "abs_error", "mode", "created_utc", "interval_method",
 }
 
 

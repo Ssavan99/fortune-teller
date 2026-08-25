@@ -1,0 +1,440 @@
+{
+  "by_model": [
+    {
+      "model": "lstm",
+      "n": 825,
+      "coverage": 0.673939393939394,
+      "mean_width": 51.18822069284121,
+      "oracle_width_for_level": 55.89348981446747,
+      "width_ratio": 0.9158172242018722
+    },
+    {
+      "model": "persistence",
+      "n": 825,
+      "coverage": 0.6775757575757576,
+      "mean_width": 53.214056459372145,
+      "oracle_width_for_level": 53.63712158203127,
+      "width_ratio": 0.9921124566311393
+    }
+  ],
+  "by_ticker": [
+    {
+      "model": "lstm",
+      "symbol": "AAPL",
+      "n": 55,
+      "coverage": 0.6545454545454545,
+      "mean_width": 32.480960255935685,
+      "oracle_width_for_level": 38.93594744500646,
+      "width_ratio": 0.8342152275044066
+    },
+    {
+      "model": "lstm",
+      "symbol": "ADBE",
+      "n": 55,
+      "coverage": 0.6363636363636364,
+      "mean_width": 101.73632772771961,
+      "oracle_width_for_level": 135.54152586064592,
+      "width_ratio": 0.7505915776122929
+    },
+    {
+      "model": "lstm",
+      "symbol": "AMD",
+      "n": 55,
+      "coverage": 0.6545454545454545,
+      "mean_width": 65.68440083541998,
+      "oracle_width_for_level": 59.860331324965216,
+      "width_ratio": 1.0972943079589301
+    },
+    {
+      "model": "lstm",
+      "symbol": "AMZN",
+      "n": 55,
+      "coverage": 0.7272727272727273,
+      "mean_width": 35.82641407214111,
+      "oracle_width_for_level": 46.406609853251666,
+      "width_ratio": 0.772011017082102
+    },
+    {
+      "model": "lstm",
+      "symbol": "BABA",
+      "n": 55,
+      "coverage": 0.6909090909090909,
+      "mean_width": 36.368313561425325,
+      "oracle_width_for_level": 40.26209581142368,
+      "width_ratio": 0.9032891315882876
+    },
+    {
+      "model": "lstm",
+      "symbol": "DELL",
+      "n": 55,
+      "coverage": 0.6909090909090909,
+      "mean_width": 35.39852415415788,
+      "oracle_width_for_level": 38.879440765279554,
+      "width_ratio": 0.9104689639921408
+    },
+    {
+      "model": "lstm",
+      "symbol": "GOOG",
+      "n": 55,
+      "coverage": 0.6545454545454545,
+      "mean_width": 33.39466656038529,
+      "oracle_width_for_level": 33.86207729505097,
+      "width_ratio": 0.9861966313940818
+    },
+    {
+      "model": "lstm",
+      "symbol": "IBM",
+      "n": 55,
+      "coverage": 0.7090909090909091,
+      "mean_width": 34.59786799736338,
+      "oracle_width_for_level": 47.373326530411624,
+      "width_ratio": 0.7303238031036948
+    },
+    {
+      "model": "lstm",
+      "symbol": "INTC",
+      "n": 55,
+      "coverage": 0.6909090909090909,
+      "mean_width": 13.78011223454526,
+      "oracle_width_for_level": 15.006144791582,
+      "width_ratio": 0.918297965662406
+    },
+    {
+      "model": "lstm",
+      "symbol": "META",
+      "n": 55,
+      "coverage": 0.6909090909090909,
+      "mean_width": 104.94483692181052,
+      "oracle_width_for_level": 102.97446779905545,
+      "width_ratio": 1.0191345404824044
+    },
+    {
+      "model": "lstm",
+      "symbol": "MSFT",
+      "n": 55,
+      "coverage": 0.6181818181818182,
+      "mean_width": 56.424797030501615,
+      "oracle_width_for_level": 66.84086494080411,
+      "width_ratio": 0.8441661711061457
+    },
+    {
+      "model": "lstm",
+      "symbol": "NVDA",
+      "n": 55,
+      "coverage": 0.6727272727272727,
+      "mean_width": 27.202380488687833,
+      "oracle_width_for_level": 30.829806890592344,
+      "width_ratio": 0.8823402814432998
+    },
+    {
+      "model": "lstm",
+      "symbol": "ORCL",
+      "n": 55,
+      "coverage": 0.6,
+      "mean_width": 37.788160372562736,
+      "oracle_width_for_level": 41.50988452377849,
+      "width_ratio": 0.9103412550067731
+    },
+    {
+      "model": "lstm",
+      "symbol": "SAP",
+      "n": 55,
+      "coverage": 0.7090909090909091,
+      "mean_width": 28.626175943006952,
+      "oracle_width_for_level": 37.67223643403837,
+      "width_ratio": 0.7598746093327781
+    },
+    {
+      "model": "lstm",
+      "symbol": "TSLA",
+      "n": 55,
+      "coverage": 0.7090909090909091,
+      "mean_width": 123.569372236955,
+      "oracle_width_for_level": 107.6615785886786,
+      "width_ratio": 1.147757388074832
+    },
+    {
+      "model": "persistence",
+      "symbol": "AAPL",
+      "n": 55,
+      "coverage": 0.6363636363636364,
+      "mean_width": 35.24168755985492,
+      "oracle_width_for_level": 37.51723022460938,
+      "width_ratio": 0.9393467307919277
+    },
+    {
+      "model": "persistence",
+      "symbol": "ADBE",
+      "n": 55,
+      "coverage": 0.6909090909090909,
+      "mean_width": 105.87684735512147,
+      "oracle_width_for_level": 110.13199462890626,
+      "width_ratio": 0.9613632052327513
+    },
+    {
+      "model": "persistence",
+      "symbol": "AMD",
+      "n": 55,
+      "coverage": 0.6727272727272727,
+      "mean_width": 67.12884599450992,
+      "oracle_width_for_level": 56.23599243164065,
+      "width_ratio": 1.1936989655888157
+    },
+    {
+      "model": "persistence",
+      "symbol": "AMZN",
+      "n": 55,
+      "coverage": 0.7090909090909091,
+      "mean_width": 37.45303771108673,
+      "oracle_width_for_level": 41.40399475097661,
+      "width_ratio": 0.9045754627384913
+    },
+    {
+      "model": "persistence",
+      "symbol": "BABA",
+      "n": 55,
+      "coverage": 0.7090909090909091,
+      "mean_width": 37.50521068914947,
+      "oracle_width_for_level": 39.228369140625006,
+      "width_ratio": 0.9560736658386589
+    },
+    {
+      "model": "persistence",
+      "symbol": "DELL",
+      "n": 55,
+      "coverage": 0.7090909090909091,
+      "mean_width": 35.77184345728529,
+      "oracle_width_for_level": 38.446975708007805,
+      "width_ratio": 0.9304202163769846
+    },
+    {
+      "model": "persistence",
+      "symbol": "GOOG",
+      "n": 55,
+      "coverage": 0.6,
+      "mean_width": 34.74432019882053,
+      "oracle_width_for_level": 40.306689453125,
+      "width_ratio": 0.8619988560267825
+    },
+    {
+      "model": "persistence",
+      "symbol": "IBM",
+      "n": 55,
+      "coverage": 0.7090909090909091,
+      "mean_width": 36.384360060803054,
+      "oracle_width_for_level": 36.5973999023437,
+      "width_ratio": 0.9941788257605971
+    },
+    {
+      "model": "persistence",
+      "symbol": "INTC",
+      "n": 55,
+      "coverage": 0.6909090909090909,
+      "mean_width": 14.23786868635151,
+      "oracle_width_for_level": 13.394647216796889,
+      "width_ratio": 1.0629521222848797
+    },
+    {
+      "model": "persistence",
+      "symbol": "META",
+      "n": 55,
+      "coverage": 0.6909090909090909,
+      "mean_width": 107.68411038756977,
+      "oracle_width_for_level": 99.32285156250002,
+      "width_ratio": 1.08418262961176
+    },
+    {
+      "model": "persistence",
+      "symbol": "MSFT",
+      "n": 55,
+      "coverage": 0.6181818181818182,
+      "mean_width": 58.957626387904334,
+      "oracle_width_for_level": 56.337731933593766,
+      "width_ratio": 1.0465033710870484
+    },
+    {
+      "model": "persistence",
+      "symbol": "NVDA",
+      "n": 55,
+      "coverage": 0.6727272727272727,
+      "mean_width": 27.908527424004653,
+      "oracle_width_for_level": 35.42802124023436,
+      "width_ratio": 0.7877529268360582
+    },
+    {
+      "model": "persistence",
+      "symbol": "ORCL",
+      "n": 55,
+      "coverage": 0.6181818181818182,
+      "mean_width": 39.14825184711117,
+      "oracle_width_for_level": 49.29083862304688,
+      "width_ratio": 0.794229778610556
+    },
+    {
+      "model": "persistence",
+      "symbol": "SAP",
+      "n": 55,
+      "coverage": 0.7636363636363637,
+      "mean_width": 29.24644407686342,
+      "oracle_width_for_level": 31.908111572265625,
+      "width_ratio": 0.9165833587683793
+    },
+    {
+      "model": "persistence",
+      "symbol": "TSLA",
+      "n": 55,
+      "coverage": 0.6727272727272727,
+      "mean_width": 130.921865054146,
+      "oracle_width_for_level": 116.44400329589843,
+      "width_ratio": 1.1243332533102417
+    }
+  ],
+  "by_year": [
+    {
+      "model": "lstm",
+      "year": 2022,
+      "n": 180,
+      "coverage": 0.6111111111111112,
+      "mean_width": 35.216311142953074,
+      "oracle_width_for_level": 42.07822298432643,
+      "width_ratio": 0.8369248662442488
+    },
+    {
+      "model": "lstm",
+      "year": 2023,
+      "n": 180,
+      "coverage": 0.7611111111111111,
+      "mean_width": 41.54891012374973,
+      "oracle_width_for_level": 40.33484245469959,
+      "width_ratio": 1.0300997250804604
+    },
+    {
+      "model": "lstm",
+      "year": 2024,
+      "n": 180,
+      "coverage": 0.7,
+      "mean_width": 44.92013387118943,
+      "oracle_width_for_level": 52.48186020073501,
+      "width_ratio": 0.8559173340917577
+    },
+    {
+      "model": "lstm",
+      "year": 2025,
+      "n": 180,
+      "coverage": 0.7222222222222222,
+      "mean_width": 68.2014778716441,
+      "oracle_width_for_level": 60.005125229334645,
+      "width_ratio": 1.1365942094276726
+    },
+    {
+      "model": "lstm",
+      "year": 2026,
+      "n": 105,
+      "coverage": 0.5047619047619047,
+      "mean_width": 76.67287742740437,
+      "oracle_width_for_level": 101.60019526487372,
+      "width_ratio": 0.7546528550217514
+    },
+    {
+      "model": "persistence",
+      "year": 2022,
+      "n": 180,
+      "coverage": 0.6388888888888888,
+      "mean_width": 37.948906050536706,
+      "oracle_width_for_level": 41.45199890136713,
+      "width_ratio": 0.915490375767744
+    },
+    {
+      "model": "persistence",
+      "year": 2023,
+      "n": 180,
+      "coverage": 0.7666666666666667,
+      "mean_width": 44.466719370366185,
+      "oracle_width_for_level": 38.37131652832031,
+      "width_ratio": 1.1588531067873866
+    },
+    {
+      "model": "persistence",
+      "year": 2024,
+      "n": 180,
+      "coverage": 0.7,
+      "mean_width": 45.83549096824134,
+      "oracle_width_for_level": 48.792016601562466,
+      "width_ratio": 0.9394055454304291
+    },
+    {
+      "model": "persistence",
+      "year": 2025,
+      "n": 180,
+      "coverage": 0.7055555555555556,
+      "mean_width": 69.72060888464688,
+      "oracle_width_for_level": 54.64342041015624,
+      "width_ratio": 1.2759195592318437
+    },
+    {
+      "model": "persistence",
+      "year": 2026,
+      "n": 105,
+      "coverage": 0.5047619047619047,
+      "mean_width": 78.73034313999642,
+      "oracle_width_for_level": 107.30885620117189,
+      "width_ratio": 0.7336798278084398
+    }
+  ],
+  "by_vol_regime": [
+    {
+      "model": "lstm",
+      "vol_regime": "low",
+      "n": 275,
+      "coverage": 0.6690909090909091,
+      "mean_width": 43.323713752320316,
+      "oracle_width_for_level": 49.31828718298283,
+      "width_ratio": 0.8784513053257266
+    },
+    {
+      "model": "lstm",
+      "vol_regime": "mid",
+      "n": 275,
+      "coverage": 0.6763636363636364,
+      "mean_width": 46.27395484584969,
+      "oracle_width_for_level": 53.64721204480318,
+      "width_ratio": 0.862560291245037
+    },
+    {
+      "model": "lstm",
+      "vol_regime": "high",
+      "n": 275,
+      "coverage": 0.6763636363636364,
+      "mean_width": 63.966993480353636,
+      "oracle_width_for_level": 66.8449251409267,
+      "width_ratio": 0.9569461458067964
+    },
+    {
+      "model": "persistence",
+      "vol_regime": "low",
+      "n": 275,
+      "coverage": 0.6690909090909091,
+      "mean_width": 45.043370564844096,
+      "oracle_width_for_level": 47.141455078125,
+      "width_ratio": 0.9554938533440713
+    },
+    {
+      "model": "persistence",
+      "vol_regime": "mid",
+      "n": 275,
+      "coverage": 0.6872727272727273,
+      "mean_width": 48.313541773818926,
+      "oracle_width_for_level": 51.86230468750002,
+      "width_ratio": 0.9315733665315412
+    },
+    {
+      "model": "persistence",
+      "vol_regime": "high",
+      "n": 275,
+      "coverage": 0.6763636363636364,
+      "mean_width": 66.28525703945343,
+      "oracle_width_for_level": 66.0014526367188,
+      "width_ratio": 1.004299972067232
+    }
+  ]
+}

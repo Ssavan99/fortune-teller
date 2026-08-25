@@ -47,6 +47,11 @@ LEDGER = REPO_ROOT / "results" / "scoreboard_live.json"
 
 HORIZON = 21
 SEED = 20260822
+# The production interval method for new live predictions. See model-improvement_PLAN.md
+# Phase E for how this is chosen — it is set once, after the full backfill re-run, not tuned
+# live. Rows predicted before this was updated keep their own `interval_method`; this constant
+# only governs rows predicted from here forward.
+METHOD = "quantile"
 
 
 def _load_ledger(path: Path) -> list[dict]:
@@ -115,6 +120,7 @@ def _llm_records(
                 "covered": None,
                 "abs_error": None,
                 "created_utc": created_utc,
+                "interval_method": None,  # the LLM's range isn't a quantile/conformal method
             }
         )
     return records
@@ -134,7 +140,7 @@ def predict(
         return
 
     kwargs = {"train_config_overrides": train_config_overrides} if train_config_overrides else {}
-    records = rolling.run_cycle(df, as_of, horizon=HORIZON, seed=SEED, **kwargs)
+    records = rolling.run_cycle(df, as_of, horizon=HORIZON, seed=SEED, method=METHOD, **kwargs)
     rolling.stamp_mode(records, "live")
 
     target_date = rolling.target_date_for(df, as_of, HORIZON)

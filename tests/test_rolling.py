@@ -101,7 +101,7 @@ class TestRecordShape:
     def test_schema_is_exactly_as_specified(self, records):
         expected_fields = {
             "as_of", "target_date", "symbol", "model", "point", "lo", "hi",
-            "level", "actual", "covered", "abs_error", "created_utc",
+            "level", "actual", "covered", "abs_error", "created_utc", "interval_method",
         }
         for r in records:
             assert set(r.keys()) == expected_fields
@@ -234,3 +234,79 @@ class TestScoreRecord:
         assert result["actual"] is not None  # the real close is still known and recorded
         assert result["covered"] is None
         assert result["abs_error"] is None
+
+
+class TestIntervalMethods:
+    def test_rejects_an_unknown_method(self, df):
+        with pytest.raises(ValueError, match="method must be one of"):
+            rolling.run_cycle(
+                df, AS_OF, horizon=HORIZON, seed=1, train_config_overrides=FAST,
+                method="not_a_real_method",
+            )
+
+    def test_default_method_is_quantile_and_is_stamped(self, records):
+        assert all(r["interval_method"] == "quantile" for r in records)
+
+    def test_conformal_method_runs_and_is_stamped(self, df):
+        records = rolling.run_cycle(
+            df, AS_OF, horizon=HORIZON, seed=1, train_config_overrides=FAST, method="conformal"
+        )
+        assert len(records) == 30  # 15 tickers x 2 models
+        assert all(r["interval_method"] == "conformal" for r in records)
+        assert all(r["lo"] < r["hi"] for r in records)
+
+    def test_conformal_method_produces_symmetric_intervals(self, df):
+        """Split-conformal here is symmetric by construction (score = |error|/prev_close) —
+        unlike the asymmetric quantile method, lo and hi must be equidistant from point."""
+        records = rolling.run_cycle(
+            df, AS_OF, horizon=HORIZON, seed=1, train_config_overrides=FAST, method="conformal"
+        )
+        for r in records:
+            assert (r["point"] - r["lo"]) == pytest.approx(r["hi"] - r["point"], rel=1e-6)
+
+    def test_conformal_ewma_method_runs_and_is_stamped(self, df):
+        records = rolling.run_cycle(
+            df, AS_OF, horizon=HORIZON, seed=1, train_config_overrides=FAST,
+            method="conformal_ewma",
+        )
+        assert len(records) == 30
+        assert all(r["interval_method"] == "conformal_ewma" for r in records)
+        assert all(r["lo"] < r["hi"] for r in records)
+
+    def test_conformal_ewma_intervals_differ_by_ticker_volatility(self, df):
+        """The whole point of the adaptive method: two tickers with very different current
+        volatility must NOT get the same interval width, unlike the pooled non-adaptive
+        conformal method (which gives every symbol the same width for the same point spread)."""
+        records = rolling.run_cycle(
+            df, AS_OF, horizon=HORIZON, seed=1, train_config_overrides=FAST,
+            method="conformal_ewma",
+        )
+        # persistence's point IS prev_close exactly, so this is the relative interval width.
+        widths = {
+            r["symbol"]: (r["hi"] - r["lo"]) / r["point"]
+            for r in records if r["model"] == "persistence"
+        }
+        assert len(set(round(w, 6) for w in widths.values())) > 1
+
+
+class TestVolHatHelpers:
+    def test_anchor_dates_are_exactly_horizon_sessions_before_target(self):
+        import numpy as np
+
+        dates = pd.bdate_range("2021-01-04", periods=100).to_numpy()
+        target_dates = dates[50:55]
+        anchors = rolling._anchor_dates(dates, target_dates, horizon=21)
+        expected = dates[50 - 21 : 55 - 21]
+        assert np.array_equal(anchors, expected)
+
+    def test_live_vol_hat_falls_back_to_median_for_a_thin_symbol(self, df):
+        history = df[df["date"] < AS_OF]
+        # A symbol with almost no history should fall back rather than leave a NaN.
+        thin = history[history["symbol"] == "AAPL"].tail(2)
+        rest = history[history["symbol"] != "AAPL"]
+        synthetic_history = pd.concat([thin, rest], ignore_index=True)
+
+        result = rolling._live_vol_hat(synthetic_history, ["AAPL", "MSFT"], horizon=HORIZON)
+        assert all(v == v for v in result.values())  # no NaNs survive
+        other_vals = [v for k, v in result.items() if k != "AAPL"]
+        assert result["AAPL"] == pytest.approx(sorted(other_vals)[len(other_vals) // 2])

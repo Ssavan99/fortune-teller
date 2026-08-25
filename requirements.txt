@@ -12,6 +12,10 @@ matplotlib>=3.7
 feedparser>=6.0
 transformers>=4.40
 
+# Interval calibration: split-conformal prediction and volatility scaling.
+# arch is free/open-source (no key, no quota) — used for optional GARCH(1,1) volatility.
+arch>=6.3
+
 # Development
 pytest>=7.4
 ruff>=0.5
