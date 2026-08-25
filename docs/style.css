@@ -61,6 +61,7 @@ h1 {
 }
 
 .lede { margin: 0 0 28px; font-size: 17px; color: var(--muted); max-width: 62ch; }
+.cross-link { margin-top: 14px; }
 
 .answer {
   background: var(--bg);
@@ -149,6 +150,75 @@ tfoot td { font-weight: 600; border-top: 2px solid var(--line); border-bottom: n
   font-size: 13.5px;
   line-height: 1.6;
 }
+
+.badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 999px;
+  vertical-align: middle;
+  margin-left: 8px;
+}
+.badge-live {
+  color: var(--good);
+  background: color-mix(in srgb, var(--good) 16%, transparent);
+  border: 1px solid color-mix(in srgb, var(--good) 40%, transparent);
+}
+.badge-backtest {
+  color: var(--muted);
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+}
+
+.muted-panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 20px 24px 8px;
+}
+.muted-panel h2 { border-bottom-color: transparent; }
+.muted-panel .grid .card { background: var(--surface-2); }
+
+.stat-empty { color: var(--muted); font-style: italic; font-size: 14px; }
+
+.chart-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+  margin: 14px 0;
+}
+.chart-controls label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.chart-controls select {
+  font: inherit;
+  font-size: 14.5px;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 7px 10px;
+  min-height: 36px;
+}
+
+.chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin: 4px 0 12px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.chart-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.chart-legend .swatch { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
 
 footer {
   border-top: 1px solid var(--line);
