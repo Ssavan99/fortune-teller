@@ -3,9 +3,9 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "stock-lstm-vs-persistence"
+name = "fortune-teller"
 version = "0.1.0"
-description = "Does an LSTM beat a persistence baseline at next-day close prediction?"
+description = "A public scoreboard of how badly stock forecasting actually works."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { file = "LICENSE" }
