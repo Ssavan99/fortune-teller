@@ -51,7 +51,13 @@ SEED = 20260822
 # Phase E for how this is chosen — it is set once, after the full backfill re-run, not tuned
 # live. Rows predicted before this was updated keep their own `interval_method`; this constant
 # only governs rows predicted from here forward.
-METHOD = "quantile"
+#
+# "conformal_ewma" replaced the original "quantile" method on 2026-08-26: the real 55-cycle
+# backfill re-run confirmed it fixes calibration (coverage 67-68% -> 77.7%/79.8% against the
+# 80% nominal target, both now inside the pre-registered 76-84% band) while also *improving*
+# interval score (not just widening intervals to buy coverage). See
+# model-improvement_PLAN.md Phase A for the full before/after numbers.
+METHOD = "conformal_ewma"
 
 
 def _load_ledger(path: Path) -> list[dict]:
