@@ -1,5 +1,5 @@
 {
-  "config": "fast",
+  "config": "full",
   "as_of_dates": [
     "2022-09-01",
     "2023-09-01",
@@ -7,28 +7,28 @@
     "2025-09-01"
   ],
   "n_groups_tried": 3,
-  "mean_baseline_val_rmse": 24.492216774831782,
+  "mean_baseline_val_rmse": 24.698027847339965,
   "groups": {
     "technical": {
       "n_as_of_dates": 4,
-      "mean_val_rmse": 24.82424118790745,
-      "mean_baseline_val_rmse": 24.492216774831782,
-      "skill_vs_baseline": -0.013556323469129827,
-      "helped": false
+      "mean_val_rmse": 24.56923290161007,
+      "mean_baseline_val_rmse": 24.698027847339965,
+      "skill_vs_baseline": 0.005214786643127245,
+      "helped": true
     },
     "cross_sectional": {
       "n_as_of_dates": 4,
-      "mean_val_rmse": 24.419656016240957,
-      "mean_baseline_val_rmse": 24.492216774831782,
-      "skill_vs_baseline": 0.0029626047841201375,
+      "mean_val_rmse": 24.67953949816544,
+      "mean_baseline_val_rmse": 24.698027847339965,
+      "skill_vs_baseline": 0.0007485759303861306,
       "helped": true
     },
     "calendar": {
       "n_as_of_dates": 4,
-      "mean_val_rmse": 24.563763673723958,
-      "mean_baseline_val_rmse": 24.492216774831782,
-      "skill_vs_baseline": -0.0029212096050732494,
-      "helped": false
+      "mean_val_rmse": 24.357349738831847,
+      "mean_baseline_val_rmse": 24.698027847339965,
+      "skill_vs_baseline": 0.013793737322423949,
+      "helped": true
     }
   }
 }
