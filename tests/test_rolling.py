@@ -169,6 +169,16 @@ class TestAsOfNormalization:
             assert m[key]["target_date"] == t[key]["target_date"]
 
 
+class TestTargetDateHolidayAwareness:
+    def test_live_fallback_skips_us_federal_holidays(self):
+        """A plain pd.bdate_range would count Labor Day as a trading session and land the
+        21st-session target one day early. Empty prices_df (no future rows) forces the
+        live-fallback branch."""
+        empty = pd.DataFrame({"date": pd.Series([], dtype="datetime64[ns]")})
+        target = rolling.target_date_for(empty, pd.Timestamp("2026-08-25"), 21)
+        assert target == pd.Timestamp("2026-09-23")  # not 2026-09-22 (plain bdate_range)
+
+
 class TestScoreRecord:
     def test_fills_matured_predictions(self, df, records):
         # target_date=2023-06-30 has long since passed in a snapshot running to 2026.
@@ -211,3 +221,16 @@ class TestScoreRecord:
         for r in scored:
             expected = r["lo"] <= r["actual"] <= r["hi"]
             assert r["covered"] == expected
+
+    def test_a_matured_abstention_gets_actual_but_no_coverage_verdict(self, df):
+        """An LLM abstention has point/lo/hi = None — no numeric claim to check. Scoring it
+        must not raise on `None <= actual`, and must not fabricate a verdict."""
+        abstained = {
+            "as_of": "2023-06-01", "target_date": "2023-06-30", "symbol": "AAPL",
+            "model": "llm", "point": None, "lo": None, "hi": None, "level": None,
+            "actual": None, "covered": None, "abs_error": None, "created_utc": "x",
+        }
+        result = rolling.score_record(abstained, df)
+        assert result["actual"] is not None  # the real close is still known and recorded
+        assert result["covered"] is None
+        assert result["abs_error"] is None

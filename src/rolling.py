@@ -26,6 +26,8 @@ from dataclasses import dataclass
 import numpy as np
 import pandas as pd
 import torch
+from pandas.tseries.holiday import USFederalHolidayCalendar
+from pandas.tseries.offsets import CustomBusinessDay
 
 from src import intervals, sequences
 from src.preprocessing import fit_on_train
@@ -33,6 +35,7 @@ from src.train import TrainConfig, predict, train
 
 LOOKBACK = 20
 LEVEL = 0.80
+_US_BUSINESS_DAY = CustomBusinessDay(calendar=USFederalHolidayCalendar())
 VAL_MONTHS = 6
 
 VALID_MODES = ("backtest", "live")
@@ -79,9 +82,13 @@ def target_date_for(prices_df: pd.DataFrame, as_of: pd.Timestamp, horizon: int) 
     A backfill run already has the future in ``prices_df`` — it is replaying real history — so
     the exact trading calendar is used: the ``horizon``-th actual trading date at or after
     ``as_of``. A live run does not have that, since the future has not happened yet, so this
-    falls back to a business-day approximation, which can land a session or two off around a
-    holiday. That costs nothing: scoring (Phase 5) locates the nearest actual close on or after
-    this date rather than requiring an exact match.
+    falls back to a US-federal-holiday-aware business-day approximation
+    (:data:`_US_BUSINESS_DAY`) rather than a plain ``pd.bdate_range``, which would silently
+    count bank holidays as trading sessions and land the target a session early — e.g. Labor
+    Day 2026 pushes the true 21st session from 2026-09-22 to 2026-09-23. This still is not the
+    exact NYSE calendar (it doesn't know about market-only closures like Good Friday), so it
+    can still land a session off in rare cases — that costs nothing, since scoring (Phase 5)
+    locates the nearest actual close on or after this date rather than requiring an exact match.
 
     ``as_of`` is normalized to midnight for the same reason :func:`run_cycle` does it: a
     caller-supplied timestamp with a nonzero time-of-day would otherwise pull that same
@@ -92,7 +99,7 @@ def target_date_for(prices_df: pd.DataFrame, as_of: pd.Timestamp, horizon: int) 
     future_dates = sorted(pd.Series(future.unique()))
     if len(future_dates) >= horizon:
         return pd.Timestamp(future_dates[horizon - 1])
-    return pd.bdate_range(start=as_of, periods=horizon)[-1]
+    return pd.bdate_range(start=as_of, periods=horizon, freq=_US_BUSINESS_DAY)[-1]
 
 
 def _final_window_predictions(
@@ -278,6 +285,14 @@ def score_record(record: dict, prices_df: pd.DataFrame) -> dict:
     actual = float(candidates.sort_values("date").iloc[0]["close"])
     out = dict(record)
     out["actual"] = actual
-    out["covered"] = bool(record["lo"] <= actual <= record["hi"])
-    out["abs_error"] = float(abs(actual - record["point"]))
+    # An LLM abstention has point/lo/hi = None: no numeric claim was made, so there is nothing
+    # to check coverage or error against. Recording the actual price is still useful context —
+    # but covered/abs_error must stay None rather than raise on `None <= actual` or silently
+    # coerce None into 0.
+    if record["lo"] is None or record["hi"] is None or record["point"] is None:
+        out["covered"] = None
+        out["abs_error"] = None
+    else:
+        out["covered"] = bool(record["lo"] <= actual <= record["hi"])
+        out["abs_error"] = float(abs(actual - record["point"]))
     return out

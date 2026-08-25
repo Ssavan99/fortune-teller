@@ -29,6 +29,13 @@ jobs:
           pip install torch --index-url https://download.pytorch.org/whl/cpu
           pip install -r requirements.txt
 
+      - name: Refresh price data
+        # Without this, prices.load() keeps reading whatever snapshot was committed at the
+        # time this workflow file was merged, forever: every future cycle would train on the
+        # same stale cutoff, and --score could never find an actual close for any target date
+        # past it. This is the one step in the whole pipeline that MUST hit the network.
+        run: python -m src.data.prices --refresh
+
       - name: Score matured predictions and add this month's
         # GEMINI_API_KEY is optional — src.models.llm_forecaster.is_available() skips the LLM
         # arm cleanly (an empty list of records, not an error) when the secret is unset.

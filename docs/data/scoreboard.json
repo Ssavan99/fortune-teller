@@ -1,5 +1,5 @@
 {
-  "generated_utc": "2026-08-25T07:15:48.636688+00:00",
+  "generated_utc": "2026-08-25T07:41:35.958051+00:00",
   "horizon_days": 21,
   "level": 0.8,
   "tickers": [
@@ -744,21 +744,25 @@
   "live_summary": {
     "llm": {
       "n": 15,
-      "n_scored": 0
+      "n_scored": 0,
+      "n_abstained": 0
     },
     "lstm": {
       "n": 15,
-      "n_scored": 0
+      "n_scored": 0,
+      "n_abstained": 0
     },
     "persistence": {
       "n": 15,
-      "n_scored": 0
+      "n_scored": 0,
+      "n_abstained": 0
     }
   },
   "backtest_summary": {
     "lstm": {
       "n": 825,
       "n_scored": 825,
+      "n_abstained": 0,
       "coverage": 0.673939393939394,
       "mean_interval_width": 51.18822069284121,
       "mean_abs_error": 18.898651277287698,
@@ -767,6 +771,7 @@
     "persistence": {
       "n": 825,
       "n_scored": 825,
+      "n_abstained": 0,
       "coverage": 0.6775757575757576,
       "mean_interval_width": 53.214056459372145,
       "mean_abs_error": 18.340169690450033,

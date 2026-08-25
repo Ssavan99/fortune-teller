@@ -92,10 +92,19 @@ class TestLedgerSchema:
 
     def test_null_fields_are_null_not_missing_or_stringified(self):
         """actual/covered/abs_error must be exactly None when unscored — never "null" the
-        string, never 0, never absent."""
+        string, never 0, never absent.
+
+        A matured LLM abstention (point/lo/hi all None — no numeric claim was made) is the one
+        case where `actual` is known but `covered`/`abs_error` stay None too: there is no
+        prediction to check coverage or error against. Every other scored row must have both
+        as real values.
+        """
         for path in (BACKTEST_FILE, LIVE_FILE):
             for record in _records(path):
                 if record["actual"] is None:
+                    assert record["covered"] is None
+                    assert record["abs_error"] is None
+                elif record["lo"] is None:
                     assert record["covered"] is None
                     assert record["abs_error"] is None
                 else:

@@ -87,11 +87,19 @@ function tickerChart(node, records, model) {
   const xMin = Math.min(...xs), xMax = Math.max(...xs);
   const xSpan = Math.max(xMax - xMin, 1);
 
+  /* An LLM abstention has lo/hi/point = null (no numeric claim was made) — it must not
+     contribute to the price scale or draw a fabricated band around $0. */
   const values = [];
   rows.forEach((r) => {
-    values.push(r.lo, r.hi);
+    if (r.lo != null) values.push(r.lo);
+    if (r.hi != null) values.push(r.hi);
     if (r.actual != null) values.push(r.actual);
   });
+  if (values.length === 0) {
+    node.appendChild(el("p", { class: "stat-empty" },
+      "No numeric predictions for this combination (all abstained)."));
+    return;
+  }
   const yMin = Math.min(...values), yMax = Math.max(...values);
   const yPad = (yMax - yMin) * 0.08 || 1;
   const yLo = yMin - yPad, yHi = yMax + yPad;
@@ -118,9 +126,9 @@ function tickerChart(node, records, model) {
     }, "$" + v.toFixed(0)));
   }
 
-  /* predicted bands */
+  /* predicted bands — abstentions (lo/hi null) draw no band at all */
   const bandW = Math.max(plotW / Math.max(rows.length, 1) * 0.6, 4);
-  rows.forEach((r) => {
+  rows.filter((r) => r.lo != null && r.hi != null).forEach((r) => {
     const cx = x(new Date(r.target_date).getTime());
     const isLive = r.mode === "live";
     svg.appendChild(el("rect", {

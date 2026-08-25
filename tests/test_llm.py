@@ -88,6 +88,25 @@ class TestParsing:
         result = llm.forecast("AAPL", "2026-08-01", closes=[100.0] * 60, headlines=[])
         assert result["abstained"] is True
 
+    def test_api_key_is_redacted_from_a_cached_error_reason(self, monkeypatch):
+        """requests.raise_for_status() embeds the request URL - key and all, since the key
+        travels as a query parameter - in the exception string. That string must never reach
+        the cached, committed abstention reason with the key still in it."""
+        key = "fake-key-for-tests"
+
+        def raising(prompt, passed_key):
+            assert passed_key == key
+            raise RuntimeError(
+                f"401 Client Error: Unauthorized for url: https://example.com/x?key={key}"
+            )
+
+        monkeypatch.setattr(llm, "_call_gemini", raising)
+        result = llm.forecast("AAPL", "2026-08-01", closes=[100.0] * 60, headlines=[])
+
+        assert result["abstained"] is True
+        assert key not in result["reason"]
+        assert "REDACTED" in result["reason"]
+
 
 class TestCaching:
     def test_cache_prevents_second_call(self, monkeypatch):

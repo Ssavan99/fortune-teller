@@ -114,12 +114,23 @@ def _abstention(reason: str) -> dict:
     return {"point": None, "lo": None, "hi": None, "reason": reason, "abstained": True}
 
 
+def _redact_key(text: str, key: str) -> str:
+    """Strip a literal API key out of arbitrary text before it can reach disk.
+
+    ``requests.Response.raise_for_status()`` puts the request URL — key and all, since the key
+    travels as a query parameter — into the exception's own string. That string is what
+    becomes the abstention's cached, committed ``reason``, so it must never carry the key
+    forward verbatim.
+    """
+    return text.replace(key, "***REDACTED***")
+
+
 def _forecast_uncached(ticker: str, closes: list[float], headlines: list[str], key: str) -> dict:
     prompt = _build_prompt(ticker, closes, headlines)
     try:
         raw_text = _call_gemini(prompt, key)
     except Exception as exc:  # noqa: BLE001 - any transport/HTTP failure becomes an abstention
-        return _abstention(f"API call failed: {exc}")
+        return _abstention(f"API call failed: {_redact_key(str(exc), key)}")
 
     parsed = _parse(raw_text)
     if parsed is None:

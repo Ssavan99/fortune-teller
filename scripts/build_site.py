@@ -85,9 +85,17 @@ def _load_records(path: Path) -> list[dict]:
 def _model_summary(records: list[dict]) -> dict:
     """Coverage, width and interval score for one (mode, model) slice — never mixed with any
     other slice. ``n_scored`` can legitimately be 0 (e.g. the live ledger's first month, before
-    anything has had 21 trading days to mature) — that is reported honestly, not hidden."""
-    scored = [r for r in records if r["actual"] is not None]
-    summary = {"n": len(records), "n_scored": len(scored)}
+    anything has had 21 trading days to mature) — that is reported honestly, not hidden.
+
+    A matured LLM abstention (``actual`` known, but ``point``/``lo``/``hi`` all ``None`` — no
+    numeric claim was ever made) is counted in ``n_abstained``, not ``n_scored``: there is no
+    prediction to check coverage or error against, so folding it into the numeric stats would
+    either crash (``None <= actual``) or silently drop it via a NaN.
+    """
+    matured = [r for r in records if r["actual"] is not None]
+    scored = [r for r in matured if r["lo"] is not None]
+    n_abstained = len(matured) - len(scored)
+    summary = {"n": len(records), "n_scored": len(scored), "n_abstained": n_abstained}
     if not scored:
         return summary
 
