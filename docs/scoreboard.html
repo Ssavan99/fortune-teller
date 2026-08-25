@@ -3,22 +3,39 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Live forecast scoreboard — LSTM vs persistence</title>
-<meta name="description" content="A monthly-updating scoreboard: persistence, an LSTM and an optional LLM predict a 21-trading-day price range for 15 tickers, scored as reality arrives. Live and backtested results are never combined.">
+<title>The Fortune Teller — Live Scoreboard</title>
+<meta name="description" content="A public scoreboard of how badly stock forecasting actually works: persistence, an LSTM and an optional LLM predict a 21-trading-day price range for 15 tickers, scored live as reality arrives. Backtest and live results are never combined.">
+<script src="theme.js"></script>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+<div class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="index.html">
+      <span class="brand-mark" aria-hidden="true">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg>
+      </span>
+      The Fortune Teller
+    </a>
+    <nav class="topnav" aria-label="Site">
+      <a href="index.html">Study</a>
+      <a href="scoreboard.html" aria-current="page">Live scoreboard</a>
+    </nav>
+    <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle theme"></button>
+  </div>
+</div>
+
 <header class="hero">
   <div class="wrap">
     <p class="eyebrow">Live monthly forecast scoreboard</p>
-    <h1>Can <span class="mono">tomorrow&nbsp;=&nbsp;today</span> be beaten, <em>live</em>?</h1>
+    <h1>A public scoreboard of how badly <span class="mono">stock&nbsp;forecasting</span> actually works</h1>
     <p class="lede">
       Each month, three arms — persistence, a price-only LSTM, and an optional LLM reading
       recent headlines — predict a price <strong>range</strong> 21 trading days out for 15
       tickers. Predictions are committed to git before the outcome exists, then scored as
-      reality arrives. This page also carries a historical backtest for context — kept in its
-      own table, never blended into the live numbers.
+      reality arrives. A separate historical backtest exists for context — kept in its own
+      table, never blended into the live numbers.
     </p>
     <div class="answer" id="answer">
       <p class="answer-label">Live track record so far</p>
@@ -29,82 +46,212 @@
 
 <main class="wrap">
 
-  <section id="open-predictions">
-    <h2>Open predictions</h2>
-    <p>
-      Forecasts already committed to git, waiting on the calendar. The commit history is the
-      proof they were made before the outcome was knowable —
-      <a id="commit-history-link" href="https://github.com/Ssavan99/stock-lstm-vs-persistence/commits/main/results/scoreboard_live.json" target="_blank" rel="noopener">see it here</a>.
-    </p>
-    <div class="tablewrap"><table id="table-open"></table></div>
-  </section>
+  <div class="tabs" role="tablist" aria-label="Scoreboard sections">
+    <button class="tab-btn" id="tab-btn-scoreboard" role="tab" aria-selected="true" aria-controls="tab-scoreboard" type="button">Scoreboard</button>
+    <button class="tab-btn" id="tab-btn-how" role="tab" aria-selected="false" aria-controls="tab-how" type="button">How it works</button>
+  </div>
 
-  <section id="live-track-record">
-    <h2>Live track record <span class="badge badge-live">committed before the outcome</span></h2>
-    <p>
-      Scored only once 21 trading days have actually passed. Coverage and interval score are
-      always shown together — coverage alone is trivially gamed by a wide-enough range.
-    </p>
-    <div class="grid" id="live-summary"></div>
-  </section>
+  <div class="tab-panel active" id="tab-scoreboard" role="tabpanel" aria-labelledby="tab-btn-scoreboard">
 
-  <section id="backtest-track-record" class="muted-panel">
-    <h2>Backtest track record <span class="badge badge-backtest">replayed history</span></h2>
-    <p class="note">
-      Produced now by replaying history the code already knows the outcome of — weaker
-      evidence than the live table above, shown for context and volume only. Never averaged
-      together with it.
-    </p>
-    <div class="grid" id="backtest-summary"></div>
-  </section>
+    <section id="open-predictions">
+      <h2>Open predictions</h2>
+      <p class="section-intro">
+        Forecasts already committed to git, waiting on the calendar — grouped by ticker so all
+        three arms' ranges can be compared at a glance. The commit history is the proof they
+        were made before the outcome was knowable —
+        <a id="commit-history-link" href="https://github.com/Ssavan99/fortune-teller/commits/main/results/scoreboard_live.json" target="_blank" rel="noopener">see it here</a>.
+      </p>
+      <div class="ticker-grid" id="ticker-grid"></div>
+    </section>
 
-  <section id="per-ticker-chart">
-    <h2>Per-ticker: actual price vs. predicted band</h2>
-    <div class="chart-controls">
-      <label for="ticker-select">Ticker</label>
-      <select id="ticker-select"></select>
-      <label for="model-select">Model</label>
-      <select id="model-select"></select>
-    </div>
-    <div id="chart-ticker" class="chart"></div>
-    <p class="note">
-      Solid line: actual closing price. Bands: predicted range at the time of forecast —
-      muted/hatched for backtest, solid accent for live. A band that misses the line is a miss;
-      width is the cost of getting it right.
-    </p>
-  </section>
+    <section id="live-track-record">
+      <h2>Live track record <span class="badge badge-live">committed before the outcome</span></h2>
+      <p class="section-intro">
+        Scored only once 21 trading days have actually passed. Coverage and interval score are
+        always shown together — coverage alone is trivially gamed by a wide-enough range.
+      </p>
+      <div class="grid" id="live-summary"></div>
+    </section>
 
-  <section class="disclaimer">
-    <h2>What this is not</h2>
-    <ul>
-      <li><strong>Not a trading system.</strong> No costs, no slippage, no execution modelled.</li>
-      <li><strong>Not investment advice.</strong> Nothing here is a recommendation to buy or sell.</li>
-      <li><strong>The LLM arm is expected to lose to persistence.</strong> It reads headlines
-        with no deep price history behind it; losing is a legitimate, publishable result, not
-        a bug to fix by tuning the prompt.</li>
-      <li><strong>Backtest rows are weaker evidence than live rows.</strong> They are produced
-        by code that already knows what happened; live rows are committed to git before the
-        outcome exists. They are never combined into one number on this page.</li>
-    </ul>
-  </section>
+    <section id="backtest-track-record" class="muted-panel">
+      <h2>Backtest track record <span class="badge badge-backtest">replayed history</span></h2>
+      <p class="section-intro">
+        Produced now by replaying history the code already knows the outcome of — weaker
+        evidence than the live table above, shown for context and volume only. Never averaged
+        together with it.
+      </p>
+      <div class="grid" id="backtest-summary"></div>
+    </section>
 
-  <section>
-    <h2>How this relates to the main study</h2>
-    <p>
-      The <a href="index.html">main results page</a> asks whether an LSTM beats persistence at
-      <strong>next-day</strong> close prediction on a fixed 2.5-year held-out period — the
-      answer there is no. This page asks a related but different question going forward:
-      whether it can beat persistence at a <strong>21-day range</strong>, scored live, month
-      over month. Same tickers, same persistence baseline, same "no lookahead" discipline —
-      different horizon, and this time the evidence keeps accumulating.
-    </p>
-  </section>
+    <section id="per-ticker-chart">
+      <h2>Per-ticker: actual price vs. predicted band</h2>
+      <div class="chart-controls">
+        <label for="ticker-select">Ticker</label>
+        <select id="ticker-select"></select>
+        <label for="model-select">Model</label>
+        <select id="model-select"></select>
+      </div>
+      <div id="chart-ticker" class="chart"></div>
+      <p class="note">
+        Solid line: actual closing price. Bands: predicted range at the time of forecast —
+        muted/hatched for backtest, solid accent for live. A band that misses the line is a
+        miss; width is the cost of getting it right.
+      </p>
+    </section>
+
+    <section class="disclaimer">
+      <h2>What this is not</h2>
+      <ul>
+        <li><strong>Not a trading system.</strong> No costs, no slippage, no execution modelled.</li>
+        <li><strong>Not investment advice.</strong> Nothing here is a recommendation to buy or sell.</li>
+        <li><strong>The LLM arm is expected to lose to persistence.</strong> It reads headlines
+          with no deep price history behind it; losing is a legitimate, publishable result, not
+          a bug to fix by tuning the prompt.</li>
+        <li><strong>Backtest rows are weaker evidence than live rows.</strong> They are produced
+          by code that already knows what happened; live rows are committed to git before the
+          outcome exists. They are never combined into one number on this page.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>How this relates to the main study</h2>
+      <p>
+        The <a href="index.html">main results page</a> asks whether an LSTM beats persistence at
+        <strong>next-day</strong> close prediction on a fixed 2.5-year held-out period — the
+        answer there is no. This page asks a related but different question going forward:
+        whether it can beat persistence at a <strong>21-day range</strong>, scored live, month
+        over month. Same tickers, same persistence baseline, same "no lookahead" discipline —
+        different horizon, and this time the evidence keeps accumulating.
+      </p>
+    </section>
+
+  </div>
+
+  <div class="tab-panel" id="tab-how" role="tabpanel" aria-labelledby="tab-btn-how">
+
+    <section class="section-first">
+      <h2>How this actually works</h2>
+      <p class="section-intro">
+        Written for a reader who is comfortable with the idea of a stock price but hasn't
+        necessarily trained a model. No step is skipped for being "obvious."
+      </p>
+
+      <div class="hiw-block">
+        <h3>1. The data pipeline</h3>
+        <p>
+          Every month, on the 1st, a scheduled job pulls fresh daily open/high/low/close/volume
+          bars for 15 large-cap tech tickers (prices are split- and dividend-adjusted, so a 4:1
+          stock split doesn't look like a 75% crash to the model). It scores last month's
+          predictions against what actually happened, trains a fresh model on everything known
+          up to today, predicts a price range 21 trading days out, and commits both the scoring
+          and the new prediction to git — <strong>before</strong> anyone, including the code
+          itself, knows what will actually happen.
+        </p>
+      </div>
+
+      <div class="hiw-block">
+        <h3>2. What persistence is, and why it's a serious baseline</h3>
+        <p>
+          <strong>Persistence</strong> means "tomorrow's price is today's price" — or here,
+          "the price 21 days from now is the price today." It sounds too dumb to beat, which is
+          exactly why it's dangerous to ignore: daily stock returns are close to a random walk,
+          meaning the best single-point guess for a future price is very nearly today's price.
+          Decades of published finance and forecasting research keep re-finding this. A model
+          has to clear this bar, not a coin flip — and on this page, most of the time, it
+          doesn't.
+        </p>
+      </div>
+
+      <div class="hiw-block">
+        <h3>3. What an LSTM is, and why it's used here</h3>
+        <p>
+          An LSTM (Long Short-Term Memory network) is a type of neural network built to find
+          patterns in sequences — a natural fit for a window of the last 20 trading days' prices
+          and volumes. This project uses a <em>bidirectional</em> LSTM: it reads the window
+          forwards and backwards internally, which helps it use the whole window rather than
+          just the most recent day, but it still only ever sees days strictly before the day
+          it's predicting — the model architecture doesn't create lookahead, and a dedicated
+          test (<code class="mono">test_as_of_boundary_holds</code>) checks that no leak exists
+          in the surrounding code either.
+        </p>
+      </div>
+
+      <div class="hiw-block">
+        <h3>4. Prediction intervals, and what "coverage" means</h3>
+        <p>
+          Instead of a single number ("$142.30"), each arm predicts a <strong>range</strong>
+          ("$135–$150") at a stated confidence level, here 80%. <strong>Coverage</strong> is the
+          fraction of the time the real outcome actually landed inside the predicted range — it
+          should be close to 80% for an 80% interval that's telling the truth about its own
+          uncertainty. Coverage alone can be gamed trivially (predict $0–$100,000 and you'll
+          "cover" everything), which is why this page always reports the
+          <strong>interval score</strong> alongside it — a score that penalizes width as well as
+          misses, so a wide, lazy interval scores worse than a tight, honest one even at equal
+          coverage.
+        </p>
+      </div>
+
+      <div class="hiw-block">
+        <h3>5. Conformal calibration — how the ranges are actually built</h3>
+        <p>
+          The ranges aren't guessed. Each month, the model's own prediction errors on recent,
+          known data are measured, and a <strong>split-conformal</strong> procedure turns that
+          error distribution into a range with a real statistical coverage guarantee — not just
+          "the model's confidence," which neural networks are notoriously bad at reporting
+          honestly. The range width is further scaled by each ticker's own recent volatility
+          (how much it's been moving lately), so a historically calm stock gets a tighter range
+          than a historically turbulent one, for the same nominal confidence level.
+        </p>
+      </div>
+
+      <div class="hiw-block">
+        <h3>6. The LLM arm</h3>
+        <p>
+          An optional third arm gives a large language model the last 60 closing prices and up
+          to 10 recent headlines, and asks it for a price range in strict JSON. If the reply is
+          malformed, refuses to answer, or gives a range where the low is above the high, that
+          counts as an <strong>abstention</strong> — recorded honestly as "no prediction," never
+          smoothed into a fabricated number. This arm only runs live: the free news source used
+          here has no deep archive, so there's no honest way to backtest it against history it
+          could never have actually read at the time.
+        </p>
+      </div>
+
+      <div class="hiw-block">
+        <h3>7. Why backtest and live never mix</h3>
+        <p>
+          A <strong>backtest</strong> row is produced today, by code that already knows what
+          happened — it's a replay, useful for volume and context, but it can't prove the model
+          wasn't shaped (even unconsciously) by knowing the answer. A <strong>live</strong> row
+          is committed to git before the outcome exists — the commit timestamp itself is
+          tamper-evident proof it was made in advance. Averaging the two into one headline number
+          would quietly launder the weaker evidence into the stronger claim, so this project
+          keeps them in separate tables, separate totals, everywhere, enforced by an automated
+          test that fails the build if they're ever combined.
+        </p>
+      </div>
+
+      <div class="hiw-block">
+        <h3>8. The honest finding</h3>
+        <p>
+          On the fixed next-day study, the LSTM does not beat persistence. On this live
+          scoreboard, expect the same pattern to hold at the 21-day horizon — that would not be
+          a failure of this project, it would be the finding. What <em>is</em> genuinely
+          predictable, and shown honestly rather than buried, is <strong>volatility</strong>
+          itself: how much a price moves is more forecastable than which way it moves. See the
+          main study's README for the full breakdown of what worked and what didn't, including
+          every rejected attempt to improve on it.
+        </p>
+      </div>
+    </section>
+
+  </div>
 
 </main>
 
 <footer class="wrap">
   <p>
-    <a href="https://github.com/Ssavan99/stock-lstm-vs-persistence">Source on GitHub</a>
+    <a href="https://github.com/Ssavan99/fortune-teller">Source on GitHub</a>
     · <a href="index.html">Main results page</a>
     · generated from committed results
     · <span id="footer-generated"></span>
