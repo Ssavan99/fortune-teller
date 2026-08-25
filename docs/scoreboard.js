@@ -89,22 +89,35 @@ function summaryCards(node, summary) {
   });
 }
 
-/* ---- open predictions: one card per ticker, all models' ranges overlaid ---- */
+/* ---- open predictions: one card per (ticker, forecast cycle), all models overlaid ----
+   Grouping by symbol ALONE is wrong: the monthly cadence with a ~21-trading-day horizon means
+   a new cycle's predictions are made before the previous cycle's have matured, so more than
+   one cycle is routinely open for the same ticker at once (e.g. an Aug-25 cycle targeting
+   ~Sep-22 is still open when the Sep-1 run adds a new cycle targeting ~Sep-29). Grouping must
+   include the cycle key (as_of) too, or a newer cycle's rows silently vanish behind an older
+   one's. */
 function tickerCards(container, openPredictions) {
   container.innerHTML = "";
-  const bySymbol = {};
+  const byCycle = {};
   openPredictions.forEach((r) => {
-    (bySymbol[r.symbol] = bySymbol[r.symbol] || []).push(r);
+    const key = r.symbol + "|" + r.as_of;
+    (byCycle[key] = byCycle[key] || []).push(r);
   });
 
-  const symbols = Object.keys(bySymbol).sort();
-  if (symbols.length === 0) {
+  const keys = Object.keys(byCycle).sort((a, b) => {
+    const [symA, asOfA] = a.split("|");
+    const [symB, asOfB] = b.split("|");
+    if (symA !== symB) return symA < symB ? -1 : 1;
+    return asOfB.localeCompare(asOfA); // newest cycle first within a ticker
+  });
+  if (keys.length === 0) {
     container.appendChild(el("p", { class: "stat-empty" }, "No open predictions right now."));
     return;
   }
 
-  symbols.forEach((symbol) => {
-    const rows = bySymbol[symbol];
+  keys.forEach((key) => {
+    const rows = byCycle[key];
+    const symbol = rows[0].symbol;
     const card = el("div", { class: "ticker-card" });
 
     const head = el("div", { class: "ticker-card-head" });
