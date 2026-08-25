@@ -111,6 +111,13 @@ class TestTargets:
         with pytest.raises(ValueError, match="require a ScaledInverter"):
             sequences.to_dollars(built["test"].y, built["test"], "level")
 
+    def test_zero_horizon_is_rejected(self):
+        """horizon=0 would let a window's target coincide with its own last slot."""
+        df = synthetic()
+        sp = splits.Split(train=df.iloc[:200], val=df.iloc[200:300], test=df.iloc[300:])
+        with pytest.raises(ValueError, match="horizon must be at least 1"):
+            sequences.build(df, sp, lookback=10, target="return", horizon=0)
+
 
 class TestShapes:
     def test_shapes_are_consistent(self, df, split):

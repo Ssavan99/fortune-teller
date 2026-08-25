@@ -36,7 +36,7 @@ class SequenceSet:
     x: np.ndarray  # (n, lookback, n_features), scaled
     y: np.ndarray  # (n,) scaled level, or raw return
     y_close: np.ndarray  # (n,) true next close, in dollars
-    prev_close: np.ndarray  # (n,) close on the day before the target
+    prev_close: np.ndarray  # (n,) close on the window's last day — the forecast's anchor price
     symbols: np.ndarray  # (n,)
     dates: np.ndarray  # (n,)
 
@@ -50,24 +50,37 @@ def _build_for_symbol(
     lookback: int,
     target: Target,
     extra: np.ndarray | None,
+    horizon: int = 1,
 ):
     values = part[list(FEATURES)].to_numpy(dtype=float)
     scaled = scaler.transform(values)
     if extra is not None:
         scaled = np.hstack([scaled, extra])
 
+    if horizon < 1:
+        raise ValueError(f"horizon must be at least 1 trading session, got {horizon}")
+
     closes = part["close"].to_numpy(dtype=float)
     dates = part["date"].to_numpy()
 
     n = len(part)
-    idx = np.arange(lookback, n)
+    # Window [i - lookback, i - 1] predicts the close `horizon` sessions later, at
+    # i - 1 + horizon. The last usable i satisfies i - 1 + horizon <= n - 1.
+    idx = np.arange(lookback, n - horizon + 1)
     if idx.size == 0:
         return None
 
-    # Window [i - lookback, i - 1] predicts the close at i.
     x = np.stack([scaled[i - lookback : i] for i in idx])
-    y_close = closes[idx]
+    target_idx = idx - 1 + horizon
+    y_close = closes[target_idx]
     prev_close = closes[idx - 1]
+    target_dates = dates[target_idx]
+
+    # The window must end strictly before the target at every horizon. horizon >= 1 makes
+    # this true by construction, but it is asserted rather than trusted: a future edit to the
+    # index arithmetic above should fail loudly here rather than silently leak the target.
+    if not np.all(dates[idx - 1] < target_dates):
+        raise ValueError("window reaches into its own target — this is a leakage bug")
 
     if target == "level":
         lo = scaler.min_[CLOSE_INDEX]
@@ -79,7 +92,7 @@ def _build_for_symbol(
     else:
         raise ValueError(f"unknown target {target!r}; expected 'level' or 'return'")
 
-    return x, y, y_close, prev_close, dates[idx]
+    return x, y, y_close, prev_close, target_dates
 
 
 def build(
@@ -87,10 +100,14 @@ def build(
     split,
     lookback: int = 20,
     target: Target = "level",
+    horizon: int = 1,
     extra_features: dict[str, np.ndarray] | None = None,
     leaky_scaling: bool = False,
 ) -> dict[str, SequenceSet]:
     """Build train/val/test sequence sets from a long-format frame.
+
+    ``horizon`` is how many trading sessions ahead of the window's last day the target sits.
+    ``horizon=1`` (the default) reproduces the original next-day study exactly.
 
     ``extra_features`` optionally supplies per-symbol columns already aligned to ``df``'s rows
     for that symbol — used by the sentiment ablation. They are passed through unscaled, since
@@ -101,6 +118,11 @@ def build(
     measures how much apparent skill that defect manufactures, and the measurement is only
     valid if both arms run through this identical code path. It defaults to ``False`` and
     nothing but Experiment C should ever set it.
+
+    Only ``split.train`` and ``split.val`` are consulted here — a caller that has no genuine
+    test partition (the rolling live/backfill engine, which only ever needs train and val) may
+    pass any object exposing those two attributes. Partitions with no rows in them are simply
+    absent from the returned dict rather than raising.
     """
     train_dates = set(split.train["date"])
     val_dates = set(split.val["date"])
@@ -117,7 +139,7 @@ def build(
         scaler = fit_on_train(fit_rows[list(FEATURES)].to_numpy(dtype=float))
 
         extra = extra_features.get(symbol) if extra_features else None
-        built = _build_for_symbol(part, scaler, lookback, target, extra)
+        built = _build_for_symbol(part, scaler, lookback, target, extra, horizon)
         if built is None:
             continue
         x, y, y_close, prev_close, dates = built
@@ -146,7 +168,7 @@ def build(
                 )
             )
 
-    return {name: _concat(parts) for name, parts in buckets.items()}
+    return {name: _concat(parts) for name, parts in buckets.items() if parts}
 
 
 def _concat(parts: list[SequenceSet]) -> SequenceSet:

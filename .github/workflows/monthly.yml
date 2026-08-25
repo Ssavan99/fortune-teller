@@ -1,0 +1,65 @@
+name: Monthly forecast run
+
+on:
+  schedule:
+    - cron: "0 14 1 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: monthly-forecast
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install torch --index-url https://download.pytorch.org/whl/cpu
+          pip install -r requirements.txt
+
+      - name: Refresh price data
+        # Without this, prices.load() keeps reading whatever snapshot was committed at the
+        # time this workflow file was merged, forever: every future cycle would train on the
+        # same stale cutoff, and --score could never find an actual close for any target date
+        # past it. This is the one step in the whole pipeline that MUST hit the network.
+        run: python -m src.data.prices --refresh
+
+      - name: Score matured predictions and add this month's
+        # GEMINI_API_KEY is optional — src.models.llm_forecaster.is_available() skips the LLM
+        # arm cleanly (an empty list of records, not an error) when the secret is unset.
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python -m scripts.run_monthly --score --predict
+
+      - name: Rebuild the site payload
+        run: python -m scripts.build_site
+
+      - name: Commit and push if anything changed
+        # `git diff`/`git diff --cached` only see TRACKED files. The very files this workflow
+        # exists to produce (results/scoreboard_live.json, docs/data/scoreboard.json) don't
+        # exist in a fresh clone and would be untracked on their first run, invisible to that
+        # check — it would report "nothing changed" and silently discard every prediction.
+        # `git add -A` first, THEN check, so new files count as a change too.
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "nothing changed"
+            exit 0
+          fi
+          as_of=$(date -u +%Y-%m-01)
+          git commit -m "Monthly forecast run: ${as_of}"
+          git push
