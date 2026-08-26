@@ -13,6 +13,7 @@ artifact of two different pipelines.
 
 from __future__ import annotations
 
+import argparse
 import json
 import time
 from pathlib import Path
@@ -56,21 +57,44 @@ def monthly_as_of_dates(df: pd.DataFrame) -> list[pd.Timestamp]:
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--method",
+        default="quantile",
+        choices=rolling.INTERVAL_METHODS,
+        help="interval-construction method to pass through to rolling.run_cycle",
+    )
+    parser.add_argument(
+        "--out",
+        type=Path,
+        default=OUT,
+        help="output path (default: results/scoreboard_backtest.json, the production file)",
+    )
+    parser.add_argument(
+        "--limit",
+        type=int,
+        default=None,
+        help="only run the first N as-of dates — for a cheap smoke test before the full run",
+    )
+    args = parser.parse_args()
+
     df = prices.load()
     as_of_dates = monthly_as_of_dates(df)
     if not as_of_dates:
         raise RuntimeError("no as-of dates are both predictable and scorable in this snapshot")
+    if args.limit is not None:
+        as_of_dates = as_of_dates[: args.limit]
 
     print(
         f"backfilling {len(as_of_dates)} as-of dates: "
-        f"{as_of_dates[0].date()} -> {as_of_dates[-1].date()}"
+        f"{as_of_dates[0].date()} -> {as_of_dates[-1].date()}  (method={args.method})"
     )
 
     all_records: list[dict] = []
     started = time.time()
     for i, as_of in enumerate(as_of_dates, start=1):
         cycle_start = time.time()
-        records = rolling.run_cycle(df, as_of, horizon=HORIZON, seed=SEED)
+        records = rolling.run_cycle(df, as_of, horizon=HORIZON, seed=SEED, method=args.method)
         scored = [rolling.score_record(r, df) for r in records]
         rolling.stamp_mode(scored, "backtest")
         all_records.extend(scored)
@@ -83,9 +107,9 @@ def main() -> None:
             f"{n_unscored} unscored  ({elapsed:.0f}s, {total_elapsed / 60:.1f}m total)"
         )
 
-    OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text(json.dumps(all_records, indent=2), encoding="utf-8")
-    print(f"\nwrote {OUT}  ({len(all_records)} rows)")
+    args.out.parent.mkdir(parents=True, exist_ok=True)
+    args.out.write_text(json.dumps(all_records, indent=2), encoding="utf-8")
+    print(f"\nwrote {args.out}  ({len(all_records)} rows)")
 
 
 if __name__ == "__main__":

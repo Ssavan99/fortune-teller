@@ -152,6 +152,57 @@ Caveats, stated plainly rather than buried:
 - **Still not advice, still not a trading system.** No costs, no slippage, no execution
   modelled here either.
 
+## What actually got better, and what didn't
+
+The scoreboard shipped with a real defect: its prediction intervals undercovered — a nominal
+80% interval only contained the actual outcome 67-68% of the time, for both the LSTM and the
+persistence arm. A follow-up pass diagnosed and fixed that, and — following the same
+anti-overfitting discipline as everything else in this repo — pre-registered a metric and a
+success threshold *before* touching the fix, tried a short list of pre-registered variants,
+and logged every one, including the ones that didn't work. Full detail, including per-ticker
+and per-year breakdowns, in `results/improvement.json` and `results/calibration_diagnosis.json`.
+
+**The fix — interval calibration (the real win):**
+
+| | coverage (nominal 80%) | mean width | interval score (lower is better) |
+|---|---|---|---|
+| LSTM — before | 67.4% | $51.19 | 97.15 |
+| LSTM — after | **77.7%** | $62.66 (1.22x) | **92.75** |
+| Persistence — before | 67.8% | $53.21 | 99.00 |
+| Persistence — after | **79.8%** | $61.08 (1.15x) | **88.60** |
+
+The diagnosis found the cause was *not* the initially-suspected volatility-regime shift
+(coverage by volatility tercile came back nearly flat) but overlapping-window residual
+autocorrelation shrinking the effective calibration sample size. The fix — split-conformal
+prediction (`src/conformal.py`) with the nonconformity score normalized by each row's own
+trailing EWMA volatility (`src/volatility.py`) — brought both arms inside the pre-registered
+76-84% band, with interval width up only 1.15-1.22x and **interval score actually improving**
+for both arms, which rules out "coverage fixed only by making intervals enormous."
+
+**A real, positive result that isn't about price direction:** predicting the next 21 trading
+days' realized *volatility* (not price) beats a persistence-of-volatility baseline with
+genuine skill of **+0.084**, on **15 of 15 tickers**. Volatility clustering is real and
+forecastable even though price direction isn't — this is the honest positive finding this
+project can actually stand behind.
+
+**What didn't work, tried and reported anyway (8 variants, 1 kept):**
+
+- Plain pooled split-conformal (without the volatility scaling) also fixed coverage on a cheap
+  proxy check, but the volatility-adaptive version was chosen instead — narrower at the same
+  coverage.
+- GARCH(1,1) volatility (via the free `arch` package) was implemented and tested but never
+  run against the real backfill — EWMA alone already closed the gap.
+- Direction, scored properly as a probability (Brier score, log loss, a calibration curve —
+  not bare accuracy): **no edge.** The model's confidence is actually worse than just using
+  the historical base rate, and its confidence ordering doesn't even rank correctly.
+- Three candidate LSTM feature groups (technical indicators, cross-sectional relative
+  strength, calendar effects): each showed a small positive mean effect across 4 sample
+  dates, but every one sign-flipped across those dates by more than its own mean — the
+  signature of small-sample noise, not a real effect. All three rejected.
+- A simple LSTM + persistence ensemble: coverage goes up (a union of two intervals trivially
+  covers more), but interval score gets *worse* than persistence alone, and price skill stays
+  negative. Rejected — persistence alone remains the better standalone arm.
+
 ## Install and run
 
 Requires Python 3.10+. Data snapshots are committed, so no network access and no API key are

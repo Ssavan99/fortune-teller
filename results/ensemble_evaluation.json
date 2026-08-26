@@ -1,0 +1,32 @@
+{
+  "n": 825,
+  "level": 0.8,
+  "arms": {
+    "lstm": {
+      "name": "lstm",
+      "rmse": 30.118387979330162,
+      "coverage": 0.776969696969697,
+      "mean_interval_width": 62.6550005561633,
+      "interval_score": 92.74973995411432,
+      "skill_vs_persistence": -0.029577478101863397
+    },
+    "persistence": {
+      "name": "persistence",
+      "rmse": 29.253153473069982,
+      "coverage": 0.7975757575757576,
+      "mean_interval_width": 61.076355851810746,
+      "interval_score": 88.60389199106137,
+      "skill_vs_persistence": 0.0
+    },
+    "ensemble": {
+      "name": "ensemble",
+      "rmse": 29.42127468734193,
+      "coverage": 0.8266666666666667,
+      "mean_interval_width": 66.79575239338583,
+      "interval_score": 90.98945711633836,
+      "skill_vs_persistence": -0.005747114218872751
+    }
+  },
+  "ensemble_beats_persistence_on_interval_score": false,
+  "ensemble_beats_persistence_on_price_skill": false
+}

@@ -29,7 +29,7 @@ import torch
 from pandas.tseries.holiday import USFederalHolidayCalendar
 from pandas.tseries.offsets import CustomBusinessDay
 
-from src import intervals, sequences
+from src import conformal, intervals, sequences, volatility
 from src.preprocessing import fit_on_train
 from src.train import TrainConfig, predict, train
 
@@ -37,6 +37,8 @@ LOOKBACK = 20
 LEVEL = 0.80
 _US_BUSINESS_DAY = CustomBusinessDay(calendar=USFederalHolidayCalendar())
 VAL_MONTHS = 6
+
+INTERVAL_METHODS = ("quantile", "conformal", "conformal_ewma")
 
 VALID_MODES = ("backtest", "live")
 
@@ -143,7 +145,81 @@ def _final_window_predictions(
     return out
 
 
-def _record(as_of, target_date, symbol, model_name, point, lo, hi, level, created_utc) -> dict:
+def _anchor_dates(
+    part_dates_sorted: np.ndarray, target_dates: np.ndarray, horizon: int
+) -> np.ndarray:
+    """Exact per-row lookup of the window's last date, given each row's target date — the
+    trading day exactly ``horizon`` sessions before it, in that symbol's own calendar. Used
+    only to align a volatility estimate to the correct point in time; never used to build a
+    prediction itself, so it carries no leakage risk of its own.
+    """
+    idx_map = {d: i for i, d in enumerate(part_dates_sorted)}
+    return np.array([part_dates_sorted[idx_map[td] - horizon] for td in target_dates])
+
+
+def _validation_vol_hat(history: pd.DataFrame, val_seqs, horizon: int) -> np.ndarray:
+    """Per-row, horizon-scaled trailing EWMA volatility for every validation row, using only
+    that row's own symbol's returns strictly before its own anchor date (the window's last
+    day) — never later, and never another symbol's returns. This is what makes the resulting
+    calibration genuinely track the volatility regime at each point in validation, rather than
+    a single "current" estimate applied uniformly (which would cancel out of the calibration
+    entirely and do nothing — see the module docstring in ``src/conformal.py``).
+    """
+    vol_hat = np.full(len(val_seqs), np.nan)
+    for symbol in np.unique(val_seqs.symbols):
+        part = history[history["symbol"] == symbol].sort_values("date")
+        part_dates = part["date"].to_numpy()
+        returns = part["close"].pct_change()
+        ewma_series = volatility.rolling_ewma_volatility(returns).to_numpy()
+        date_to_pos = {d: i for i, d in enumerate(part_dates)}
+
+        mask = val_seqs.symbols == symbol
+        rows = np.where(mask)[0]
+        anchors = _anchor_dates(part_dates, val_seqs.dates[mask], horizon)
+        for row, anchor in zip(rows, anchors, strict=True):
+            pos = date_to_pos.get(anchor)
+            if pos is None or pos < 0:
+                continue
+            daily_vol = ewma_series[pos]
+            if np.isfinite(daily_vol):
+                vol_hat[row] = volatility.horizon_scale(daily_vol, horizon)
+    return vol_hat
+
+
+def _live_vol_hat(history: pd.DataFrame, symbols, horizon: int) -> dict[str, float]:
+    """Horizon-scaled trailing EWMA volatility for each symbol as of the live prediction
+    point (the most recent date in ``history``) — the volatility estimate that governs the
+    width of the interval actually being predicted right now.
+
+    A symbol with too little history for a stable estimate (should not happen once the
+    backfill is past its first few months, given ``MIN_RETURNS`` in ``src/volatility.py``)
+    falls back to the median of the other symbols' estimates in this same cycle, rather than
+    raising and losing every symbol's prediction over one thin history.
+    """
+    out: dict[str, float] = {}
+    for symbol in symbols:
+        part = history[history["symbol"] == symbol].sort_values("date")
+        returns = part["close"].pct_change()
+        ewma_series = volatility.rolling_ewma_volatility(returns)
+        daily_vol = float(ewma_series.iloc[-1]) if len(ewma_series) else float("nan")
+        out[symbol] = (
+            volatility.horizon_scale(daily_vol, horizon)
+            if np.isfinite(daily_vol)
+            else float("nan")
+        )
+
+    valid = [v for v in out.values() if np.isfinite(v)]
+    if valid:
+        fallback = float(np.median(valid))
+        for symbol, v in out.items():
+            if not np.isfinite(v):
+                out[symbol] = fallback
+    return out
+
+
+def _record(
+    as_of, target_date, symbol, model_name, point, lo, hi, level, created_utc, interval_method
+) -> dict:
     return {
         "as_of": str(pd.Timestamp(as_of).date()),
         "target_date": str(pd.Timestamp(target_date).date()),
@@ -157,6 +233,7 @@ def _record(as_of, target_date, symbol, model_name, point, lo, hi, level, create
         "covered": None,
         "abs_error": None,
         "created_utc": created_utc,
+        "interval_method": interval_method,
     }
 
 
@@ -167,6 +244,7 @@ def run_cycle(
     seed: int = 20260822,
     *,
     train_config_overrides: dict | None = None,
+    method: str = "quantile",
 ) -> list[dict]:
     """One full forecast cycle. MUST NOT read any row dated >= as_of, except the future
     ``date`` column alone (never a price column) to locate ``target_date`` — see module
@@ -179,7 +257,22 @@ def run_cycle(
     ``train_config_overrides`` lets a caller shrink the network for speed (the test suite uses
     this — see ``fast_config`` in ``tests/test_train.py`` for the same pattern elsewhere in
     this repo). Production callers never pass it.
+
+    ``method`` selects how the prediction interval around each point forecast is built —
+    recorded on every returned row as ``interval_method`` so historical rows always show which
+    method produced them, even as the default changes over time:
+
+    * ``"quantile"`` — the original empirical per-symbol residual quantiles
+      (:func:`src.intervals.residual_quantiles`). Undercovers (~67% realized vs 80% nominal);
+      kept only as the named baseline arm, per this project's anti-overfitting protocol.
+    * ``"conformal"`` — split-conformal, pooled across symbols
+      (:func:`src.conformal.conformal_quantiles`). Fixes marginal coverage.
+    * ``"conformal_ewma"`` — split-conformal with the nonconformity score normalized by each
+      row's own trailing EWMA volatility, so the interval adapts to the volatility regime at
+      prediction time (:func:`src.conformal.adaptive_conformal_quantile`).
     """
+    if method not in INTERVAL_METHODS:
+        raise ValueError(f"method must be one of {INTERVAL_METHODS}, got {method!r}")
     # Normalized to midnight: prices_df["date"] is always midnight (src/data/prices.py), and
     # comparing against a caller-supplied as_of with a nonzero time-of-day (e.g. the very
     # natural pd.Timestamp.now()) would let that day's own bar slip into `history` under `<`.
@@ -211,12 +304,6 @@ def run_cycle(
     model, norm, config = train(train_seqs, val_seqs, config, verbose=False)
 
     val_pred_dollars = sequences.to_dollars(predict(model, val_seqs, norm), val_seqs, "return")
-    lstm_quantiles = intervals.residual_quantiles(
-        val_seqs.y_close, val_pred_dollars, val_seqs.prev_close, val_seqs.symbols, level=LEVEL
-    )
-    persistence_quantiles = intervals.residual_quantiles(
-        val_seqs.y_close, val_seqs.prev_close, val_seqs.prev_close, val_seqs.symbols, level=LEVEL
-    )
 
     live_points = _final_window_predictions(history, split, model, norm, config.lookback)
     if not live_points:
@@ -227,29 +314,60 @@ def run_cycle(
     target_date = target_date_for(prices_df, as_of, horizon)
     created_utc = pd.Timestamp.now(tz="UTC").isoformat()
 
+    if method == "quantile":
+        lstm_quantiles = intervals.residual_quantiles(
+            val_seqs.y_close, val_pred_dollars, val_seqs.prev_close, val_seqs.symbols, level=LEVEL
+        )
+        persistence_quantiles = intervals.residual_quantiles(
+            val_seqs.y_close, val_seqs.prev_close, val_seqs.prev_close, val_seqs.symbols,
+            level=LEVEL,
+        )
+    elif method == "conformal":
+        lstm_quantiles = conformal.conformal_quantiles(
+            val_seqs.y_close, val_pred_dollars, val_seqs.prev_close, val_seqs.symbols, level=LEVEL
+        )
+        persistence_quantiles = conformal.conformal_quantiles(
+            val_seqs.y_close, val_seqs.prev_close, val_seqs.prev_close, val_seqs.symbols,
+            level=LEVEL,
+        )
+    else:  # "conformal_ewma"
+        vol_hat_val = _validation_vol_hat(history, val_seqs, horizon)
+        lstm_q = conformal.adaptive_conformal_quantile(
+            val_seqs.y_close, val_pred_dollars, val_seqs.prev_close, vol_hat_val, level=LEVEL
+        )
+        persistence_q = conformal.adaptive_conformal_quantile(
+            val_seqs.y_close, val_seqs.prev_close, val_seqs.prev_close, vol_hat_val, level=LEVEL
+        )
+        vol_hat_live = _live_vol_hat(history, sorted(live_points), horizon)
+
     records: list[dict] = []
     for symbol in sorted(live_points):
         lstm_point, prev_close = live_points[symbol]
         sym_arr = np.array([symbol])
         prev_arr = np.array([prev_close])
 
-        lstm_interval = intervals.apply(
-            np.array([lstm_point]), prev_arr, sym_arr, lstm_quantiles, level=LEVEL
-        )
+        if method in ("quantile", "conformal"):
+            lstm_interval = intervals.apply(
+                np.array([lstm_point]), prev_arr, sym_arr, lstm_quantiles, level=LEVEL
+            )
+            persistence_interval = intervals.apply(
+                prev_arr, prev_arr, sym_arr, persistence_quantiles, level=LEVEL
+            )
+        else:  # "conformal_ewma"
+            vh = np.array([vol_hat_live[symbol]])
+            lstm_interval = conformal.apply_adaptive(np.array([lstm_point]), prev_arr, vh, lstm_q)
+            persistence_interval = conformal.apply_adaptive(prev_arr, prev_arr, vh, persistence_q)
+
         records.append(
             _record(
                 as_of, target_date, symbol, "lstm", lstm_point,
-                lstm_interval.lo[0], lstm_interval.hi[0], LEVEL, created_utc,
+                lstm_interval.lo[0], lstm_interval.hi[0], LEVEL, created_utc, method,
             )
-        )
-
-        persistence_interval = intervals.apply(
-            prev_arr, prev_arr, sym_arr, persistence_quantiles, level=LEVEL
         )
         records.append(
             _record(
                 as_of, target_date, symbol, "persistence", prev_close,
-                persistence_interval.lo[0], persistence_interval.hi[0], LEVEL, created_utc,
+                persistence_interval.lo[0], persistence_interval.hi[0], LEVEL, created_utc, method,
             )
         )
 
