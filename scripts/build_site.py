@@ -157,6 +157,18 @@ def _series_by_ticker(backtest_records: list[dict], live_records: list[dict]) ->
     return series
 
 
+def _latest_record_time(records: list[dict]) -> str:
+    """The most recent `created_utc` in the ledger, so the payload is a pure function of it.
+
+    Falls back to the epoch rather than to `now()` when there are no records: a fallback that
+    moves would reintroduce the non-determinism this exists to remove.
+    """
+    stamps = [r["created_utc"] for r in records if r.get("created_utc")]
+    if not stamps:
+        return datetime(1970, 1, 1, tzinfo=timezone.utc).isoformat()
+    return max(stamps)
+
+
 def build_scoreboard() -> dict:
     backtest = _load_records(BACKTEST_FILE)
     live = _load_records(LIVE_FILE)
@@ -171,7 +183,13 @@ def build_scoreboard() -> dict:
         raise ValueError(f"{LIVE_FILE} contains non-live rows: {live_modes}")
 
     return {
-        "generated_utc": datetime.now(timezone.utc).isoformat(),
+        # Derived from the data, NOT from wall-clock time. Two reasons:
+        #   1. A wall-clock stamp changes on every build, so this payload could never be
+        #      drift-checked in CI — which is exactly how it went stale and shipped a
+        #      coverage figure 10 points below the real one.
+        #   2. "generated" is more useful to a reader as "how fresh is the data" than as
+        #      "when did a script last run".
+        "generated_utc": _latest_record_time(backtest + live),
         "horizon_days": 21,
         "level": 0.80,
         "tickers": list(TICKERS),

@@ -38,8 +38,12 @@ jobs:
         run: pytest -q
 
       - name: Results are consistent with the committed data
-        # Re-derives the site payload from results/ and fails if it drifts. Cheap guard
+        # Re-derives BOTH site payloads from results/ and fails if either drifts. Cheap guard
         # against results and page disagreeing after a partial rerun.
+        #
+        # scoreboard.json was originally left out of this check, and that is exactly how the
+        # page shipped a backtest coverage of 67% for a day after the real ledger had been
+        # regenerated at 78%. Anything docs/ serves that is derived from results/ belongs here.
         run: |
           python -m scripts.build_site
-          git diff --exit-code -- docs/data/report.json
+          git diff --exit-code -- docs/data/report.json docs/data/scoreboard.json
