@@ -40,6 +40,7 @@ OUT = REPO_ROOT / "results" / "volatility_evaluation.json"
 
 WINDOW = 21  # trading days, matches the scoreboard's forecast horizon
 ANNUALIZE = np.sqrt(252)
+SERIES_STRIDE = 5  # ~one point per trading week — keeps the site payload small and legible
 
 
 def _realized_vol(returns: pd.Series, start: int, end: int) -> float:
@@ -105,6 +106,7 @@ def main() -> None:
     skill = metrics.skill_score(model_rmse, baseline_rmse)
 
     per_ticker = {}
+    series = {}
     for symbol in sorted(per_symbol):
         rows = per_symbol[symbol]
         if not rows:
@@ -119,6 +121,19 @@ def main() -> None:
             "model_rmse": m_rmse,
             "skill_vs_persistence": metrics.skill_score(m_rmse, b_rmse),
         }
+        # Downsampled for the site's "predicted vs realized volatility over time" chart — the
+        # full series (n=1389/ticker) is unnecessary for a reader to see the pattern and would
+        # bloat the page payload for no benefit. Skill/RMSE above are still computed from the
+        # full, non-downsampled series.
+        series[symbol] = [
+            {
+                "date": r["date"],
+                "baseline_forecast": r["baseline_forecast"],
+                "model_forecast": r["model_forecast"],
+                "actual": r["actual"],
+            }
+            for r in rows[::SERIES_STRIDE]
+        ]
 
     summary = {
         "window_days": WINDOW,
@@ -132,6 +147,8 @@ def main() -> None:
         ),
         "n_tickers": len(per_ticker),
         "per_ticker": per_ticker,
+        "series_stride_days": SERIES_STRIDE,
+        "series": series,
     }
 
     OUT.write_text(json.dumps(summary, indent=2), encoding="utf-8")
