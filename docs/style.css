@@ -291,6 +291,44 @@ p { max-width: 70ch; color: var(--text); }
 .stat-empty { color: var(--muted); font-style: italic; font-size: 13.5px; }
 
 /* ---------------------------------------------------------------------------
+   Finding cards (price / volatility / calibration, at-a-glance)
+--------------------------------------------------------------------------- */
+.finding-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+  margin: 16px 0;
+}
+.finding-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--muted-2);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+}
+.finding-card.good { border-left-color: var(--accent); }
+.finding-card.bad { border-left-color: var(--bad); }
+.finding-card .finding-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.finding-card .finding-headline {
+  font-size: 20px;
+  font-weight: 800;
+  font-family: var(--mono);
+  margin: 6px 0 4px;
+}
+.finding-card.good .finding-headline { color: var(--accent); }
+.finding-card.bad .finding-headline { color: var(--bad); }
+.finding-card .finding-note { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+/* ---------------------------------------------------------------------------
    Tables
 --------------------------------------------------------------------------- */
 .tablewrap { overflow-x: auto; margin: 16px 0; border: 1px solid var(--line); border-radius: var(--radius-sm); }
@@ -324,6 +362,8 @@ tfoot td { font-weight: 700; border-top: 2px solid var(--line); border-bottom: n
 .badge-live { color: var(--accent); background: var(--accent-soft); border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent); }
 .badge-backtest { color: var(--muted); background: var(--surface-2); border: 1px solid var(--line); }
 .badge-model { background: var(--surface-3); color: var(--text); border: 1px solid var(--line); }
+.badge-good { color: var(--accent); background: var(--accent-soft); border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent); }
+.badge-bad { color: var(--bad); background: var(--bad-soft); border: 1px solid color-mix(in srgb, var(--bad) 45%, transparent); }
 
 /* ---------------------------------------------------------------------------
    Muted / secondary panel (backtest section)
@@ -411,6 +451,80 @@ tfoot td { font-weight: 700; border-top: 2px solid var(--line); border-bottom: n
   font-style: italic;
   padding: 3px 0;
 }
+
+/* ---------------------------------------------------------------------------
+   Calibration rows (nominal vs actual coverage, before/after)
+--------------------------------------------------------------------------- */
+.calib-block { margin: 18px 0 28px; }
+.calib-block:last-child { margin-bottom: 0; }
+.calib-block-label {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.calib-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; margin: 10px 0; }
+.calib-tag {
+  width: 56px;
+  flex-shrink: 0;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--muted);
+}
+.calib-track {
+  position: relative;
+  flex: 1 1 120px;
+  height: 28px;
+  background: var(--surface-2);
+  border-radius: 6px;
+  min-width: 0;
+}
+.calib-band {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: var(--accent-soft);
+  border-radius: 6px;
+}
+.calib-nominal {
+  position: absolute;
+  top: -5px;
+  bottom: -5px;
+  width: 2px;
+  background: var(--text);
+  opacity: 0.55;
+}
+.calib-dot {
+  position: absolute;
+  top: 50%;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 2px solid var(--surface);
+  transform: translate(-50%, -50%);
+}
+.calib-dot.before { background: var(--muted-2); }
+.calib-dot.after { background: var(--accent); }
+.calib-readout {
+  flex: 1 1 180px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--muted);
+  text-align: left;
+}
+.calib-readout strong { color: var(--text); font-size: 13px; }
+.calib-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.calib-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.calib-legend .swatch { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
 
 /* ---------------------------------------------------------------------------
    Chart controls / legend

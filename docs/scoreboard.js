@@ -303,6 +303,262 @@ function tickerChart(node, records, model) {
   node.appendChild(legend);
 }
 
+/* ---- findings summary: three at-a-glance cards, price / volatility / calibration ---- */
+function findingsSummary(node, findings) {
+  node.innerHTML = "";
+  const cal = findings.calibration;
+  const vol = findings.volatility;
+  const dir = findings.direction;
+
+  const cards = [
+    {
+      status: "bad",
+      label: "Price direction (21-day)",
+      headline: "No skill",
+      note: `${fmtPct(dir.directional_accuracy, 1)} directional accuracy, Brier ` +
+        `${dir.brier_score.model.toFixed(4)} vs a ${dir.brier_score.base_rate_baseline.toFixed(4)} ` +
+        `base-rate benchmark — the rigorous negative control this project is built to produce, ` +
+        `not a bug.`,
+    },
+    {
+      status: "good",
+      label: "Volatility (21-day)",
+      headline: `+${(vol.skill_vs_persistence * 100).toFixed(1)}% skill`,
+      note: `Beats a persistence-of-volatility baseline on ${vol.tickers_beating_persistence}/` +
+        `${vol.n_tickers} tickers — how much a price moves is far more forecastable than ` +
+        `which way it moves.`,
+    },
+    {
+      status: "good",
+      label: "Interval calibration",
+      headline: "80% means ~80%",
+      note: `${fmtPct(cal.lstm.after.coverage, 1)} (LSTM) / ` +
+        `${fmtPct(cal.persistence.after.coverage, 1)} (persistence) actual coverage at an 80% ` +
+        `nominal target, up from ${fmtPct(cal.lstm.before.coverage, 1)} / ` +
+        `${fmtPct(cal.persistence.before.coverage, 1)} before a real engineering fix.`,
+    },
+  ];
+
+  cards.forEach((c) => {
+    const card = el("div", { class: `finding-card ${c.status}` });
+    card.appendChild(el("div", { class: "finding-label" }, c.label));
+    card.appendChild(el("div", { class: "finding-headline" }, c.headline));
+    card.appendChild(el("div", { class: "finding-note" }, c.note));
+    node.appendChild(card);
+  });
+}
+
+/* ---- negative control: direction scored as a probability, not bare accuracy ---- */
+function negativeControlCards(node, direction) {
+  node.innerHTML = "";
+  const cards = [
+    {
+      k: "Directional accuracy",
+      v: fmtPct(direction.directional_accuracy, 1),
+      note: `historical base rate up: ${fmtPct(direction.base_rate_up, 1)}`,
+    },
+    {
+      k: "Brier score (lower is better)",
+      v: direction.brier_score.model.toFixed(4),
+      note: `base-rate baseline: ${direction.brier_score.base_rate_baseline.toFixed(4)}`,
+    },
+    {
+      k: "Log loss (lower is better)",
+      v: direction.log_loss.model.toFixed(4),
+      note: `base-rate baseline: ${direction.log_loss.base_rate_baseline.toFixed(4)}`,
+    },
+  ];
+  cards.forEach((c) => {
+    const card = el("div", { class: "card" });
+    card.appendChild(el("div", { class: "k" }, c.k));
+    card.appendChild(el("div", { class: "v neg" }, c.v));
+    card.appendChild(el("div", { class: "note" }, c.note));
+    node.appendChild(card);
+  });
+}
+
+/* ---- calibration rows: nominal vs actual coverage, before/after, per model.
+   Coverage is never rendered without width + interval score alongside it — see the section
+   copy for why coverage alone is a gameable number. ---- */
+function calibrationRows(node, calibration) {
+  node.innerHTML = "";
+  const nominal = calibration.nominal_level;
+  const [bandLo, bandHi] = calibration.pre_registered_success_band;
+  const pct = (v) => (v * 100) + "%";
+
+  function row(phase, d) {
+    const r = el("div", { class: "calib-row" });
+    r.appendChild(el("span", { class: "calib-tag" }, phase === "before" ? "Before" : "After"));
+
+    const track = el("div", { class: "calib-track" });
+    const band = el("div", { class: "calib-band" });
+    band.style.left = pct(bandLo);
+    band.style.width = pct(bandHi - bandLo);
+    track.appendChild(band);
+
+    const nomLine = el("div", { class: "calib-nominal" });
+    nomLine.style.left = pct(nominal);
+    track.appendChild(nomLine);
+
+    const dot = el("div", { class: `calib-dot ${phase}` });
+    dot.style.left = pct(d.coverage);
+    track.appendChild(dot);
+    r.appendChild(track);
+
+    const readout = el("div", { class: "calib-readout" });
+    readout.appendChild(el("strong", {}, fmtPct(d.coverage, 1) + " coverage"));
+    readout.appendChild(document.createTextNode(
+      ` · width ${fmtMoney(d.mean_width, 0)} · score ${d.interval_score.toFixed(1)}`
+    ));
+    r.appendChild(readout);
+    return r;
+  }
+
+  ["lstm", "persistence"].forEach((model) => {
+    const block = el("div", { class: "calib-block" });
+    block.appendChild(el("div", { class: "calib-block-label" }, MODEL_LABEL[model]));
+    block.appendChild(row("before", calibration[model].before));
+    block.appendChild(row("after", calibration[model].after));
+    node.appendChild(block);
+  });
+}
+
+/* ---- volatility: skill per ticker (bar chart), all should be positive ---- */
+function volatilitySkillChart(node, perTicker) {
+  node.innerHTML = "";
+  const entries = Object.entries(perTicker)
+    .map(([symbol, v]) => [symbol, v.skill_vs_persistence])
+    .sort((a, b) => b[1] - a[1]);
+
+  if (entries.length === 0) {
+    node.appendChild(el("p", { class: "stat-empty" }, "No volatility evaluation yet."));
+    return;
+  }
+
+  const W = 900, H = 300, padL = 44, padR = 16, padT = 16, padB = 34;
+  const plotW = W - padL - padR, plotH = H - padT - padB;
+  const maxV = Math.max(...entries.map(([, v]) => v)) * 1.2;
+
+  const decor = (elem) => { elem.setAttribute("aria-hidden", "true"); return elem; };
+  const y = (v) => padT + plotH - (v / maxV) * plotH;
+  const slot = plotW / entries.length;
+  const barW = Math.max(slot * 0.6, 4);
+
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, role: "img" });
+  svg.setAttribute("aria-label",
+    "Volatility forecast skill versus a persistence-of-volatility baseline, per ticker; " +
+    "positive means the model beat the baseline");
+
+  const ticks = 4;
+  for (let i = 0; i <= ticks; i++) {
+    const v = (maxV * i) / ticks;
+    const yy = y(v);
+    svg.appendChild(decor(el("line", {
+      x1: padL, y1: yy, x2: W - padR, y2: yy, stroke: "var(--line)", "stroke-width": "1",
+    })));
+    svg.appendChild(decor(el("text", {
+      x: padL - 8, y: yy + 4, "text-anchor": "end",
+      "font-size": "11", "font-family": "var(--mono)", fill: "var(--muted)",
+    }, (v * 100).toFixed(0) + "%   ")));
+  }
+
+  entries.forEach(([symbol, v], i) => {
+    const cx = padL + slot * (i + 0.5);
+    const barTop = y(v);
+    svg.appendChild(decor(el("rect", {
+      x: cx - barW / 2, y: barTop, width: barW, height: Math.max(y(0) - barTop, 1),
+      fill: "var(--accent)", opacity: "0.85", rx: "2",
+    })));
+    svg.appendChild(decor(el("text", {
+      x: cx, y: barTop - 6, "text-anchor": "middle",
+      "font-size": "10", "font-family": "var(--mono)", fill: "var(--muted)",
+    }, (v * 100).toFixed(1) + "%")));
+    svg.appendChild(decor(el("text", {
+      x: cx, y: H - 10, "text-anchor": "middle",
+      "font-size": "10.5", "font-family": "var(--mono)", fill: "var(--muted)",
+    }, "  " + symbol + "  ")));
+  });
+
+  node.appendChild(svg);
+}
+
+/* ---- volatility: predicted vs realized, over time, for one ticker ---- */
+function volatilitySeriesChart(node, rows) {
+  node.innerHTML = "";
+  if (!rows || rows.length === 0) {
+    node.appendChild(el("p", { class: "stat-empty" }, "No volatility series for this ticker."));
+    return;
+  }
+
+  const W = 900, H = 300, padL = 48, padR = 16, padT = 16, padB = 34;
+  const plotW = W - padL - padR, plotH = H - padT - padB;
+
+  const xs = rows.map((r) => new Date(r.date).getTime());
+  const xMin = Math.min(...xs), xMax = Math.max(...xs);
+  const xSpan = Math.max(xMax - xMin, 1);
+
+  const values = rows.flatMap((r) => [r.baseline_forecast, r.model_forecast, r.actual]);
+  const yMin = 0, yMax = Math.max(...values) * 1.08;
+
+  const x = (t) => padL + ((t - xMin) / xSpan) * plotW;
+  const y = (v) => padT + plotH - ((v - yMin) / (yMax - yMin)) * plotH;
+
+  const decor = (elem) => { elem.setAttribute("aria-hidden", "true"); return elem; };
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, role: "img" });
+  svg.setAttribute("aria-label",
+    "Predicted versus realized 21-day forward volatility over time for the selected ticker");
+
+  const ticks = 4;
+  for (let i = 0; i <= ticks; i++) {
+    const v = (yMax * i) / ticks;
+    const yy = y(v);
+    svg.appendChild(decor(el("line", {
+      x1: padL, y1: yy, x2: W - padR, y2: yy, stroke: "var(--line)", "stroke-width": "1",
+    })));
+    svg.appendChild(decor(el("text", {
+      x: padL - 8, y: yy + 4, "text-anchor": "end",
+      "font-size": "11", "font-family": "var(--mono)", fill: "var(--muted)",
+    }, (v * 100).toFixed(0) + "%   ")));
+  }
+
+  function line(key, color, dashed, width) {
+    const d = rows.map((r, i) => `${i === 0 ? "M" : "L"} ${x(new Date(r.date).getTime())} ${y(r[key])}`).join(" ");
+    const attrs = { d, fill: "none", stroke: color, "stroke-width": String(width) };
+    if (dashed) attrs["stroke-dasharray"] = "4,3";
+    svg.appendChild(decor(el("path", attrs)));
+  }
+  line("baseline_forecast", "var(--muted-2)", true, 1.5);
+  line("model_forecast", "var(--accent)", false, 2);
+  line("actual", "var(--text)", false, 1.75);
+
+  const labelRows = rows.length > 1
+    ? [rows[0], rows[Math.floor(rows.length / 2)], rows[rows.length - 1]]
+    : rows;
+  labelRows.forEach((r) => {
+    svg.appendChild(decor(el("text", {
+      x: x(new Date(r.date).getTime()), y: H - 10, "text-anchor": "middle",
+      "font-size": "11", "font-family": "var(--mono)", fill: "var(--muted)",
+    }, "  " + r.date + "  ")));
+  });
+
+  node.appendChild(svg);
+
+  const legend = el("div", { class: "chart-legend" });
+  const item = (color, dashed, label) => {
+    const span = el("span");
+    const sw = el("span", { class: "swatch" });
+    sw.style.background = color;
+    if (dashed) sw.style.border = "1px dashed var(--muted-2)";
+    span.appendChild(sw);
+    span.appendChild(document.createTextNode(label));
+    return span;
+  };
+  legend.appendChild(item("var(--text)", false, "realized (actual)"));
+  legend.appendChild(item("var(--accent)", false, "EWMA forecast"));
+  legend.appendChild(item("var(--muted-2)", true, "persistence-of-volatility baseline"));
+  node.appendChild(legend);
+}
+
 function render(data) {
   initTabs();
 
@@ -316,6 +572,25 @@ function render(data) {
 
   document.getElementById("footer-generated").textContent =
     "generated " + new Date(data.generated_utc).toLocaleString();
+
+  /* ---- findings summary + negative control + calibration: static-shaped, driven by data.findings ---- */
+  findingsSummary(document.getElementById("findings-cards"), data.findings);
+  negativeControlCards(document.getElementById("negative-control-cards"), data.findings.direction);
+  calibrationRows(document.getElementById("calibration-rows"), data.findings.calibration);
+
+  /* ---- volatility: skill by ticker (static) + predicted-vs-realized (ticker-selectable) ---- */
+  volatilitySkillChart(document.getElementById("chart-vol-skill"), data.findings.volatility.per_ticker);
+  const volTickerSelect = document.getElementById("vol-ticker-select");
+  volTickerSelect.innerHTML = "";
+  data.tickers.forEach((t) => volTickerSelect.appendChild(el("option", { value: t }, t)));
+  function drawVol() {
+    volatilitySeriesChart(
+      document.getElementById("chart-vol-series"),
+      data.findings.volatility.series[volTickerSelect.value] || []
+    );
+  }
+  volTickerSelect.addEventListener("change", drawVol);
+  drawVol();
 
   /* ---- open predictions, grouped by ticker ---- */
   tickerCards(document.getElementById("ticker-grid"), data.open_predictions);

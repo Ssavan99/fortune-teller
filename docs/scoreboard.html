@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Fortune Teller — Live Scoreboard</title>
-<meta name="description" content="A public scoreboard of how badly stock forecasting actually works: persistence, an LSTM and an optional LLM predict a 21-trading-day price range for 15 tickers, scored live as reality arrives. Backtest and live results are never combined.">
+<meta name="description" content="A public scoreboard of what's actually predictable in stock forecasting: price direction is a rigorous negative control, volatility is genuinely forecastable (+8.4% skill on 15/15 tickers), and the prediction intervals are honestly calibrated. Not advice, not a trading system.">
 <script src="theme.js"></script>
 <link rel="stylesheet" href="style.css">
 </head>
@@ -29,13 +29,18 @@
 <header class="hero">
   <div class="wrap">
     <p class="eyebrow">Live monthly forecast scoreboard</p>
-    <h1>A public scoreboard of how badly <span class="mono">stock&nbsp;forecasting</span> actually works</h1>
+    <h1>Predicting the <span class="mono">price</span> is hopeless. Predicting the <span class="mono">uncertainty</span> isn't.</h1>
     <p class="lede">
       Each month, three arms — persistence, a price-only LSTM, and an optional LLM reading
-      recent headlines — predict a price <strong>range</strong> 21 trading days out for 15
-      tickers. Predictions are committed to git before the outcome exists, then scored as
-      reality arrives. A separate historical backtest exists for context — kept in its own
-      table, never blended into the live numbers.
+      recent headlines — commit a price <strong>range</strong> 21 trading days out for 15
+      tickers, before the outcome is knowable. The price itself turns out to be close to
+      unforecastable, and this page proves that rigorously, as a negative control. What
+      <em>is</em> genuinely predictable is how much each price is likely to move — and the
+      ranges below are calibrated to be honest about that uncertainty, not to look confident.
+    </p>
+    <p class="note cross-link">
+      Not investment advice. Not a trading system. No costs, slippage, position sizing or
+      execution are modelled anywhere on this page.
     </p>
     <div class="answer" id="answer">
       <p class="answer-label">Live track record so far</p>
@@ -53,6 +58,15 @@
 
   <div class="tab-panel active" id="tab-scoreboard" role="tabpanel" aria-labelledby="tab-btn-scoreboard">
 
+    <section id="findings-summary" class="section-first">
+      <h2>What's actually predictable</h2>
+      <p class="section-intro">
+        Three separate questions, three separate answers — never blended into one score. This
+        is the short version; each has its own section below with the full evidence.
+      </p>
+      <div class="finding-cards" id="findings-cards"></div>
+    </section>
+
     <section id="open-predictions">
       <h2>Open predictions</h2>
       <p class="section-intro">
@@ -62,6 +76,51 @@
         <a id="commit-history-link" href="https://github.com/Ssavan99/fortune-teller/commits/main/results/scoreboard_live.json" target="_blank" rel="noopener">see it here</a>.
       </p>
       <div class="ticker-grid" id="ticker-grid"></div>
+    </section>
+
+    <section id="volatility">
+      <h2>Volatility <span class="badge badge-good">the real positive result</span></h2>
+      <p class="section-intro">
+        Same discipline as the price arms above: a model forecast scored in dollars-equivalent
+        units against a trivial baseline, on identical rows. Here the target isn't next
+        month's price, it's the <strong>realized volatility</strong> over the next 21 trading
+        days (annualized standard deviation of daily returns) — and the baseline is
+        <strong>persistence of volatility</strong>: "the next 21 days will be as calm or wild
+        as the last 21." The model is a simple EWMA estimator, not a neural net — the point is
+        to show a real edge exists with an honest, well-understood method, not to show off a
+        bigger one.
+      </p>
+
+      <h3>Skill by ticker</h3>
+      <div id="chart-vol-skill" class="chart"></div>
+      <p class="note">
+        All 15 tickers are positive — a consistency check, not just a headline average that
+        could be one lucky ticker away from evaporating.
+      </p>
+
+      <h3>Predicted vs. realized volatility over time</h3>
+      <div class="chart-controls">
+        <label for="vol-ticker-select">Ticker</label>
+        <select id="vol-ticker-select"></select>
+      </div>
+      <div id="chart-vol-series" class="chart"></div>
+      <p class="note">
+        Sampled roughly weekly for readability; skill and RMSE above are computed from the full
+        daily series, not this downsampled view.
+      </p>
+
+      <h3>Why volatility is predictable when direction isn't</h3>
+      <p>
+        Daily stock <em>returns</em> are close to a random walk — the sign of tomorrow's move
+        carries almost no information about the sign of the next move, which is the whole
+        reason persistence is such a tough baseline for direction. But the <em>size</em> of
+        moves behaves completely differently: calm periods tend to stay calm, and turbulent
+        periods tend to stay turbulent, a well-documented empirical regularity called
+        <strong>volatility clustering</strong> — it's the entire reason GARCH-family models
+        exist in econometrics. An exponentially-weighted moving average of recent squared
+        returns exploits exactly this: recent turbulence is weighted more heavily as a forecast
+        of near-future turbulence, and it works, consistently, across every ticker tested here.
+      </p>
     </section>
 
     <section id="live-track-record">
@@ -83,6 +142,39 @@
       <div class="grid" id="backtest-summary"></div>
     </section>
 
+    <section id="calibration">
+      <h2>Calibration <span class="badge badge-good">fixed, and shown honestly</span></h2>
+      <p class="section-intro">
+        An "80% interval" is a promise: the real outcome should land inside it about 80% of the
+        time, no more and no less. This scoreboard shipped with a real defect — its intervals
+        only covered 67-68% of the time, both arms, a promise it wasn't keeping. Coverage is
+        never shown alone below, because it's trivially gamed: predict a wide-enough range and
+        you can "cover" everything at the cost of the range being useless. Width and interval
+        score (a score that penalizes both misses and needless width) are shown alongside every
+        coverage figure, before and after.
+      </p>
+
+      <div class="calib-legend">
+        <span><span class="swatch" style="background:var(--muted-2)"></span>before the fix</span>
+        <span><span class="swatch" style="background:var(--accent)"></span>after the fix</span>
+        <span>vertical line = 80% nominal target</span>
+        <span>shaded band = pre-registered 76–84% success range</span>
+      </div>
+      <div id="calibration-rows"></div>
+
+      <p>
+        The cause turned out <em>not</em> to be the initially-suspected volatility-regime shift
+        (coverage by volatility tercile came back nearly flat) but overlapping-window residual
+        autocorrelation shrinking the effective calibration sample size. The fix — split-conformal
+        prediction with the nonconformity score normalized by each row's own trailing EWMA
+        volatility — brought both arms inside the pre-registered success band, with width up
+        only 1.15–1.22x and interval score <em>improving</em> for both arms, which rules out
+        "coverage fixed only by making the ranges enormous." Full per-ticker, per-year and
+        per-volatility-regime breakdown, plus every rejected alternative, is in
+        <code class="mono">results/improvement.json</code>.
+      </p>
+    </section>
+
     <section id="per-ticker-chart">
       <h2>Per-ticker: actual price vs. predicted band</h2>
       <div class="chart-controls">
@@ -99,11 +191,35 @@
       </p>
     </section>
 
+    <section id="negative-control">
+      <h2>Price direction <span class="badge badge-bad">no skill — the negative control</span></h2>
+      <p class="section-intro">
+        Every credible forecasting study needs a result that's <em>supposed</em> to fail, to
+        prove the evaluation itself isn't rigged to find edges that aren't there. This is that
+        result, scored with the same rigor as the positive findings above — as a probability,
+        not bare accuracy, and against a proper baseline, not a coin flip.
+      </p>
+      <div class="grid" id="negative-control-cards"></div>
+      <p>
+        A model with real directional skill would beat simply predicting the historical base
+        rate every time. This one doesn't — its Brier score and log loss are both slightly
+        <em>worse</em> than the base-rate baseline, and its confidence doesn't even rank-order
+        correctly (full calibration curve in <code class="mono">results/direction_evaluation.json</code>).
+        That's not a tuning failure to go fix. Markets pricing in almost all easily-available
+        information is the textbook expectation here, and getting exactly that result is what
+        makes the volatility and calibration findings above credible rather than cherry-picked
+        out of a pile of things that were tried.
+      </p>
+    </section>
+
     <section class="disclaimer">
       <h2>What this is not</h2>
       <ul>
         <li><strong>Not a trading system.</strong> No costs, no slippage, no execution modelled.</li>
         <li><strong>Not investment advice.</strong> Nothing here is a recommendation to buy or sell.</li>
+        <li><strong>A volatility forecast is not a trading signal.</strong> It's a statement
+          about how wide the uncertainty is, not about which direction to bet — direction is
+          the one thing this page shows no skill at predicting.</li>
         <li><strong>The LLM arm is expected to lose to persistence.</strong> It reads headlines
           with no deep price history behind it; losing is a legitimate, publishable result, not
           a bug to fix by tuning the prompt.</li>
@@ -118,10 +234,12 @@
       <p>
         The <a href="index.html">main results page</a> asks whether an LSTM beats persistence at
         <strong>next-day</strong> close prediction on a fixed 2.5-year held-out period — the
-        answer there is no. This page asks a related but different question going forward:
-        whether it can beat persistence at a <strong>21-day range</strong>, scored live, month
-        over month. Same tickers, same persistence baseline, same "no lookahead" discipline —
-        different horizon, and this time the evidence keeps accumulating.
+        answer there is no, and it's the same negative-control pattern this page finds again at
+        a 21-day horizon. This page goes further: alongside the same "does it beat persistence
+        on price" question, it separately asks whether the <strong>range around</strong> that
+        price prediction is forecastable and honestly calibrated — and there, unlike price
+        direction, the answer is yes. Same tickers, same persistence baseline, same "no
+        lookahead" discipline — and the live evidence keeps accumulating monthly.
       </p>
     </section>
 
@@ -235,12 +353,30 @@
         <h3>8. The honest finding</h3>
         <p>
           On the fixed next-day study, the LSTM does not beat persistence. On this live
-          scoreboard, expect the same pattern to hold at the 21-day horizon — that would not be
-          a failure of this project, it would be the finding. What <em>is</em> genuinely
-          predictable, and shown honestly rather than buried, is <strong>volatility</strong>
-          itself: how much a price moves is more forecastable than which way it moves. See the
-          main study's README for the full breakdown of what worked and what didn't, including
-          every rejected attempt to improve on it.
+          scoreboard, the same pattern holds at the 21-day horizon, scored properly as a
+          probability, not bare accuracy — Brier score and log loss both come out slightly
+          worse than a base-rate baseline. That is not a failure of this project; it is the
+          finding, and it is what makes the two results below credible rather than
+          cherry-picked.
+        </p>
+      </div>
+
+      <div class="hiw-block">
+        <h3>9. What's actually predictable</h3>
+        <p>
+          Two things came out of the same evaluation discipline applied to price direction, but
+          landed on the opposite side of zero. <strong>Volatility</strong> — how much a price
+          moves over the next 21 days — beats a persistence-of-volatility baseline by 8.4% on
+          every one of 15 tickers, using nothing fancier than an exponentially-weighted moving
+          average of recent squared returns; see the "Volatility" section above for the
+          per-ticker breakdown and why volatility clustering makes this possible even though
+          direction is unpredictable. And the prediction <strong>intervals</strong> themselves
+          were miscalibrated (67-68% actual coverage against an 80% target) until a
+          split-conformal fix, scaled by each ticker's own recent volatility, brought both arms
+          to 77.7-79.8% — see "Calibration" above. Neither result claims the price is
+          forecastable. Both are honest, checkable claims about the shape of the uncertainty
+          around it. Full detail on every variant tried, kept or rejected, is in the main
+          study's README and <code class="mono">results/improvement.json</code>.
         </p>
       </div>
     </section>

@@ -26,6 +26,8 @@ SCOREBOARD_OUT = REPO_ROOT / "docs" / "data" / "scoreboard.json"
 
 BACKTEST_FILE = RESULTS / "scoreboard_backtest.json"
 LIVE_FILE = RESULTS / "scoreboard_live.json"
+IMPROVEMENT_FILE = RESULTS / "improvement.json"
+VOLATILITY_FILE = RESULTS / "volatility_evaluation.json"
 
 SOURCES = {
     "baselines": "baselines.json",
@@ -169,6 +171,42 @@ def _latest_record_time(records: list[dict]) -> str:
     return max(stamps)
 
 
+def _findings() -> dict:
+    """What's predictable and what isn't, straight from the already-computed evaluation
+    results — this function derives nothing new, it just re-shapes committed JSON for the
+    page. See ``results/improvement.json`` and ``results/volatility_evaluation.json`` for the
+    source numbers and the scripts that produced them (Phases A-E of the model-improvement
+    plan)."""
+    improvement = _load_records_dict(IMPROVEMENT_FILE)
+    volatility = _load_records_dict(VOLATILITY_FILE)
+
+    return {
+        "calibration": improvement["calibration_before_after"],
+        "volatility": {
+            "skill_vs_persistence": volatility["skill_vs_persistence"],
+            "tickers_beating_persistence": volatility["tickers_beating_persistence"],
+            "n_tickers": volatility["n_tickers"],
+            "units": volatility["units"],
+            "window_days": volatility["window_days"],
+            "per_ticker": volatility["per_ticker"],
+            "series_stride_days": volatility["series_stride_days"],
+            "series": volatility["series"],
+        },
+        "direction": improvement["direction_arm"],
+        "n_variants_tried": improvement["n_variants_tried"],
+        "what_didnt_work": improvement["what_didnt_work"],
+    }
+
+
+def _load_records_dict(path: Path) -> dict:
+    if not path.exists():
+        raise FileNotFoundError(
+            f"{path} is missing. Run the corresponding evaluation script before building the "
+            "site."
+        )
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
 def build_scoreboard() -> dict:
     backtest = _load_records(BACKTEST_FILE)
     live = _load_records(LIVE_FILE)
@@ -197,6 +235,7 @@ def build_scoreboard() -> dict:
         "live_summary": _summarise_by_model(live),
         "backtest_summary": _summarise_by_model(backtest),
         "series": _series_by_ticker(backtest, live),
+        "findings": _findings(),
     }
 
 

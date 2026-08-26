@@ -1,22 +1,37 @@
 # The Fortune Teller
 
-*A public scoreboard of how badly stock forecasting actually works.*
-
-**Does an LSTM beat `tomorrow's close = today's close`?** On 15 large-cap tech tickers, over
-two and a half years of held-out data, measured in dollars: **no.**
+*Predicting the price is hopeless — and this repo proves it rigorously. Predicting the
+uncertainty around it isn't, and this repo proves that too.*
 
 📊 **[Results page →](https://ssavan99.github.io/fortune-teller/)**
 · 📈 **[Live scoreboard →](https://ssavan99.github.io/fortune-teller/scoreboard.html)**
 
-Next-day close prediction is a standard first deep-learning-on-finance project, and it is
-usually reported without a baseline and in normalised units — a mean absolute error of
-`0.0258` on MinMax-scaled closes looks small and means nothing. This repository does the
-comparison the task actually calls for: the same model, scored in dollars, against the
-trivial forecast that tomorrow's price is today's.
+Three separate questions, three separate answers, scored with the same discipline and never
+blended into one number:
+
+| Question | Answer | Evidence |
+|---|---|---|
+| Does an LSTM beat `tomorrow's close = today's close`? | **No.** | 15 tickers, 2.5 years held out, measured in dollars — see below. |
+| Is that "no" a fluke, or a proper negative control? | **A proper control.** | Scored as a probability (Brier score, log loss), not bare accuracy — the model is slightly *worse* than a base-rate guess, as efficient-markets theory predicts. |
+| Is *anything* about a stock's near-term future forecastable? | **Yes — how much it will move.** | Volatility forecasts beat a persistence-of-volatility baseline by **+8.4%**, on **15 of 15 tickers**, and the prediction intervals built on top of that are honestly calibrated: an "80% interval" now actually contains the outcome **77.7–79.8%** of the time, up from 67.4–67.8% before a real fix. |
+
+Next-day close prediction (the first row above) is a standard first deep-learning-on-finance
+project, and it is usually reported without a baseline and in normalised units — a mean
+absolute error of `0.0258` on MinMax-scaled closes looks small and means nothing. This
+repository does the comparison the task actually calls for: the same model, scored in
+dollars, against the trivial forecast that tomorrow's price is today's — and then goes
+further, treating the *negative* result as a control to be verified rather than a dead end,
+and asking a different, better question of the same data: not "what will the price be," but
+"how much uncertainty is there, and can that be forecast honestly."
+
+**Not investment advice, not a trading system.** No costs, slippage, position sizing or
+execution are modelled anywhere in this repository — that stays true whether the finding of
+the moment is negative or positive, and it's more important to repeat now that some of the
+findings are positive, not less.
 
 ![Per-ticker skill against persistence, and why the level target fails](docs/skill_by_ticker.png)
 
-## The result
+## The negative control: does an LSTM beat persistence at next-day price?
 
 Held out: **2024-03-01 → 2026-08-21**, 9,315 scored ticker-days, never touched during
 fitting, scaling, early stopping or model selection.
@@ -154,7 +169,11 @@ Caveats, stated plainly rather than buried:
 - **Still not advice, still not a trading system.** No costs, no slippage, no execution
   modelled here either.
 
-## What actually got better, and what didn't
+## What's actually predictable: the calibration fix and the volatility result
+
+This section is the payoff of the table at the top: not "everything about stock forecasting
+fails," but two specific, checkable claims about *uncertainty* that hold up, next to the one
+about *price* that — rigorously, and on purpose — doesn't.
 
 The scoreboard shipped with a real defect: its prediction intervals undercovered — a nominal
 80% interval only contained the actual outcome 67-68% of the time, for both the LSTM and the

@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "fortune-teller"
 version = "0.1.0"
-description = "A public scoreboard of how badly stock forecasting actually works."
+description = "A public scoreboard of what's actually predictable in stock forecasting: price direction is a negative control, volatility and interval calibration are real."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { file = "LICENSE" }
