@@ -3,11 +3,28 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>LSTM vs persistence — next-day close prediction</title>
+<title>The Fortune Teller — LSTM vs persistence</title>
 <meta name="description" content="Does an LSTM beat 'tomorrow's close = today's close'? Measured in dollars on 2.5 years of held-out data across 15 tickers.">
+<script src="theme.js"></script>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="index.html">
+      <span class="brand-mark" aria-hidden="true">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg>
+      </span>
+      The Fortune Teller
+    </a>
+    <nav class="topnav" aria-label="Site">
+      <a href="index.html" aria-current="page">Study</a>
+      <a href="scoreboard.html">Live scoreboard</a>
+    </nav>
+    <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle theme"></button>
+  </div>
+</div>
 
 <header class="hero">
   <div class="wrap">
@@ -115,8 +132,8 @@
 
   <section>
     <h2>Reproducing this</h2>
-<pre class="code">git clone https://github.com/Ssavan99/stock-lstm-vs-persistence
-cd stock-lstm-vs-persistence
+<pre class="code">git clone https://github.com/Ssavan99/fortune-teller
+cd fortune-teller
 python -m venv .venv &amp;&amp; .venv/Scripts/activate    # source .venv/bin/activate on Unix
 pip install -r requirements.txt
 python -m scripts.run_baselines
@@ -131,7 +148,7 @@ python -m scripts.run_experiment_a</pre>
 
 <footer class="wrap">
   <p>
-    <a href="https://github.com/Ssavan99/stock-lstm-vs-persistence">Source on GitHub</a>
+    <a href="https://github.com/Ssavan99/fortune-teller">Source on GitHub</a>
     · <a href="scoreboard.html">Live scoreboard</a>
     · generated from committed results
     · <span id="footer-period"></span>

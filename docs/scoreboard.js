@@ -5,6 +5,8 @@
 const fmtMoney = (v, d = 2) => (v == null ? "—" : "$" + v.toFixed(d));
 const fmtPct = (v, d = 0) => (v == null ? "—" : (v * 100).toFixed(d) + "%");
 const MODEL_LABEL = { lstm: "LSTM", persistence: "Persistence", llm: "LLM" };
+const MODEL_ORDER = ["persistence", "lstm", "llm"];
+const MODEL_COLOR_VAR = { lstm: "--blue", persistence: "--accent", llm: "--warn" };
 
 function el(tag, attrs = {}, text) {
   const n = document.createElement(tag);
@@ -42,6 +44,23 @@ function table(node, head, rows) {
   }
 }
 
+/* ---- tabs ---- */
+function initTabs() {
+  const tabs = [
+    { btn: "tab-btn-scoreboard", panel: "tab-scoreboard" },
+    { btn: "tab-btn-how", panel: "tab-how" },
+  ];
+  tabs.forEach(({ btn, panel }) => {
+    document.getElementById(btn).addEventListener("click", () => {
+      tabs.forEach(({ btn: b, panel: p }) => {
+        const isActive = b === btn;
+        document.getElementById(b).setAttribute("aria-selected", String(isActive));
+        document.getElementById(p).classList.toggle("active", isActive);
+      });
+    });
+  });
+}
+
 /* One stat card per model for a summary block (live or backtest — never both at once). */
 function summaryCards(node, summary) {
   node.innerHTML = "";
@@ -56,19 +75,109 @@ function summaryCards(node, summary) {
     card.appendChild(el("div", { class: "k" }, MODEL_LABEL[model] || model));
     if (s.n_scored === 0) {
       card.appendChild(el("div", { class: "v stat-empty" }, "not yet scored"));
-      card.appendChild(el("div", { class: "note" }, `${s.n} open`));
+      const extra = s.n_abstained ? `${s.n} open · ${s.n_abstained} abstained` : `${s.n} open`;
+      card.appendChild(el("div", { class: "note" }, extra));
     } else {
       card.appendChild(el("div", { class: "v" }, fmtPct(s.coverage, 0) + " coverage"));
+      const abstainedNote = s.n_abstained ? ` · ${s.n_abstained} abstained` : "";
       card.appendChild(el("div", { class: "note" },
         `width ${fmtMoney(s.mean_interval_width, 0)} · ` +
         `score ${s.interval_score == null ? "—" : s.interval_score.toFixed(1)} · ` +
-        `n=${s.n_scored}`));
+        `n=${s.n_scored}${abstainedNote}`));
     }
     node.appendChild(card);
   });
 }
 
-/* Inline SVG: actual price line (solid) with predicted bands (backtest muted, live accent). */
+/* ---- open predictions: one card per (ticker, forecast cycle), all models overlaid ----
+   Grouping by symbol ALONE is wrong: the monthly cadence with a ~21-trading-day horizon means
+   a new cycle's predictions are made before the previous cycle's have matured, so more than
+   one cycle is routinely open for the same ticker at once (e.g. an Aug-25 cycle targeting
+   ~Sep-22 is still open when the Sep-1 run adds a new cycle targeting ~Sep-29). Grouping must
+   include the cycle key (as_of) too, or a newer cycle's rows silently vanish behind an older
+   one's. */
+function tickerCards(container, openPredictions) {
+  container.innerHTML = "";
+  const byCycle = {};
+  openPredictions.forEach((r) => {
+    const key = r.symbol + "|" + r.as_of;
+    (byCycle[key] = byCycle[key] || []).push(r);
+  });
+
+  const keys = Object.keys(byCycle).sort((a, b) => {
+    const [symA, asOfA] = a.split("|");
+    const [symB, asOfB] = b.split("|");
+    if (symA !== symB) return symA < symB ? -1 : 1;
+    return asOfB.localeCompare(asOfA); // newest cycle first within a ticker
+  });
+  if (keys.length === 0) {
+    container.appendChild(el("p", { class: "stat-empty" }, "No open predictions right now."));
+    return;
+  }
+
+  keys.forEach((key) => {
+    const rows = byCycle[key];
+    const symbol = rows[0].symbol;
+    const card = el("div", { class: "ticker-card" });
+
+    const head = el("div", { class: "ticker-card-head" });
+    head.appendChild(el("span", { class: "ticker-symbol" }, symbol));
+    const daysRemaining = Math.min(...rows.map((r) => r.days_remaining));
+    head.appendChild(el("span", { class: "ticker-days" }, `${daysRemaining}d left`));
+    card.appendChild(head);
+    card.appendChild(el("div", { class: "ticker-target" },
+      `as of ${rows[0].as_of} · target ${rows[0].target_date}`));
+
+    const numeric = rows.filter((r) => r.lo != null);
+    const scaleLo = numeric.length ? Math.min(...numeric.map((r) => r.lo)) : 0;
+    const scaleHi = numeric.length ? Math.max(...numeric.map((r) => r.hi)) : 1;
+    const pad = (scaleHi - scaleLo) * 0.08 || 1;
+    const domainLo = scaleLo - pad, domainHi = scaleHi + pad;
+    const pct = (v) => ((v - domainLo) / (domainHi - domainLo)) * 100;
+
+    MODEL_ORDER.forEach((model) => {
+      const r = rows.find((x) => x.model === model);
+      if (!r) return;
+
+      const row = el("div", { class: "range-row" });
+      row.appendChild(el("span", { class: "range-label" }, MODEL_LABEL[model]));
+      const track = el("div", { class: "range-track" });
+
+      if (r.lo == null) {
+        row.appendChild(track);
+        card.appendChild(row);
+        card.appendChild(el("div", { class: "range-abstained" }, "abstained — no numeric range"));
+        return;
+      }
+
+      const left = pct(r.lo);
+      const width = Math.max(pct(r.hi) - left, 1.5);
+      const fill = el("div", { class: "range-fill" });
+      fill.style.left = left + "%";
+      fill.style.width = width + "%";
+      fill.style.background = `var(${MODEL_COLOR_VAR[model]})`;
+      const point = el("div", { class: "range-point" });
+      point.style.left = pct(r.point) + "%";
+      track.appendChild(fill);
+      track.appendChild(point);
+      row.appendChild(track);
+      card.appendChild(row);
+
+      const values = el("div", { class: "range-values" });
+      values.appendChild(el("span", {}, fmtMoney(r.lo, 0)));
+      values.appendChild(el("span", {}, fmtMoney(r.point, 0)));
+      values.appendChild(el("span", {}, fmtMoney(r.hi, 0)));
+      card.appendChild(values);
+    });
+
+    container.appendChild(card);
+  });
+}
+
+/* Inline SVG: actual price line (solid) with predicted bands (backtest muted, live accent).
+   Every decorative child is aria-hidden — the SVG's own role="img" + aria-label is the single
+   thing exposed to assistive tech and plain-text extraction, so numbers from separately
+   positioned <text> nodes never get read/extracted as one run-together string. */
 function tickerChart(node, records, model) {
   node.innerHTML = "";
   const rows = records.filter((r) => r.model === model).slice().sort(
@@ -87,8 +196,6 @@ function tickerChart(node, records, model) {
   const xMin = Math.min(...xs), xMax = Math.max(...xs);
   const xSpan = Math.max(xMax - xMin, 1);
 
-  /* An LLM abstention has lo/hi/point = null (no numeric claim was made) — it must not
-     contribute to the price scale or draw a fabricated band around $0. */
   const values = [];
   rows.forEach((r) => {
     if (r.lo != null) values.push(r.lo);
@@ -111,19 +218,26 @@ function tickerChart(node, records, model) {
   svg.setAttribute("aria-label",
     `Actual price versus predicted ${model} range over time for the selected ticker`);
 
+  const decor = (elem) => { elem.setAttribute("aria-hidden", "true"); return elem; };
+
   /* gridlines + y labels */
   const ticks = 4;
   for (let i = 0; i <= ticks; i++) {
     const v = yLo + ((yHi - yLo) * i) / ticks;
     const yy = y(v);
-    svg.appendChild(el("line", {
+    svg.appendChild(decor(el("line", {
       x1: padL, y1: yy, x2: W - padR, y2: yy,
       stroke: "var(--line)", "stroke-width": "1",
-    }));
-    svg.appendChild(el("text", {
+    })));
+    svg.appendChild(decor(el("text", {
       x: padL - 8, y: yy + 4, "text-anchor": "end",
       "font-size": "11", "font-family": "var(--mono)", fill: "var(--muted)",
-    }, "$" + v.toFixed(0)));
+      // SVG <text> siblings render at absolute coordinates with no implicit whitespace
+      // between them, so any tool that flattens the SVG to plain text (a screen reader
+      // ignoring aria-hidden, a copy-paste, a text-extraction crawler) would otherwise run
+      // "$362" straight into the next label with no separator at all. The trailing spaces
+      // are invisible on screen (this text is right-aligned) but keep flattened text readable.
+    }, "$" + v.toFixed(0) + "   ")));
   }
 
   /* predicted bands — abstentions (lo/hi null) draw no band at all */
@@ -131,14 +245,14 @@ function tickerChart(node, records, model) {
   rows.filter((r) => r.lo != null && r.hi != null).forEach((r) => {
     const cx = x(new Date(r.target_date).getTime());
     const isLive = r.mode === "live";
-    svg.appendChild(el("rect", {
+    svg.appendChild(decor(el("rect", {
       x: cx - bandW / 2, y: y(r.hi), width: bandW, height: Math.max(y(r.lo) - y(r.hi), 1),
       fill: "var(--accent)", opacity: isLive ? "0.30" : "0.14",
       stroke: isLive ? "var(--accent)" : "var(--muted)",
       "stroke-width": isLive ? "1.2" : "0.75",
       "stroke-dasharray": isLive ? "none" : "2,2",
       rx: "2",
-    }));
+    })));
   });
 
   /* actual price line + points, where known */
@@ -147,14 +261,14 @@ function tickerChart(node, records, model) {
     const pathD = known
       .map((r, i) => `${i === 0 ? "M" : "L"} ${x(new Date(r.target_date).getTime())} ${y(r.actual)}`)
       .join(" ");
-    svg.appendChild(el("path", {
+    svg.appendChild(decor(el("path", {
       d: pathD, fill: "none", stroke: "var(--text)", "stroke-width": "1.75",
-    }));
+    })));
     known.forEach((r) => {
-      svg.appendChild(el("circle", {
+      svg.appendChild(decor(el("circle", {
         cx: x(new Date(r.target_date).getTime()), cy: y(r.actual), r: "2.6",
         fill: "var(--text)",
-      }));
+      })));
     });
   }
 
@@ -163,10 +277,12 @@ function tickerChart(node, records, model) {
     ? [rows[0], rows[Math.floor(rows.length / 2)], rows[rows.length - 1]]
     : rows;
   labelRows.forEach((r) => {
-    svg.appendChild(el("text", {
+    svg.appendChild(decor(el("text", {
       x: x(new Date(r.target_date).getTime()), y: H - 10, "text-anchor": "middle",
       "font-size": "11", "font-family": "var(--mono)", fill: "var(--muted)",
-    }, r.target_date));
+      // Symmetric padding so flattened text stays readable (see the y-label comment above)
+      // without visibly shifting the centered date — the padding is the same on both sides.
+    }, "  " + r.target_date + "  ")));
   });
 
   node.appendChild(svg);
@@ -183,11 +299,13 @@ function tickerChart(node, records, model) {
   };
   legend.appendChild(item("var(--text)", false, "actual close"));
   legend.appendChild(item("var(--accent)", false, "live predicted band"));
-  legend.appendChild(item("var(--surface-2)", true, "backtest predicted band"));
+  legend.appendChild(item("var(--surface-3)", true, "backtest predicted band"));
   node.appendChild(legend);
 }
 
 function render(data) {
+  initTabs();
+
   /* ---- headline ---- */
   const liveModels = Object.values(data.live_summary);
   const anyScored = liveModels.some((s) => s.n_scored > 0);
@@ -199,19 +317,8 @@ function render(data) {
   document.getElementById("footer-generated").textContent =
     "generated " + new Date(data.generated_utc).toLocaleString();
 
-  /* ---- open predictions ---- */
-  table(
-    document.getElementById("table-open"),
-    ["Ticker", "Model", "As of", "Predicted band", "Target date", "Days left"],
-    data.open_predictions.map((r) => [
-      r.symbol,
-      MODEL_LABEL[r.model] || r.model,
-      r.as_of,
-      r.lo == null ? "abstained" : `${fmtMoney(r.lo)} – ${fmtMoney(r.hi)}`,
-      r.target_date,
-      String(r.days_remaining),
-    ])
-  );
+  /* ---- open predictions, grouped by ticker ---- */
+  tickerCards(document.getElementById("ticker-grid"), data.open_predictions);
 
   /* ---- summaries: separate, never combined ---- */
   summaryCards(document.getElementById("live-summary"), data.live_summary);

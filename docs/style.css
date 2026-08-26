@@ -1,229 +1,542 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* ---------------------------------------------------------------------------
+   Tokens. Dark-first: the bare :root values ARE the dark palette. A system
+   light preference overrides them unless an explicit [data-theme] is set,
+   and an explicit [data-theme] always wins over everything. See theme.js.
+--------------------------------------------------------------------------- */
 :root {
-  --bg: #ffffff;
-  --surface: #f6f7f9;
-  --surface-2: #eceef2;
-  --text: #14171f;
-  --muted: #5b6270;
-  --line: #d9dde4;
-  --accent: #1f4fd8;
-  --bad: #c0392b;
-  --good: #1e7f4f;
-  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  --bg: #020617;
+  --surface: #0e1223;
+  --surface-2: #171c30;
+  --surface-3: #222a42;
+  --text: #f8fafc;
+  --muted: #94a3b8;
+  --muted-2: #64748b;
+  --line: #2a3350;
+  --accent: #22c55e;
+  --accent-soft: rgba(34, 197, 94, 0.14);
+  --bad: #f87171;
+  --bad-soft: rgba(248, 113, 113, 0.14);
+  --warn: #f59e0b;
+  --warn-soft: rgba(245, 158, 11, 0.14);
+  --blue: #60a5fa;
+  --blue-soft: rgba(96, 165, 250, 0.14);
+  --shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  --mono: "Fira Code", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --radius: 12px;
+  --radius-sm: 8px;
+  color-scheme: dark;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0f1116;
-    --surface: #171a21;
-    --surface-2: #1f232c;
-    --text: #e7e9ee;
-    --muted: #9aa2b1;
-    --line: #2b303a;
-    --accent: #6f95ff;
-    --bad: #ff7a6b;
-    --good: #56c98d;
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg: #f4f6fb;
+    --surface: #ffffff;
+    --surface-2: #eef1f8;
+    --surface-3: #e2e8f4;
+    --text: #0f172a;
+    --muted: #59627a;
+    --muted-2: #7c8598;
+    --line: #dbe1ee;
+    --accent: #16a34a;
+    --accent-soft: rgba(22, 163, 74, 0.1);
+    --bad: #dc2626;
+    --bad-soft: rgba(220, 38, 38, 0.1);
+    --warn: #b45309;
+    --warn-soft: rgba(180, 83, 9, 0.1);
+    --blue: #2563eb;
+    --blue-soft: rgba(37, 99, 235, 0.1);
+    --shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
+    color-scheme: light;
   }
+}
+
+:root[data-theme="light"] {
+  --bg: #f4f6fb;
+  --surface: #ffffff;
+  --surface-2: #eef1f8;
+  --surface-3: #e2e8f4;
+  --text: #0f172a;
+  --muted: #59627a;
+  --muted-2: #7c8598;
+  --line: #dbe1ee;
+  --accent: #16a34a;
+  --accent-soft: rgba(22, 163, 74, 0.1);
+  --bad: #dc2626;
+  --bad-soft: rgba(220, 38, 38, 0.1);
+  --warn: #b45309;
+  --warn-soft: rgba(180, 83, 9, 0.1);
+  --blue: #2563eb;
+  --blue-soft: rgba(37, 99, 235, 0.1);
+  --shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  --bg: #020617;
+  --surface: #0e1223;
+  --surface-2: #171c30;
+  --surface-3: #222a42;
+  --text: #f8fafc;
+  --muted: #94a3b8;
+  --muted-2: #64748b;
+  --line: #2a3350;
+  --accent: #22c55e;
+  --accent-soft: rgba(34, 197, 94, 0.14);
+  --bad: #f87171;
+  --bad-soft: rgba(248, 113, 113, 0.14);
+  --warn: #f59e0b;
+  --warn-soft: rgba(245, 158, 11, 0.14);
+  --blue: #60a5fa;
+  --blue-soft: rgba(96, 165, 250, 0.14);
+  --shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  color-scheme: dark;
 }
 
 * { box-sizing: border-box; }
 
+html {
+  -webkit-text-size-adjust: 100%;
+  /* Giving html its own explicit background avoids the CSS root-background-propagation rule
+     (when html has no background, body's background paints the canvas instead, as a special
+     case) -- with this, body's background is a normal box-model background like any other
+     element, which is what makes it recompute promptly on a dynamic [data-theme] change. */
+  background-color: var(--bg);
+}
+
 body {
   margin: 0;
-  background: var(--bg);
+  background-color: var(--bg);
   color: var(--text);
-  font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font: 15.5px/1.6 var(--sans);
   -webkit-font-smoothing: antialiased;
+  transition: background-color 150ms ease, color 150ms ease;
+  overflow-x: hidden;
 }
 
-.wrap { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+a:focus-visible, button:focus-visible, select:focus-visible, [tabindex]:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
 .mono { font-family: var(--mono); font-size: 0.94em; }
 
-.hero {
-  background: var(--surface);
-  border-bottom: 1px solid var(--line);
-  padding: 56px 0 40px;
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
 }
 
+/* ---------------------------------------------------------------------------
+   Top bar: brand + page nav + theme toggle. Sticky, shared by both pages.
+--------------------------------------------------------------------------- */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.topbar-inner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 20px;
+  max-width: 1080px;
+  margin: 0 auto;
+  /* Flex items default to min-width: auto, which lets a nowrap child (the nav) refuse to
+     shrink below its own unwrapped content width and push the whole bar past the viewport
+     at narrow widths. min-width: 0 here lets the browser's own overflow-x: auto on .topnav
+     do its job instead of silently widening this container. */
+  min-width: 0;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-weight: 800;
+  font-size: 16px;
+  color: var(--text);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.brand-mark {
+  width: 26px; height: 26px;
+  border-radius: 7px;
+  background: linear-gradient(135deg, var(--accent), var(--blue));
+  display: inline-flex; align-items: center; justify-content: center;
+  color: #06120a;
+  font-size: 14px;
+}
+.topnav {
+  display: flex;
+  gap: 4px;
+  margin-left: 8px;
+  flex: 1;
+  min-width: 0; /* the actual fix: let this flex item shrink below its nowrap content's
+                   width so overflow-x: auto handles it internally instead of the whole
+                   topbar pushing past the viewport */
+  overflow-x: auto;
+}
+.topnav a {
+  color: var(--muted);
+  font-size: 13.5px;
+  font-weight: 600;
+  padding: 7px 12px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.topnav a:hover { color: var(--text); text-decoration: none; background: var(--surface-2); }
+.topnav a[aria-current="page"] { color: var(--text); background: var(--surface-2); }
+
+.theme-toggle {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--text);
+  border-radius: 999px;
+  width: 34px; height: 34px;
+  display: inline-flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.theme-toggle:hover { background: var(--surface-2); }
+.theme-toggle svg { width: 16px; height: 16px; }
+
+/* ---------------------------------------------------------------------------
+   Hero
+--------------------------------------------------------------------------- */
+.hero { padding: 40px 0 28px; }
 .eyebrow {
   margin: 0 0 10px;
   text-transform: uppercase;
   letter-spacing: 0.09em;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--muted);
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--accent);
 }
-
 h1 {
-  margin: 0 0 16px;
-  font-size: clamp(28px, 5vw, 42px);
-  line-height: 1.15;
+  margin: 0 0 14px;
+  font-size: clamp(26px, 4.6vw, 40px);
+  line-height: 1.12;
   letter-spacing: -0.02em;
+  font-weight: 800;
 }
-
-.lede { margin: 0 0 28px; font-size: 17px; color: var(--muted); max-width: 62ch; }
-.cross-link { margin-top: 14px; }
+.lede { margin: 0 0 24px; font-size: 16px; color: var(--muted); max-width: 66ch; }
+.cross-link { margin-top: 14px; color: var(--muted); font-size: 13.5px; }
 
 .answer {
-  background: var(--bg);
+  background: var(--surface);
   border: 1px solid var(--line);
   border-left: 4px solid var(--accent);
-  border-radius: 6px;
-  padding: 18px 22px;
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  box-shadow: var(--shadow);
 }
-
 .answer-label {
   margin: 0 0 6px;
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 11.5px;
+  font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--muted);
 }
-
-.answer-body { margin: 0; font-size: 18px; }
+.answer-body { margin: 0; font-size: 16.5px; line-height: 1.55; }
 .answer-body strong { color: var(--accent); }
 
-main { padding: 8px 24px 48px; }
-section { margin: 48px 0; }
+main { padding: 8px 0 56px; }
+section { margin: 44px 0; }
+section.section-first { margin-top: 0; }
 
 h2 {
-  font-size: 22px;
+  font-size: 20px;
+  font-weight: 700;
   letter-spacing: -0.01em;
-  margin: 0 0 12px;
-  padding-bottom: 8px;
+  margin: 0 0 4px;
+  padding-bottom: 10px;
   border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
 }
+h3 { font-size: 15.5px; font-weight: 700; margin: 20px 0 8px; }
+p { max-width: 70ch; color: var(--text); }
+.section-intro { color: var(--muted); margin: 10px 0 16px; max-width: 70ch; font-size: 14.5px; }
+.note { color: var(--muted); font-size: 13.5px; }
 
-p { max-width: 68ch; }
-.note { color: var(--muted); font-size: 14.5px; }
-
+/* ---------------------------------------------------------------------------
+   Stat grid / cards
+--------------------------------------------------------------------------- */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 12px;
-  margin: 18px 0;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+  margin: 16px 0;
 }
-
 .card {
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   padding: 14px 16px;
 }
-.card .k { font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
-.card .v { font-size: 20px; font-weight: 600; font-family: var(--mono); margin-top: 4px; }
+.card .k { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+.card .v { font-size: 19px; font-weight: 700; font-family: var(--mono); margin-top: 5px; }
 
-.tablewrap { overflow-x: auto; margin: 18px 0; }
+.stat-empty { color: var(--muted); font-style: italic; font-size: 13.5px; }
 
-table { border-collapse: collapse; width: 100%; font-size: 14.5px; }
-th, td { padding: 7px 12px; text-align: right; border-bottom: 1px solid var(--line); white-space: nowrap; }
-th { font-weight: 600; color: var(--muted); font-size: 12.5px; text-transform: uppercase; letter-spacing: 0.05em; }
+/* ---------------------------------------------------------------------------
+   Tables
+--------------------------------------------------------------------------- */
+.tablewrap { overflow-x: auto; margin: 16px 0; border: 1px solid var(--line); border-radius: var(--radius-sm); }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+th, td { padding: 9px 12px; text-align: right; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th { font-weight: 700; color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em;
+     background: var(--surface-2); position: sticky; top: 0; }
 th:first-child, td:first-child { text-align: left; font-family: var(--mono); }
-tbody tr:hover { background: var(--surface); }
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:hover { background: var(--surface-2); }
 td.num { font-family: var(--mono); }
-td.pos { color: var(--good); }
-td.neg { color: var(--bad); }
-tfoot td { font-weight: 600; border-top: 2px solid var(--line); border-bottom: none; }
+td.pos, .pos { color: var(--accent); }
+td.neg, .neg { color: var(--bad); }
+tfoot td { font-weight: 700; border-top: 2px solid var(--line); border-bottom: none; }
 
-.chart { margin: 20px 0; }
-.chart svg { width: 100%; height: auto; display: block; }
-
-.callout {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  padding: 14px 18px;
-  margin: 18px 0;
-  font-size: 15.5px;
-}
-
-.disclaimer ul { max-width: 68ch; padding-left: 20px; }
-.disclaimer li { margin-bottom: 8px; }
-
-.code {
-  background: var(--surface-2);
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  padding: 14px 16px;
-  overflow-x: auto;
-  font-family: var(--mono);
-  font-size: 13.5px;
-  line-height: 1.6;
-}
-
+/* ---------------------------------------------------------------------------
+   Badges
+--------------------------------------------------------------------------- */
 .badge {
-  display: inline-block;
-  font-size: 11px;
-  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10.5px;
+  font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   padding: 3px 9px;
   border-radius: 999px;
   vertical-align: middle;
-  margin-left: 8px;
 }
-.badge-live {
-  color: var(--good);
-  background: color-mix(in srgb, var(--good) 16%, transparent);
-  border: 1px solid color-mix(in srgb, var(--good) 40%, transparent);
-}
-.badge-backtest {
-  color: var(--muted);
-  background: var(--surface-2);
-  border: 1px solid var(--line);
-}
+.badge-live { color: var(--accent); background: var(--accent-soft); border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent); }
+.badge-backtest { color: var(--muted); background: var(--surface-2); border: 1px solid var(--line); }
+.badge-model { background: var(--surface-3); color: var(--text); border: 1px solid var(--line); }
 
+/* ---------------------------------------------------------------------------
+   Muted / secondary panel (backtest section)
+--------------------------------------------------------------------------- */
 .muted-panel {
   background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  padding: 20px 24px 8px;
+  border: 1px dashed var(--line);
+  border-radius: var(--radius);
+  padding: 20px 20px 6px;
 }
 .muted-panel h2 { border-bottom-color: transparent; }
 .muted-panel .grid .card { background: var(--surface-2); }
 
-.stat-empty { color: var(--muted); font-style: italic; font-size: 14px; }
+/* ---------------------------------------------------------------------------
+   Ticker cards (open predictions, grouped)
+--------------------------------------------------------------------------- */
+.ticker-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+  margin: 16px 0;
+}
+.ticker-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 14px 16px 16px;
+  transition: border-color 150ms ease, transform 150ms ease;
+}
+.ticker-card:hover { border-color: var(--muted-2); }
+.ticker-card-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+.ticker-symbol { font-family: var(--mono); font-weight: 700; font-size: 16px; }
+.ticker-days { font-size: 11.5px; color: var(--muted); white-space: nowrap; }
+.ticker-target { font-size: 11.5px; color: var(--muted-2); margin-bottom: 10px; }
 
+.range-row { display: flex; align-items: center; gap: 8px; margin: 7px 0; }
+.range-label {
+  width: 74px;
+  flex-shrink: 0;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.range-track {
+  position: relative;
+  flex: 1;
+  height: 20px;
+  background: var(--surface-2);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.range-fill {
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  border-radius: 999px;
+  opacity: 0.85;
+}
+.range-point {
+  position: absolute;
+  top: 1px;
+  bottom: 1px;
+  width: 2px;
+  background: var(--text);
+}
+.range-values {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+.range-abstained {
+  font-size: 11.5px;
+  color: var(--muted);
+  font-style: italic;
+  padding: 3px 0;
+}
+
+/* ---------------------------------------------------------------------------
+   Chart controls / legend
+--------------------------------------------------------------------------- */
 .chart-controls {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 8px 16px;
+  gap: 10px 16px;
   margin: 14px 0;
 }
 .chart-controls label {
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 11.5px;
+  font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--muted);
 }
 .chart-controls select {
   font: inherit;
-  font-size: 14.5px;
+  font-size: 14px;
   color: var(--text);
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: 6px;
-  padding: 7px 10px;
-  min-height: 36px;
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  min-height: 38px;
+  cursor: pointer;
 }
+
+.chart {
+  margin: 16px 0;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 14px;
+  /* An <svg> with only a viewBox (no explicit width/height) can report its viewBox size as
+     its LAYOUT-intrinsic width for scrollWidth/overflow purposes even while it PAINTS
+     correctly at width:100% below — a real cross-browser quirk, not a false positive. This
+     clips that phantom width at the container instead of letting it silently widen the page. */
+  overflow-x: hidden;
+}
+.chart svg { width: 100%; height: auto; display: block; }
 
 .chart-legend {
   display: flex;
   flex-wrap: wrap;
   gap: 14px;
-  margin: 4px 0 12px;
-  font-size: 13px;
+  margin: 10px 0 2px;
+  font-size: 12.5px;
   color: var(--muted);
 }
 .chart-legend span { display: inline-flex; align-items: center; gap: 6px; }
-.chart-legend .swatch { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+.chart-legend .swatch { width: 12px; height: 12px; border-radius: 3px; display: inline-block; flex-shrink: 0; }
+
+/* sparkline inline in tables/cards */
+.spark { display: block; }
+
+/* ---------------------------------------------------------------------------
+   Tabs (How it works, etc.)
+--------------------------------------------------------------------------- */
+.tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 18px;
+  overflow-x: auto;
+}
+.tab-btn {
+  appearance: none;
+  background: none;
+  border: none;
+  color: var(--muted);
+  font: inherit;
+  font-weight: 600;
+  font-size: 13.5px;
+  padding: 10px 14px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+}
+.tab-btn:hover { color: var(--text); }
+.tab-btn[aria-selected="true"] { color: var(--accent); border-bottom-color: var(--accent); }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+.hiw-block {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  margin-bottom: 14px;
+}
+.hiw-block h3 { margin-top: 0; }
+.hiw-block p { color: var(--muted); font-size: 14px; }
+.hiw-block p strong { color: var(--text); }
+
+/* ---------------------------------------------------------------------------
+   Callouts / code
+--------------------------------------------------------------------------- */
+.callout {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 14px 18px;
+  margin: 16px 0;
+  font-size: 15px;
+}
+.disclaimer ul { max-width: 70ch; padding-left: 20px; }
+.disclaimer li { margin-bottom: 8px; color: var(--muted); }
+.disclaimer li strong { color: var(--text); }
+
+.code {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  overflow-x: auto;
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.6;
+}
 
 footer {
   border-top: 1px solid var(--line);
-  padding: 22px 24px 40px;
+  padding: 22px 0 40px;
   color: var(--muted);
-  font-size: 14px;
+  font-size: 13px;
 }
-a { color: var(--accent); }

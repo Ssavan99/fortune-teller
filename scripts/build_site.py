@@ -87,15 +87,18 @@ def _model_summary(records: list[dict]) -> dict:
     other slice. ``n_scored`` can legitimately be 0 (e.g. the live ledger's first month, before
     anything has had 21 trading days to mature) — that is reported honestly, not hidden.
 
-    A matured LLM abstention (``actual`` known, but ``point``/``lo``/``hi`` all ``None`` — no
-    numeric claim was ever made) is counted in ``n_abstained``, not ``n_scored``: there is no
-    prediction to check coverage or error against, so folding it into the numeric stats would
+    An LLM abstention (``point``/``lo``/``hi`` all ``None`` — no numeric claim was ever made)
+    is counted in ``n_abstained`` whether or not it has matured yet: a reader should be able to
+    see "2 of 15 predictions abstained" the moment the cycle runs, not have to wait a month for
+    those rows to mature before the abstention count reflects reality. Abstentions are excluded
+    from ``n_scored`` and the numeric stats regardless of maturity — there is no prediction to
+    check coverage or error against, so folding a matured one into the numeric stats would
     either crash (``None <= actual``) or silently drop it via a NaN.
     """
+    abstained = [r for r in records if r["lo"] is None]
     matured = [r for r in records if r["actual"] is not None]
     scored = [r for r in matured if r["lo"] is not None]
-    n_abstained = len(matured) - len(scored)
-    summary = {"n": len(records), "n_scored": len(scored), "n_abstained": n_abstained}
+    summary = {"n": len(records), "n_scored": len(scored), "n_abstained": len(abstained)}
     if not scored:
         return summary
 

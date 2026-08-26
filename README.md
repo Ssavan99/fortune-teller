@@ -1,10 +1,12 @@
-# stock-lstm-vs-persistence
+# The Fortune Teller
+
+*A public scoreboard of how badly stock forecasting actually works.*
 
 **Does an LSTM beat `tomorrow's close = today's close`?** On 15 large-cap tech tickers, over
 two and a half years of held-out data, measured in dollars: **no.**
 
-📊 **[Results page →](https://ssavan99.github.io/stock-lstm-vs-persistence/)**
-· 📈 **[Live scoreboard →](https://ssavan99.github.io/stock-lstm-vs-persistence/scoreboard.html)**
+📊 **[Results page →](https://ssavan99.github.io/fortune-teller/)**
+· 📈 **[Live scoreboard →](https://ssavan99.github.io/fortune-teller/scoreboard.html)**
 
 Next-day close prediction is a standard first deep-learning-on-finance project, and it is
 usually reported without a baseline and in normalised units — a mean absolute error of
@@ -115,7 +117,7 @@ refuses to be refitted rather than a convention to be remembered.
 ## Live scoreboard
 
 The study above is a fixed, one-time comparison at a 1-day horizon. On top of it, this repo
-also runs a **live monthly forecast scoreboard**: [ssavan99.github.io/stock-lstm-vs-persistence/scoreboard.html](https://ssavan99.github.io/stock-lstm-vs-persistence/scoreboard.html).
+also runs a **live monthly forecast scoreboard**: [ssavan99.github.io/fortune-teller/scoreboard.html](https://ssavan99.github.io/fortune-teller/scoreboard.html).
 
 Each month (`scripts/run_monthly.py`, scheduled via `.github/workflows/monthly.yml`), three
 arms predict a **price range 21 trading days ahead** for the same 15 tickers:
@@ -209,8 +211,8 @@ Requires Python 3.10+. Data snapshots are committed, so no network access and no
 needed.
 
 ```bash
-git clone https://github.com/Ssavan99/stock-lstm-vs-persistence
-cd stock-lstm-vs-persistence
+git clone https://github.com/Ssavan99/fortune-teller
+cd fortune-teller
 
 python -m venv .venv
 source .venv/bin/activate          # Windows: .venv\Scripts\activate
