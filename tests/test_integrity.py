@@ -147,3 +147,47 @@ class TestNoSecretsInRepo:
                     break
 
         assert not offenders, f"key-shaped strings found in: {offenders}"
+
+
+class TestSitePayloadIsDerivable:
+    """The page must never be able to disagree with `results/`.
+
+    The scoreboard payload once shipped a backtest coverage of 67% while the committed ledger
+    said 78%, because the payload was not rebuilt after the ledger was regenerated and CI only
+    drift-checked the *other* payload. Both halves of that failure are covered here.
+    """
+
+    def test_scoreboard_payload_is_deterministic(self):
+        """Two builds from the same ledger must be byte-identical.
+
+        Without this, the payload cannot be drift-checked in CI at all — which is precisely
+        why the stale figure survived a green pipeline.
+        """
+        from scripts.build_site import build_scoreboard
+
+        assert json.dumps(build_scoreboard(), sort_keys=True) == json.dumps(
+            build_scoreboard(), sort_keys=True
+        )
+
+    def test_generated_utc_comes_from_the_data_not_the_clock(self):
+        from scripts.build_site import build_scoreboard
+
+        payload = build_scoreboard()
+        stamps = {
+            r["created_utc"]
+            for path in ("scoreboard_backtest.json", "scoreboard_live.json")
+            for r in json.loads((REPO_ROOT / "results" / path).read_text(encoding="utf-8"))
+            if r.get("created_utc")
+        }
+        assert payload["generated_utc"] in stamps
+
+    def test_committed_payload_matches_a_fresh_build(self):
+        """The committed file must equal what the current code produces from results/."""
+        from scripts.build_site import build_scoreboard
+
+        committed = json.loads(
+            (REPO_ROOT / "docs" / "data" / "scoreboard.json").read_text(encoding="utf-8")
+        )
+        assert committed == build_scoreboard(), (
+            "docs/data/scoreboard.json is stale — run: python -m scripts.build_site"
+        )
