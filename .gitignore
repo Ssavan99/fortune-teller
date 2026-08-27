@@ -33,3 +33,6 @@ runs/
 *.pt
 *.ckpt
 *.log
+
+# graphify code knowledge graph — regenerated locally, not source
+graphify-out/
