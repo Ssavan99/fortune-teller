@@ -1,5 +1,5 @@
 {
-  "generated_utc": "2026-10-01T19:19:35.330311+00:00",
+  "generated_utc": "2026-11-01T18:46:18.020148+00:00",
   "horizon_days": 21,
   "level": 0.8,
   "tickers": [
@@ -21,514 +21,514 @@
   ],
   "open_predictions": [
     {
-      "as_of": "2026-10-01",
-      "target_date": "2026-10-30",
+      "as_of": "2026-11-01",
+      "target_date": "2026-12-02",
       "symbol": "AAPL",
       "model": "lstm",
-      "point": 309.4287586721186,
-      "lo": 272.27563470883945,
-      "hi": 346.58188263539773,
+      "point": 332.8535208061898,
+      "lo": 308.4205596029167,
+      "hi": 357.28648200946293,
       "level": 0.8,
       "actual": null,
       "covered": null,
       "abs_error": null,
-      "created_utc": "2026-10-01T19:19:35.330311+00:00",
+      "created_utc": "2026-11-01T18:46:18.020148+00:00",
       "interval_method": "conformal_ewma",
       "mode": "live",
-      "days_remaining": 29
+      "days_remaining": 31
     },
     {
-      "as_of": "2026-10-01",
-      "target_date": "2026-10-30",
+      "as_of": "2026-11-01",
+      "target_date": "2026-12-02",
       "symbol": "AAPL",
       "model": "persistence",
-      "point": 333.0199890136719,
-      "lo": 299.2769023614913,
-      "hi": 366.76307566585245,
+      "point": 344.6300048828125,
+      "lo": 320.60184531016284,
+      "hi": 368.65816445546216,
       "level": 0.8,
       "actual": null,
       "covered": null,
       "abs_error": null,
-      "created_utc": "2026-10-01T19:19:35.330311+00:00",
+      "created_utc": "2026-11-01T18:46:18.020148+00:00",
       "interval_method": "conformal_ewma",
       "mode": "live",
-      "days_remaining": 29
+      "days_remaining": 31
     },
     {
-      "as_of": "2026-10-01",
-      "target_date": "2026-10-30",
+      "as_of": "2026-11-01",
+      "target_date": "2026-12-02",
       "symbol": "ADBE",
       "model": "lstm",
-      "point": 277.4037067390305,
-      "lo": 228.96611233774334,
-      "hi": 325.8413011403177,
+      "point": 260.8076246154257,
+      "lo": 219.62765572652367,
+      "hi": 301.9875935043277,
       "level": 0.8,
       "actual": null,
       "covered": null,
       "abs_error": null,
-      "created_utc": "2026-10-01T19:19:35.330311+00:00",
+      "created_utc": "2026-11-01T18:46:18.020148+00:00",
       "interval_method": "conformal_ewma",
       "mode": "live",
-      "days_remaining": 29
+      "days_remaining": 31
     },
     {
-      "as_of": "2026-10-01",
-      "target_date": "2026-10-30",
+      "as_of": "2026-11-01",
+      "target_date": "2026-12-02",
       "symbol": "ADBE",
       "model": "persistence",
-      "point": 239.94000244140625,
-      "lo": 195.948171586988,
-      "hi": 283.9318332958245,
+      "point": 250.22999572753906,
+      "lo": 209.73229037667352,
+      "hi": 290.7277010784046,
       "level": 0.8,
       "actual": null,
       "covered": null,
       "abs_error": null,
-      "created_utc": "2026-10-01T19:19:35.330311+00:00",
+      "created_utc": "2026-11-01T18:46:18.020148+00:00",
       "interval_method": "conformal_ewma",
       "mode": "live",
-      "days_remaining": 29
+      "days_remaining": 31
     },
     {
-      "as_of": "2026-10-01",
-      "target_date": "2026-10-30",
+      "as_of": "2026-11-01",
+      "target_date": "2026-12-02",
       "symbol": "AMD",
       "model": "lstm",
-      "point": 538.0358132254305,
-      "lo": 368.16120974176397,
-      "hi": 707.910416709097,
+      "point": 469.46844606270537,
+      "lo": 327.4200118668276,
+      "hi": 611.5168802585831,
       "level": 0.8,
       "actual": null,
       "covered": null,
       "abs_error": null,
-      "created_utc": "2026-10-01T19:19:35.330311+00:00",
+      "created_utc": "2026-11-01T18:46:18.020148+00:00",
       "interval_method": "conformal_ewma",
       "mode": "live",
-      "days_remaining": 29
+      "days_remaining": 31
     },
     {
-      "as_of": "2026-10-01",
-      "target_date": "2026-10-30",
+      "as_of": "2026-11-01",
+      "target_date": "2026-12-02",
       "symbol": "AMD",
       "model": "persistence",
-      "point": 611.760009765625,
-      "lo": 457.47706249530717,
-      "hi": 766.0429570359429,
+      "point": 504.79998779296875,
+      "lo": 365.104990714746,
+      "hi": 644.4949848711915,
       "level": 0.8,
       "actual": null,
       "covered": null,
       "abs_error": null,
-      "created_utc": "2026-10-01T19:19:35.330311+00:00",
+      "created_utc": "2026-11-01T18:46:18.020148+00:00",
       "interval_method": "conformal_ewma",
       "mode": "live",
-      "days_remaining": 29
+      "days_remaining": 31
     },
     {
-      "as_of": "2026-10-01",
-      "target_date": "2026-10-30",
+      "as_of": "2026-11-01",
+      "target_date": "2026-12-02",
       "symbol": "AMZN",
       "model": "lstm",
-      "point": 238.7415958444498,
-      "lo": 204.38964797150243,
-      "hi": 273.09354371739715,
+      "point": 238.64805693710767,
+      "lo": 205.80734235583634,
+      "hi": 271.488771518379,
       "level": 0.8,
       "actual": null,
       "covered": null,
       "abs_error": null,
-      "created_utc": "2026-10-01T19:19:35.330311+00:00",
+      "created_utc": "2026-11-01T18:46:18.020148+00:00",
       "interval_method": "conformal_ewma",
       "mode": "live",
-      "days_remaining": 29
+      "days_remaining": 31
     },
     {
-      "as_of": "2026-10-01",
-      "target_date": "2026-10-30",
+      "as_of": "2026-11-01",
+      "target_date": "2026-12-02",
       "symbol": "AMZN",
       "model": "persistence",
-      "point": 249.1499938964844,
-      "lo": 217.95098207466,
-      "hi": 280.34900571830883,
+      "point": 240.35000610351562,
+      "lo": 208.05339154772787,
+      "hi": 272.6466206593034,
       "level": 0.8,
       "actual": null,
       "covered": null,
       "abs_error": null,
-      "created_utc": "2026-10-01T19:19:35.330311+00:00",
+      "created_utc": "2026-11-01T18:46:18.020148+00:00",
       "interval_method": "conformal_ewma",
       "mode": "live",
-      "days_remaining": 29
+      "days_remaining": 31
     },
     {
-      "as_of": "2026-10-01",
-      "target_date": "2026-10-30",
+      "as_of": "2026-11-01",
+      "target_date": "2026-12-02",
       "symbol": "BABA",
       "model": "lstm",
-      "point": 110.58842152972662,
-      "lo": 92.81798254208965,
-      "hi": 128.35886051736358,
+      "point": 101.38724980182559,
+      "lo": 89.01457208854887,
+      "hi": 113.7599275151023,
       "level": 0.8,
       "actual": null,
       "covered": null,
       "abs_error": null,
-      "created_utc": "2026-10-01T19:19:35.330311+00:00",
+      "created_utc": "2026-11-01T18:46:18.020148+00:00",
       "interval_method": "conformal_ewma",
       "mode": "live",
-      "days_remaining": 29
+      "days_remaining": 31
     },
     {
-      "as_of": "2026-10-01",
-      "target_date": "2026-10-30",
+      "as_of": "2026-11-01",
+      "target_date": "2026-12-02",
       "symbol": "BABA",
       "model": "persistence",
-      "point": 107.54000091552734,
-      "lo": 91.40059193339772,
-      "hi": 123.67940989765697,
+      "point": 98.04000091552734,
+      "lo": 85.87231186784237,
+      "hi": 110.20768996321232,
       "level": 0.8,
       "actual": null,
       "covered": null,
       "abs_error": null,
-      "created_utc": "2026-10-01T19:19:35.330311+00:00",
+      "created_utc": "2026-11-01T18:46:18.020148+00:00",
       "interval_method": "conformal_ewma",
       "mode": "live",
-      "days_remaining": 29
+      "days_remaining": 31
     },
     {
-      "as_of": "2026-10-01",
-      "target_date": "2026-10-30",
+      "as_of": "2026-11-01",
+      "target_date": "2026-12-02",
       "symbol": "DELL",
       "model": "lstm",
-      "point": 466.66645351512517,
-      "lo": 278.947061229833,
-      "hi": 654.3858458004173,
+      "point": 377.83209689949086,
+      "lo": 240.7938360276978,
+      "hi": 514.8703577712839,
       "level": 0.8,
       "actual": null,
       "covered": null,
       "abs_error": null,
-      "created_utc": "2026-10-01T19:19:35.330311+00:00",
+      "created_utc": "2026-11-01T18:46:18.020148+00:00",
       "interval_method": "conformal_ewma",
       "mode": "live",
-      "days_remaining": 29
+      "days_remaining": 31
     },
     {
-      "as_of": "2026-10-01",
-      "target_date": "2026-10-30",
+      "as_of": "2026-11-01",
+      "target_date": "2026-12-02",
       "symbol": "DELL",
       "model": "persistence",
-      "point": 537.9500122070312,
-      "lo": 367.46013021385545,
-      "hi": 708.439894200207,
+      "point": 424.29998779296875,
+      "lo": 289.5321562398815,
+      "hi": 559.067819346056,
       "level": 0.8,
       "actual": null,
       "covered": null,
       "abs_error": null,
-      "created_utc": "2026-10-01T19:19:35.330311+00:00",
+      "created_utc": "2026-11-01T18:46:18.020148+00:00",
       "interval_method": "conformal_ewma",
       "mode": "live",
-      "days_remaining": 29
+      "days_remaining": 31
     },
     {
-      "as_of": "2026-10-01",
-      "target_date": "2026-10-30",
+      "as_of": "2026-11-01",
+      "target_date": "2026-12-02",
       "symbol": "GOOG",
       "model": "lstm",
-      "point": 325.33971252739565,
-      "lo": 283.61870803599055,
-      "hi": 367.06071701880074,
+      "point": 277.2102865499572,
+      "lo": 219.97736469401804,
+      "hi": 334.4432084058963,
       "level": 0.8,
       "actual": null,
       "covered": null,
       "abs_error": null,
-      "created_utc": "2026-10-01T19:19:35.330311+00:00",
+      "created_utc": "2026-11-01T18:46:18.020148+00:00",
       "interval_method": "conformal_ewma",
       "mode": "live",
-      "days_remaining": 29
+      "days_remaining": 31
     },
     {
-      "as_of": "2026-10-01",
-      "target_date": "2026-10-30",
+      "as_of": "2026-11-01",
+      "target_date": "2026-12-02",
       "symbol": "GOOG",
       "model": "persistence",
-      "point": 340.739990234375,
-      "lo": 302.8482783244717,
-      "hi": 378.6317021442783,
+      "point": 278.2200012207031,
+      "lo": 221.93530581590443,
+      "hi": 334.5046966255018,
       "level": 0.8,
       "actual": null,
       "covered": null,
       "abs_error": null,
-      "created_utc": "2026-10-01T19:19:35.330311+00:00",
+      "created_utc": "2026-11-01T18:46:18.020148+00:00",
       "interval_method": "conformal_ewma",
       "mode": "live",
-      "days_remaining": 29
+      "days_remaining": 31
     },
     {
-      "as_of": "2026-10-01",
-      "target_date": "2026-10-30",
+      "as_of": "2026-11-01",
+      "target_date": "2026-12-02",
       "symbol": "IBM",
       "model": "lstm",
-      "point": 223.76010030867553,
-      "lo": 185.95525797045397,
-      "hi": 261.56494264689707,
+      "point": 259.8353268298093,
+      "lo": 229.9977317297195,
+      "hi": 289.6729219298991,
       "level": 0.8,
       "actual": null,
       "covered": null,
       "abs_error": null,
-      "created_utc": "2026-10-01T19:19:35.330311+00:00",
+      "created_utc": "2026-11-01T18:46:18.020148+00:00",
       "interval_method": "conformal_ewma",
       "mode": "live",
-      "days_remaining": 29
+      "days_remaining": 31
     },
     {
-      "as_of": "2026-10-01",
-      "target_date": "2026-10-30",
+      "as_of": "2026-11-01",
+      "target_date": "2026-12-02",
       "symbol": "IBM",
       "model": "persistence",
-      "point": 219.92999267578125,
-      "lo": 185.59500452911973,
-      "hi": 254.26498082244277,
+      "point": 257.80999755859375,
+      "lo": 228.46674725158547,
+      "hi": 287.153247865602,
       "level": 0.8,
       "actual": null,
       "covered": null,
       "abs_error": null,
-      "created_utc": "2026-10-01T19:19:35.330311+00:00",
+      "created_utc": "2026-11-01T18:46:18.020148+00:00",
       "interval_method": "conformal_ewma",
       "mode": "live",
-      "days_remaining": 29
+      "days_remaining": 31
     },
     {
-      "as_of": "2026-10-01",
-      "target_date": "2026-10-30",
+      "as_of": "2026-11-01",
+      "target_date": "2026-12-02",
       "symbol": "INTC",
       "model": "lstm",
-      "point": 106.3814132189859,
-      "lo": 64.9749440504432,
-      "hi": 147.7878823875286,
+      "point": 64.40749910860688,
+      "lo": 31.371799157118026,
+      "hi": 97.44319906009574,
       "level": 0.8,
       "actual": null,
       "covered": null,
       "abs_error": null,
-      "created_utc": "2026-10-01T19:19:35.330311+00:00",
+      "created_utc": "2026-11-01T18:46:18.020148+00:00",
       "interval_method": "conformal_ewma",
       "mode": "live",
-      "days_remaining": 29
+      "days_remaining": 31
     },
     {
-      "as_of": "2026-10-01",
-      "target_date": "2026-10-30",
+      "as_of": "2026-11-01",
+      "target_date": "2026-12-02",
       "symbol": "INTC",
       "model": "persistence",
-      "point": 120.2300033569336,
-      "lo": 82.62395767162577,
-      "hi": 157.83604904224143,
+      "point": 65.76000213623047,
+      "lo": 33.271632698546064,
+      "hi": 98.24837157391488,
       "level": 0.8,
       "actual": null,
       "covered": null,
       "abs_error": null,
-      "created_utc": "2026-10-01T19:19:35.330311+00:00",
+      "created_utc": "2026-11-01T18:46:18.020148+00:00",
       "interval_method": "conformal_ewma",
       "mode": "live",
-      "days_remaining": 29
+      "days_remaining": 31
     },
     {
-      "as_of": "2026-10-01",
-      "target_date": "2026-10-30",
+      "as_of": "2026-11-01",
+      "target_date": "2026-12-02",
       "symbol": "META",
       "model": "lstm",
-      "point": 701.8600096711472,
-      "lo": 511.9068592408097,
-      "hi": 891.8131601014846,
+      "point": 613.9075961570111,
+      "lo": 507.81428886268554,
+      "hi": 720.0009034513366,
       "level": 0.8,
       "actual": null,
       "covered": null,
       "abs_error": null,
-      "created_utc": "2026-10-01T19:19:35.330311+00:00",
+      "created_utc": "2026-11-01T18:46:18.020148+00:00",
       "interval_method": "conformal_ewma",
       "mode": "live",
-      "days_remaining": 29
+      "days_remaining": 31
     },
     {
-      "as_of": "2026-10-01",
-      "target_date": "2026-10-30",
+      "as_of": "2026-11-01",
+      "target_date": "2026-12-02",
       "symbol": "META",
       "model": "persistence",
-      "point": 725.1799926757812,
-      "lo": 552.6613742909423,
-      "hi": 897.6986110606202,
+      "point": 614.989990234375,
+      "lo": 510.6544209167803,
+      "hi": 719.3255595519697,
       "level": 0.8,
       "actual": null,
       "covered": null,
       "abs_error": null,
-      "created_utc": "2026-10-01T19:19:35.330311+00:00",
+      "created_utc": "2026-11-01T18:46:18.020148+00:00",
       "interval_method": "conformal_ewma",
       "mode": "live",
-      "days_remaining": 29
+      "days_remaining": 31
     },
     {
-      "as_of": "2026-10-01",
-      "target_date": "2026-10-30",
+      "as_of": "2026-11-01",
+      "target_date": "2026-12-02",
       "symbol": "MSFT",
       "model": "lstm",
-      "point": 494.7240828226124,
-      "lo": 424.18270999192134,
-      "hi": 565.2654556533034,
+      "point": 516.125441524691,
+      "lo": 470.61188080586106,
+      "hi": 561.6390022435211,
       "level": 0.8,
       "actual": null,
       "covered": null,
       "abs_error": null,
-      "created_utc": "2026-10-01T19:19:35.330311+00:00",
+      "created_utc": "2026-11-01T18:46:18.020148+00:00",
       "interval_method": "conformal_ewma",
       "mode": "live",
-      "days_remaining": 29
+      "days_remaining": 31
     },
     {
-      "as_of": "2026-10-01",
-      "target_date": "2026-10-30",
+      "as_of": "2026-11-01",
+      "target_date": "2026-12-02",
       "symbol": "MSFT",
       "model": "persistence",
-      "point": 512.9000244140625,
-      "lo": 448.8331734450195,
-      "hi": 576.9668753831055,
+      "point": 521.9099731445312,
+      "lo": 477.1504742621354,
+      "hi": 566.6694720269271,
       "level": 0.8,
       "actual": null,
       "covered": null,
       "abs_error": null,
-      "created_utc": "2026-10-01T19:19:35.330311+00:00",
+      "created_utc": "2026-11-01T18:46:18.020148+00:00",
       "interval_method": "conformal_ewma",
       "mode": "live",
-      "days_remaining": 29
+      "days_remaining": 31
     },
     {
-      "as_of": "2026-10-01",
-      "target_date": "2026-10-30",
+      "as_of": "2026-11-01",
+      "target_date": "2026-12-02",
       "symbol": "NVDA",
       "model": "lstm",
-      "point": 216.73238405518973,
-      "lo": 181.44518800234925,
-      "hi": 252.0195801080302,
+      "point": 201.93959001589263,
+      "lo": 174.2728967298512,
+      "hi": 229.60628330193407,
       "level": 0.8,
       "actual": null,
       "covered": null,
       "abs_error": null,
-      "created_utc": "2026-10-01T19:19:35.330311+00:00",
+      "created_utc": "2026-11-01T18:46:18.020148+00:00",
       "interval_method": "conformal_ewma",
       "mode": "live",
-      "days_remaining": 29
+      "days_remaining": 31
     },
     {
-      "as_of": "2026-10-01",
-      "target_date": "2026-10-30",
+      "as_of": "2026-11-01",
+      "target_date": "2026-12-02",
       "symbol": "NVDA",
       "model": "persistence",
-      "point": 228.3800048828125,
-      "lo": 196.33158507024638,
-      "hi": 260.4284246953786,
+      "point": 204.63999938964844,
+      "lo": 177.43168372157047,
+      "hi": 231.8483150577264,
       "level": 0.8,
       "actual": null,
       "covered": null,
       "abs_error": null,
-      "created_utc": "2026-10-01T19:19:35.330311+00:00",
+      "created_utc": "2026-11-01T18:46:18.020148+00:00",
       "interval_method": "conformal_ewma",
       "mode": "live",
-      "days_remaining": 29
+      "days_remaining": 31
     },
     {
-      "as_of": "2026-10-01",
-      "target_date": "2026-10-30",
+      "as_of": "2026-11-01",
+      "target_date": "2026-12-02",
       "symbol": "ORCL",
       "model": "lstm",
-      "point": 140.68433459411045,
-      "lo": 108.64142833027338,
-      "hi": 172.72724085794752,
+      "point": 133.92551237951673,
+      "lo": 98.76555321601344,
+      "hi": 169.08547154302002,
       "level": 0.8,
       "actual": null,
       "covered": null,
       "abs_error": null,
-      "created_utc": "2026-10-01T19:19:35.330311+00:00",
+      "created_utc": "2026-11-01T18:46:18.020148+00:00",
       "interval_method": "conformal_ewma",
       "mode": "live",
-      "days_remaining": 29
+      "days_remaining": 31
     },
     {
-      "as_of": "2026-10-01",
-      "target_date": "2026-10-30",
+      "as_of": "2026-11-01",
+      "target_date": "2026-12-02",
       "symbol": "ORCL",
       "model": "persistence",
-      "point": 137.3000030517578,
-      "lo": 108.19810131889139,
-      "hi": 166.40190478462424,
+      "point": 130.6699981689453,
+      "lo": 96.09256392674119,
+      "hi": 165.24743241114942,
       "level": 0.8,
       "actual": null,
       "covered": null,
       "abs_error": null,
-      "created_utc": "2026-10-01T19:19:35.330311+00:00",
+      "created_utc": "2026-11-01T18:46:18.020148+00:00",
       "interval_method": "conformal_ewma",
       "mode": "live",
-      "days_remaining": 29
+      "days_remaining": 31
     },
     {
-      "as_of": "2026-10-01",
-      "target_date": "2026-10-30",
+      "as_of": "2026-11-01",
+      "target_date": "2026-12-02",
       "symbol": "SAP",
       "model": "lstm",
-      "point": 211.58863176545995,
-      "lo": 181.0547081035838,
-      "hi": 242.1225554273361,
+      "point": 236.5694578583482,
+      "lo": 214.57832518083083,
+      "hi": 258.5605905358656,
       "level": 0.8,
       "actual": null,
       "covered": null,
       "abs_error": null,
-      "created_utc": "2026-10-01T19:19:35.330311+00:00",
+      "created_utc": "2026-11-01T18:46:18.020148+00:00",
       "interval_method": "conformal_ewma",
       "mode": "live",
-      "days_remaining": 29
+      "days_remaining": 31
     },
     {
-      "as_of": "2026-10-01",
-      "target_date": "2026-10-30",
+      "as_of": "2026-11-01",
+      "target_date": "2026-12-02",
       "symbol": "SAP",
       "model": "persistence",
-      "point": 208.47999572753903,
-      "lo": 180.74857715363729,
-      "hi": 236.21141430144078,
+      "point": 235.02000427246094,
+      "lo": 213.39321737739112,
+      "hi": 256.64679116753075,
       "level": 0.8,
       "actual": null,
       "covered": null,
       "abs_error": null,
-      "created_utc": "2026-10-01T19:19:35.330311+00:00",
+      "created_utc": "2026-11-01T18:46:18.020148+00:00",
       "interval_method": "conformal_ewma",
       "mode": "live",
-      "days_remaining": 29
+      "days_remaining": 31
     },
     {
-      "as_of": "2026-10-01",
-      "target_date": "2026-10-30",
+      "as_of": "2026-11-01",
+      "target_date": "2026-12-02",
       "symbol": "TSLA",
       "model": "lstm",
-      "point": 362.25577267030445,
-      "lo": 294.19407761978107,
-      "hi": 430.31746772082784,
+      "point": 402.65079900558726,
+      "lo": 339.430772625193,
+      "hi": 465.8708253859815,
       "level": 0.8,
       "actual": null,
       "covered": null,
       "abs_error": null,
-      "created_utc": "2026-10-01T19:19:35.330311+00:00",
+      "created_utc": "2026-11-01T18:46:18.020148+00:00",
       "interval_method": "conformal_ewma",
       "mode": "live",
-      "days_remaining": 29
+      "days_remaining": 31
     },
     {
-      "as_of": "2026-10-01",
-      "target_date": "2026-10-30",
+      "as_of": "2026-11-01",
+      "target_date": "2026-12-02",
       "symbol": "TSLA",
       "model": "persistence",
-      "point": 354.8099975585937,
-      "lo": 292.99523129414735,
-      "hi": 416.62476382304004,
+      "point": 399.80999755859375,
+      "lo": 337.6373910776514,
+      "hi": 461.9826040395361,
       "level": 0.8,
       "actual": null,
       "covered": null,
       "abs_error": null,
-      "created_utc": "2026-10-01T19:19:35.330311+00:00",
+      "created_utc": "2026-11-01T18:46:18.020148+00:00",
       "interval_method": "conformal_ewma",
       "mode": "live",
-      "days_remaining": 29
+      "days_remaining": 31
     }
   ],
   "live_summary": {
@@ -542,22 +542,22 @@
       "interval_score": null
     },
     "lstm": {
-      "n": 45,
-      "n_scored": 30,
-      "n_abstained": 0,
-      "coverage": 0.8333333333333334,
-      "mean_interval_width": 122.58886628963991,
-      "mean_abs_error": 49.05013990833869,
-      "interval_score": 201.58391059876456
-    },
-    "persistence": {
-      "n": 45,
-      "n_scored": 30,
+      "n": 60,
+      "n_scored": 45,
       "n_abstained": 0,
       "coverage": 0.8666666666666667,
-      "mean_interval_width": 123.57808842666,
-      "mean_abs_error": 39.33766454060872,
-      "interval_score": 188.85513944714356
+      "mean_interval_width": 128.06634025008813,
+      "mean_abs_error": 43.168389430761856,
+      "interval_score": 181.92941574845733
+    },
+    "persistence": {
+      "n": 60,
+      "n_scored": 45,
+      "n_abstained": 0,
+      "coverage": 0.8444444444444444,
+      "mean_interval_width": 124.47254290904364,
+      "mean_abs_error": 40.37599877251519,
+      "interval_score": 177.9988545616582
     }
   },
   "backtest_summary": {
@@ -1740,7 +1740,7 @@
         "point": 309.4287586721186,
         "lo": 272.27563470883945,
         "hi": 346.58188263539773,
-        "actual": null
+        "actual": 344.6300048828125
       },
       {
         "as_of": "2026-10-01",
@@ -1750,6 +1750,26 @@
         "point": 333.0199890136719,
         "lo": 299.2769023614913,
         "hi": 366.76307566585245,
+        "actual": 344.6300048828125
+      },
+      {
+        "as_of": "2026-11-01",
+        "target_date": "2026-12-02",
+        "model": "lstm",
+        "mode": "live",
+        "point": 332.8535208061898,
+        "lo": 308.4205596029167,
+        "hi": 357.28648200946293,
+        "actual": null
+      },
+      {
+        "as_of": "2026-11-01",
+        "target_date": "2026-12-02",
+        "model": "persistence",
+        "mode": "live",
+        "point": 344.6300048828125,
+        "lo": 320.60184531016284,
+        "hi": 368.65816445546216,
         "actual": null
       }
     ],
@@ -2912,7 +2932,7 @@
         "point": 277.4037067390305,
         "lo": 228.96611233774334,
         "hi": 325.8413011403177,
-        "actual": null
+        "actual": 250.22999572753906
       },
       {
         "as_of": "2026-10-01",
@@ -2922,6 +2942,26 @@
         "point": 239.94000244140625,
         "lo": 195.948171586988,
         "hi": 283.9318332958245,
+        "actual": 250.22999572753906
+      },
+      {
+        "as_of": "2026-11-01",
+        "target_date": "2026-12-02",
+        "model": "lstm",
+        "mode": "live",
+        "point": 260.8076246154257,
+        "lo": 219.62765572652367,
+        "hi": 301.9875935043277,
+        "actual": null
+      },
+      {
+        "as_of": "2026-11-01",
+        "target_date": "2026-12-02",
+        "model": "persistence",
+        "mode": "live",
+        "point": 250.22999572753906,
+        "lo": 209.73229037667352,
+        "hi": 290.7277010784046,
         "actual": null
       }
     ],
@@ -4084,7 +4124,7 @@
         "point": 538.0358132254305,
         "lo": 368.16120974176397,
         "hi": 707.910416709097,
-        "actual": null
+        "actual": 504.79998779296875
       },
       {
         "as_of": "2026-10-01",
@@ -4094,6 +4134,26 @@
         "point": 611.760009765625,
         "lo": 457.47706249530717,
         "hi": 766.0429570359429,
+        "actual": 504.79998779296875
+      },
+      {
+        "as_of": "2026-11-01",
+        "target_date": "2026-12-02",
+        "model": "lstm",
+        "mode": "live",
+        "point": 469.46844606270537,
+        "lo": 327.4200118668276,
+        "hi": 611.5168802585831,
+        "actual": null
+      },
+      {
+        "as_of": "2026-11-01",
+        "target_date": "2026-12-02",
+        "model": "persistence",
+        "mode": "live",
+        "point": 504.79998779296875,
+        "lo": 365.104990714746,
+        "hi": 644.4949848711915,
         "actual": null
       }
     ],
@@ -5256,7 +5316,7 @@
         "point": 238.7415958444498,
         "lo": 204.38964797150243,
         "hi": 273.09354371739715,
-        "actual": null
+        "actual": 240.35000610351562
       },
       {
         "as_of": "2026-10-01",
@@ -5266,6 +5326,26 @@
         "point": 249.1499938964844,
         "lo": 217.95098207466,
         "hi": 280.34900571830883,
+        "actual": 240.35000610351562
+      },
+      {
+        "as_of": "2026-11-01",
+        "target_date": "2026-12-02",
+        "model": "lstm",
+        "mode": "live",
+        "point": 238.64805693710767,
+        "lo": 205.80734235583634,
+        "hi": 271.488771518379,
+        "actual": null
+      },
+      {
+        "as_of": "2026-11-01",
+        "target_date": "2026-12-02",
+        "model": "persistence",
+        "mode": "live",
+        "point": 240.35000610351562,
+        "lo": 208.05339154772787,
+        "hi": 272.6466206593034,
         "actual": null
       }
     ],
@@ -6428,7 +6508,7 @@
         "point": 110.58842152972662,
         "lo": 92.81798254208965,
         "hi": 128.35886051736358,
-        "actual": null
+        "actual": 98.04000091552734
       },
       {
         "as_of": "2026-10-01",
@@ -6438,6 +6518,26 @@
         "point": 107.54000091552734,
         "lo": 91.40059193339772,
         "hi": 123.67940989765697,
+        "actual": 98.04000091552734
+      },
+      {
+        "as_of": "2026-11-01",
+        "target_date": "2026-12-02",
+        "model": "lstm",
+        "mode": "live",
+        "point": 101.38724980182559,
+        "lo": 89.01457208854887,
+        "hi": 113.7599275151023,
+        "actual": null
+      },
+      {
+        "as_of": "2026-11-01",
+        "target_date": "2026-12-02",
+        "model": "persistence",
+        "mode": "live",
+        "point": 98.04000091552734,
+        "lo": 85.87231186784237,
+        "hi": 110.20768996321232,
         "actual": null
       }
     ],
@@ -7600,7 +7700,7 @@
         "point": 466.66645351512517,
         "lo": 278.947061229833,
         "hi": 654.3858458004173,
-        "actual": null
+        "actual": 424.29998779296875
       },
       {
         "as_of": "2026-10-01",
@@ -7610,6 +7710,26 @@
         "point": 537.9500122070312,
         "lo": 367.46013021385545,
         "hi": 708.439894200207,
+        "actual": 424.29998779296875
+      },
+      {
+        "as_of": "2026-11-01",
+        "target_date": "2026-12-02",
+        "model": "lstm",
+        "mode": "live",
+        "point": 377.83209689949086,
+        "lo": 240.7938360276978,
+        "hi": 514.8703577712839,
+        "actual": null
+      },
+      {
+        "as_of": "2026-11-01",
+        "target_date": "2026-12-02",
+        "model": "persistence",
+        "mode": "live",
+        "point": 424.29998779296875,
+        "lo": 289.5321562398815,
+        "hi": 559.067819346056,
         "actual": null
       }
     ],
@@ -8772,7 +8892,7 @@
         "point": 325.33971252739565,
         "lo": 283.61870803599055,
         "hi": 367.06071701880074,
-        "actual": null
+        "actual": 278.2200012207031
       },
       {
         "as_of": "2026-10-01",
@@ -8782,6 +8902,26 @@
         "point": 340.739990234375,
         "lo": 302.8482783244717,
         "hi": 378.6317021442783,
+        "actual": 278.2200012207031
+      },
+      {
+        "as_of": "2026-11-01",
+        "target_date": "2026-12-02",
+        "model": "lstm",
+        "mode": "live",
+        "point": 277.2102865499572,
+        "lo": 219.97736469401804,
+        "hi": 334.4432084058963,
+        "actual": null
+      },
+      {
+        "as_of": "2026-11-01",
+        "target_date": "2026-12-02",
+        "model": "persistence",
+        "mode": "live",
+        "point": 278.2200012207031,
+        "lo": 221.93530581590443,
+        "hi": 334.5046966255018,
         "actual": null
       }
     ],
@@ -9944,7 +10084,7 @@
         "point": 223.76010030867553,
         "lo": 185.95525797045397,
         "hi": 261.56494264689707,
-        "actual": null
+        "actual": 257.80999755859375
       },
       {
         "as_of": "2026-10-01",
@@ -9954,6 +10094,26 @@
         "point": 219.92999267578125,
         "lo": 185.59500452911973,
         "hi": 254.26498082244277,
+        "actual": 257.80999755859375
+      },
+      {
+        "as_of": "2026-11-01",
+        "target_date": "2026-12-02",
+        "model": "lstm",
+        "mode": "live",
+        "point": 259.8353268298093,
+        "lo": 229.9977317297195,
+        "hi": 289.6729219298991,
+        "actual": null
+      },
+      {
+        "as_of": "2026-11-01",
+        "target_date": "2026-12-02",
+        "model": "persistence",
+        "mode": "live",
+        "point": 257.80999755859375,
+        "lo": 228.46674725158547,
+        "hi": 287.153247865602,
         "actual": null
       }
     ],
@@ -11116,7 +11276,7 @@
         "point": 106.3814132189859,
         "lo": 64.9749440504432,
         "hi": 147.7878823875286,
-        "actual": null
+        "actual": 65.76000213623047
       },
       {
         "as_of": "2026-10-01",
@@ -11126,6 +11286,26 @@
         "point": 120.2300033569336,
         "lo": 82.62395767162577,
         "hi": 157.83604904224143,
+        "actual": 65.76000213623047
+      },
+      {
+        "as_of": "2026-11-01",
+        "target_date": "2026-12-02",
+        "model": "lstm",
+        "mode": "live",
+        "point": 64.40749910860688,
+        "lo": 31.371799157118026,
+        "hi": 97.44319906009574,
+        "actual": null
+      },
+      {
+        "as_of": "2026-11-01",
+        "target_date": "2026-12-02",
+        "model": "persistence",
+        "mode": "live",
+        "point": 65.76000213623047,
+        "lo": 33.271632698546064,
+        "hi": 98.24837157391488,
         "actual": null
       }
     ],
@@ -12288,7 +12468,7 @@
         "point": 701.8600096711472,
         "lo": 511.9068592408097,
         "hi": 891.8131601014846,
-        "actual": null
+        "actual": 614.989990234375
       },
       {
         "as_of": "2026-10-01",
@@ -12298,6 +12478,26 @@
         "point": 725.1799926757812,
         "lo": 552.6613742909423,
         "hi": 897.6986110606202,
+        "actual": 614.989990234375
+      },
+      {
+        "as_of": "2026-11-01",
+        "target_date": "2026-12-02",
+        "model": "lstm",
+        "mode": "live",
+        "point": 613.9075961570111,
+        "lo": 507.81428886268554,
+        "hi": 720.0009034513366,
+        "actual": null
+      },
+      {
+        "as_of": "2026-11-01",
+        "target_date": "2026-12-02",
+        "model": "persistence",
+        "mode": "live",
+        "point": 614.989990234375,
+        "lo": 510.6544209167803,
+        "hi": 719.3255595519697,
         "actual": null
       }
     ],
@@ -13460,7 +13660,7 @@
         "point": 494.7240828226124,
         "lo": 424.18270999192134,
         "hi": 565.2654556533034,
-        "actual": null
+        "actual": 521.9099731445312
       },
       {
         "as_of": "2026-10-01",
@@ -13470,6 +13670,26 @@
         "point": 512.9000244140625,
         "lo": 448.8331734450195,
         "hi": 576.9668753831055,
+        "actual": 521.9099731445312
+      },
+      {
+        "as_of": "2026-11-01",
+        "target_date": "2026-12-02",
+        "model": "lstm",
+        "mode": "live",
+        "point": 516.125441524691,
+        "lo": 470.61188080586106,
+        "hi": 561.6390022435211,
+        "actual": null
+      },
+      {
+        "as_of": "2026-11-01",
+        "target_date": "2026-12-02",
+        "model": "persistence",
+        "mode": "live",
+        "point": 521.9099731445312,
+        "lo": 477.1504742621354,
+        "hi": 566.6694720269271,
         "actual": null
       }
     ],
@@ -14632,7 +14852,7 @@
         "point": 216.73238405518973,
         "lo": 181.44518800234925,
         "hi": 252.0195801080302,
-        "actual": null
+        "actual": 204.63999938964844
       },
       {
         "as_of": "2026-10-01",
@@ -14642,6 +14862,26 @@
         "point": 228.3800048828125,
         "lo": 196.33158507024638,
         "hi": 260.4284246953786,
+        "actual": 204.63999938964844
+      },
+      {
+        "as_of": "2026-11-01",
+        "target_date": "2026-12-02",
+        "model": "lstm",
+        "mode": "live",
+        "point": 201.93959001589263,
+        "lo": 174.2728967298512,
+        "hi": 229.60628330193407,
+        "actual": null
+      },
+      {
+        "as_of": "2026-11-01",
+        "target_date": "2026-12-02",
+        "model": "persistence",
+        "mode": "live",
+        "point": 204.63999938964844,
+        "lo": 177.43168372157047,
+        "hi": 231.8483150577264,
         "actual": null
       }
     ],
@@ -15804,7 +16044,7 @@
         "point": 140.68433459411045,
         "lo": 108.64142833027338,
         "hi": 172.72724085794752,
-        "actual": null
+        "actual": 130.6699981689453
       },
       {
         "as_of": "2026-10-01",
@@ -15814,6 +16054,26 @@
         "point": 137.3000030517578,
         "lo": 108.19810131889139,
         "hi": 166.40190478462424,
+        "actual": 130.6699981689453
+      },
+      {
+        "as_of": "2026-11-01",
+        "target_date": "2026-12-02",
+        "model": "lstm",
+        "mode": "live",
+        "point": 133.92551237951673,
+        "lo": 98.76555321601344,
+        "hi": 169.08547154302002,
+        "actual": null
+      },
+      {
+        "as_of": "2026-11-01",
+        "target_date": "2026-12-02",
+        "model": "persistence",
+        "mode": "live",
+        "point": 130.6699981689453,
+        "lo": 96.09256392674119,
+        "hi": 165.24743241114942,
         "actual": null
       }
     ],
@@ -16976,7 +17236,7 @@
         "point": 211.58863176545995,
         "lo": 181.0547081035838,
         "hi": 242.1225554273361,
-        "actual": null
+        "actual": 235.02000427246094
       },
       {
         "as_of": "2026-10-01",
@@ -16986,6 +17246,26 @@
         "point": 208.47999572753903,
         "lo": 180.74857715363729,
         "hi": 236.21141430144078,
+        "actual": 235.02000427246094
+      },
+      {
+        "as_of": "2026-11-01",
+        "target_date": "2026-12-02",
+        "model": "lstm",
+        "mode": "live",
+        "point": 236.5694578583482,
+        "lo": 214.57832518083083,
+        "hi": 258.5605905358656,
+        "actual": null
+      },
+      {
+        "as_of": "2026-11-01",
+        "target_date": "2026-12-02",
+        "model": "persistence",
+        "mode": "live",
+        "point": 235.02000427246094,
+        "lo": 213.39321737739112,
+        "hi": 256.64679116753075,
         "actual": null
       }
     ],
@@ -18148,7 +18428,7 @@
         "point": 362.25577267030445,
         "lo": 294.19407761978107,
         "hi": 430.31746772082784,
-        "actual": null
+        "actual": 399.80999755859375
       },
       {
         "as_of": "2026-10-01",
@@ -18158,6 +18438,26 @@
         "point": 354.8099975585937,
         "lo": 292.99523129414735,
         "hi": 416.62476382304004,
+        "actual": 399.80999755859375
+      },
+      {
+        "as_of": "2026-11-01",
+        "target_date": "2026-12-02",
+        "model": "lstm",
+        "mode": "live",
+        "point": 402.65079900558726,
+        "lo": 339.430772625193,
+        "hi": 465.8708253859815,
+        "actual": null
+      },
+      {
+        "as_of": "2026-11-01",
+        "target_date": "2026-12-02",
+        "model": "persistence",
+        "mode": "live",
+        "point": 399.80999755859375,
+        "lo": 337.6373910776514,
+        "hi": 461.9826040395361,
         "actual": null
       }
     ]
